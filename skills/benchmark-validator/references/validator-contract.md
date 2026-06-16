@@ -51,7 +51,19 @@ project_context_bundle/
       "text": "..."
     }
   ],
-  "answer": "不会 launch 硬件。..."
+  "answer": "不会 launch 硬件。...",
+  "token_usage": {
+    "source": "codex_exec_json",
+    "events_seen": 1,
+    "total_token_usage": {
+      "input_tokens": 31710,
+      "cached_input_tokens": 23424,
+      "output_tokens": 233,
+      "reasoning_output_tokens": 101,
+      "total_tokens": 31943
+    },
+    "last_token_usage": {"total_tokens": 31943}
+  }
 }
 ```
 
@@ -110,10 +122,12 @@ The evaluator reports:
 - `atom_coverage_heuristic`;
 - `fatal_forbidden_heuristic`;
 - optional `llm_judge_score`, `llm_judge_verdict`, and `llm_judge_rationale` when a semantic judge is configured;
+- optional `token_usage_coverage`, `mean_total_tokens`, and `sum_total_tokens` when run rows include token accounting;
 - per-case pass/warn/fail verdict;
 - sampled reasoning evidence for manual review.
 
 Answer atom scoring is heuristic unless connected to a semantic judge. Retrieval and citation checks are deterministic.
+Token usage is cost/efficiency metadata; it must not change retrieval, citation, or answer correctness scores.
 
 ## LLM Judge Configuration
 

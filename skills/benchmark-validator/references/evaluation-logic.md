@@ -76,6 +76,18 @@ Do not use the judge to override deterministic retrieval or citation scores. Ret
 
 DeepSeek should be called through an OpenAI-compatible chat completions request. API keys must be supplied through an environment variable such as `DEEPSEEK_API_KEY`, never stored in JSONL rows or reports.
 
+## Token Efficiency
+
+When prediction rows include `token_usage.total_token_usage`, the method evaluator reports:
+
+```text
+token_usage_coverage = rows with total_tokens / total rows
+mean_total_tokens = average total_tokens over rows with token usage
+sum_total_tokens = sum total_tokens over rows with token usage
+```
+
+Token efficiency is reported beside retrieval and answer quality, but it does not affect `retrieval_pass`, `answer_pass`, `citation_pass`, or `strict_e2e_pass`.
+
 ## Case Verdict
 
 Default pass policy:

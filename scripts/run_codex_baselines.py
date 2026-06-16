@@ -310,12 +310,35 @@ def extract_codex_usage(stdout: str) -> dict[str, Any]:
     return latest
 
 
-def run_codex(prompt: str, args: argparse.Namespace, output_path: Path) -> dict[str, Any]:
+def count_codex_usage_events(stdout: str) -> int:
+    count = 0
+    for line in stdout.splitlines():
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(event, dict):
+            continue
+        if event.get("type") == "turn.completed" and isinstance(
+            event.get("usage"), dict
+        ):
+            count += 1
+            continue
+        payload = event.get("payload") if event.get("type") == "event_msg" else event
+        if isinstance(payload, dict) and payload.get("type") == "token_count":
+            count += 1
+    return count
+
+
+def run_codex(
+    prompt: str, args: argparse.Namespace, output_path: Path
+) -> tuple[dict[str, Any], dict[str, Any], int]:
     command = codex_command(
         cwd=args.repo_root,
         schema_path=args.schema,
         output_path=output_path,
         model=args.model,
+        json_events=True,
     )
     completed = subprocess.run(
         command,
@@ -329,10 +352,29 @@ def run_codex(prompt: str, args: argparse.Namespace, output_path: Path) -> dict[
         raise RuntimeError(
             f"codex exec failed with exit status {completed.returncode}\n{completed.stderr}"
         )
+    usage = extract_codex_usage(completed.stdout)
+    usage_events_seen = count_codex_usage_events(completed.stdout)
     try:
-        return json.loads(output_path.read_text(encoding="utf-8"))
+        model_json = json.loads(output_path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
         raise RuntimeError(f"codex output was not valid JSON: {output_path}") from exc
+    return model_json, usage, usage_events_seen
+
+
+def build_token_usage(
+    codex_usage: dict[str, Any] | None,
+    usage_events_seen: int | None,
+) -> dict[str, Any]:
+    usage = codex_usage or {}
+    total = usage.get("total_token_usage")
+    last = usage.get("last_token_usage")
+    return {
+        "source": "codex_exec_json",
+        "events_seen": usage_events_seen or 0,
+        "total_token_usage": total if isinstance(total, dict) else {},
+        "last_token_usage": last if isinstance(last, dict) else {},
+        "model_context_window": usage.get("model_context_window"),
+    }
 
 
 def build_prediction_row(
@@ -341,11 +383,24 @@ def build_prediction_row(
     evidence_source: str,
     repo_root: Path,
     snippet_context: int = 0,
+    baseline: str | None = None,
+    model: str | None = None,
+    prompt_chars: int | None = None,
+    codex_usage: dict[str, Any] | None = None,
+    usage_events_seen: int | None = None,
 ) -> dict[str, Any]:
     prediction = {
         "case_id": benchmark_row.get("case_id"),
         "pred_answer": str(model_json.get("pred_answer", "")),
     }
+    if baseline is not None:
+        prediction["baseline"] = baseline
+    if model is not None:
+        prediction["model"] = model
+    if prompt_chars is not None:
+        prediction["prompt_chars"] = prompt_chars
+    if codex_usage is not None or usage_events_seen is not None:
+        prediction["token_usage"] = build_token_usage(codex_usage, usage_events_seen)
     if evidence_source == "gold":
         prediction["evidence"] = evidence_with_snippets(
             benchmark_row, repo_root, context=snippet_context
@@ -405,13 +460,20 @@ def run(args: argparse.Namespace) -> int:
                 continue
 
             output_path = tmpdir / f"{case_id}.json"
-            model_json = run_codex(prompt, args, output_path)
+            model_json, codex_usage, usage_events_seen = run_codex(
+                prompt, args, output_path
+            )
             prediction = build_prediction_row(
                 benchmark_row=row,
                 model_json=model_json,
                 evidence_source=evidence_source,
                 repo_root=args.repo_root,
                 snippet_context=getattr(args, "snippet_context", 0),
+                baseline=args.baseline,
+                model=args.model,
+                prompt_chars=len(prompt),
+                codex_usage=codex_usage,
+                usage_events_seen=usage_events_seen,
             )
             append_jsonl(args.output, prediction)
             print(f"Wrote {case_id}", flush=True)

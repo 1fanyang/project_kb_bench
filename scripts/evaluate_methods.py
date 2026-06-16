@@ -70,6 +70,12 @@ class CaseResult:
     retrieval_pass: bool
     strict_e2e_pass: bool
     missing_prediction: bool
+    prompt_chars: int | None
+    total_tokens: int | None
+    input_tokens: int | None
+    cached_input_tokens: int | None
+    output_tokens: int | None
+    reasoning_output_tokens: int | None
     notes: list[str]
 
 
@@ -601,6 +607,35 @@ def prediction_answer(prediction: dict[str, Any]) -> str:
     return str(answer or "")
 
 
+def int_or_none(value: Any) -> int | None:
+    if isinstance(value, int):
+        return value
+    if isinstance(value, float) and value.is_integer():
+        return int(value)
+    return None
+
+
+def prediction_token_metrics(prediction: dict[str, Any]) -> dict[str, int | None]:
+    token_usage = prediction.get("token_usage")
+    total_usage: dict[str, Any] = {}
+    if isinstance(token_usage, dict):
+        candidate = token_usage.get("total_token_usage")
+        if isinstance(candidate, dict):
+            total_usage = candidate
+        elif isinstance(token_usage.get("total"), dict):
+            total_usage = token_usage["total"]
+
+    return {
+        "prompt_chars": int_or_none(prediction.get("prompt_chars"))
+        or int_or_none(token_usage.get("prompt_chars") if isinstance(token_usage, dict) else None),
+        "total_tokens": int_or_none(total_usage.get("total_tokens")),
+        "input_tokens": int_or_none(total_usage.get("input_tokens")),
+        "cached_input_tokens": int_or_none(total_usage.get("cached_input_tokens")),
+        "output_tokens": int_or_none(total_usage.get("output_tokens")),
+        "reasoning_output_tokens": int_or_none(total_usage.get("reasoning_output_tokens")),
+    }
+
+
 def evaluate_case(
     benchmark_row: dict[str, Any],
     prediction: dict[str, Any] | None,
@@ -625,6 +660,12 @@ def evaluate_case(
             retrieval_pass=False,
             strict_e2e_pass=False,
             missing_prediction=True,
+            prompt_chars=None,
+            total_tokens=None,
+            input_tokens=None,
+            cached_input_tokens=None,
+            output_tokens=None,
+            reasoning_output_tokens=None,
             notes=["missing prediction"],
         )
 
@@ -636,6 +677,7 @@ def evaluate_case(
     pred_answer = prediction_answer(prediction)
     citation_ok = citation_pass(benchmark_row, pred_answer)
     judge = run_llm_judge(judge_config, benchmark_row, prediction)
+    token_metrics = prediction_token_metrics(prediction)
     answer_ok = (
         judge.score is not None
         and judge.score >= judge_config.threshold
@@ -674,6 +716,12 @@ def evaluate_case(
         retrieval_pass=retrieval_ok,
         strict_e2e_pass=strict_ok,
         missing_prediction=False,
+        prompt_chars=token_metrics["prompt_chars"],
+        total_tokens=token_metrics["total_tokens"],
+        input_tokens=token_metrics["input_tokens"],
+        cached_input_tokens=token_metrics["cached_input_tokens"],
+        output_tokens=token_metrics["output_tokens"],
+        reasoning_output_tokens=token_metrics["reasoning_output_tokens"],
         notes=notes,
     )
 
@@ -691,9 +739,23 @@ def mean(values: list[float]) -> float:
     return statistics.mean(values) if values else 0.0
 
 
+def present_numbers(values: list[int | None]) -> list[float]:
+    return [float(value) for value in values if value is not None]
+
+
+def sum_present(values: list[int | None]) -> int:
+    return sum(value for value in values if value is not None)
+
+
 def summarize(results: list[CaseResult], benchmark_by_id: dict[str, dict[str, Any]]) -> dict[str, Any]:
     cases = len(results)
     judged_scores = [item.llm_judge_score for item in results if item.llm_judge_score is not None]
+    total_tokens = [item.total_tokens for item in results]
+    input_tokens = [item.input_tokens for item in results]
+    cached_input_tokens = [item.cached_input_tokens for item in results]
+    output_tokens = [item.output_tokens for item in results]
+    reasoning_output_tokens = [item.reasoning_output_tokens for item in results]
+    prompt_chars = [item.prompt_chars for item in results]
     judge_verdict_counts = Counter(item.llm_judge_verdict for item in results)
     judge_error_counts = Counter(
         sanitize_report_text(item.llm_judge_error)
@@ -715,6 +777,18 @@ def summarize(results: list[CaseResult], benchmark_by_id: dict[str, dict[str, An
         "mean_llm_judge_score": mean(judged_scores),
         "llm_judge_verdict_counts": dict(sorted(judge_verdict_counts.items())),
         "llm_judge_error_counts": dict(judge_error_counts.most_common(10)),
+        "token_usage_coverage": (
+            len([item for item in results if item.total_tokens is not None]) / cases
+            if cases
+            else 0.0
+        ),
+        "sum_total_tokens": sum_present(total_tokens),
+        "mean_total_tokens": mean(present_numbers(total_tokens)),
+        "mean_input_tokens": mean(present_numbers(input_tokens)),
+        "mean_cached_input_tokens": mean(present_numbers(cached_input_tokens)),
+        "mean_output_tokens": mean(present_numbers(output_tokens)),
+        "mean_reasoning_output_tokens": mean(present_numbers(reasoning_output_tokens)),
+        "mean_prompt_chars": mean(present_numbers(prompt_chars)),
     }
 
     grouped: dict[str, dict[str, list[CaseResult]]] = {
@@ -749,6 +823,14 @@ def summarize(results: list[CaseResult], benchmark_by_id: dict[str, dict[str, An
                         if item.llm_judge_score is not None
                     ]
                 ),
+                "mean_total_tokens": mean(
+                    [float(item.total_tokens) for item in items if item.total_tokens is not None]
+                ),
+                "token_usage_coverage": (
+                    len([item for item in items if item.total_tokens is not None]) / len(items)
+                    if items
+                    else 0.0
+                ),
             }
     summary["by_slice"] = by_slice
     return summary
@@ -770,6 +852,9 @@ def make_markdown(report: dict[str, Any], benchmark_by_id: dict[str, dict[str, A
         f"- LLM Judge coverage: {summary['llm_judge_coverage']:.3f}",
         f"- Mean LLM Judge score: {summary['mean_llm_judge_score']:.3f}",
         f"- LLM Judge verdicts: {summary['llm_judge_verdict_counts']}",
+        f"- Token usage coverage: {summary['token_usage_coverage']:.3f}",
+        f"- Mean total tokens: {summary['mean_total_tokens']:.1f}",
+        f"- Sum total tokens: {summary['sum_total_tokens']}",
         "",
         "## Slice Summary",
         "",
@@ -788,7 +873,8 @@ def make_markdown(report: dict[str, Any], benchmark_by_id: dict[str, dict[str, A
                 f"strict={values['strict_e2e_pass_rate']:.3f} "
                 f"retrieval={values['retrieval_pass_rate']:.3f} "
                 f"ev_recall={values['mean_evidence_recall_at_k']:.3f} "
-                f"judge={values['mean_llm_judge_score']:.3f}"
+                f"judge={values['mean_llm_judge_score']:.3f} "
+                f"tokens={values['mean_total_tokens']:.1f}"
             )
         lines.append("")
 
@@ -802,6 +888,7 @@ def make_markdown(report: dict[str, Any], benchmark_by_id: dict[str, dict[str, A
             f"ev_recall={item['evidence_recall_at_k']:.2f} "
             f"citation={item['citation_pass']} "
             f"judge={item['llm_judge_verdict']}:{item['llm_judge_score']} "
+            f"tokens={item['total_tokens']} "
             f"notes={notes} query={query}"
         )
     lines.append("")
@@ -907,6 +994,9 @@ def main() -> int:
     print(f"LLM judge coverage: {summary['llm_judge_coverage']:.3f}")
     print(f"Mean LLM judge score: {summary['mean_llm_judge_score']:.3f}")
     print(f"LLM judge verdicts: {summary['llm_judge_verdict_counts']}")
+    print(f"Token usage coverage: {summary['token_usage_coverage']:.3f}")
+    print(f"Mean total tokens: {summary['mean_total_tokens']:.1f}")
+    print(f"Sum total tokens: {summary['sum_total_tokens']}")
     if summary["llm_judge_error_counts"]:
         first_error, first_count = next(iter(summary["llm_judge_error_counts"].items()))
         print(f"LLM judge top error: {first_count}x {first_error}")

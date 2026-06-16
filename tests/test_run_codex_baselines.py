@@ -4,6 +4,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -199,6 +200,90 @@ class RunCodexBaselinesTest(unittest.TestCase):
             self.assertEqual(prediction["evidence"][0]["path"], "repo/a.c")
             self.assertEqual(prediction["evidence"][0]["lines"], "2-3")
             self.assertEqual(prediction["evidence"][0]["text"], "two\nthree")
+
+    def test_prediction_row_includes_codex_token_usage(self):
+        runner = load_module()
+        row = {"case_id": "case-4", "evidence": []}
+        model_json = {"case_id": "case-4", "pred_answer": "answer"}
+        usage = {
+            "total_token_usage": {
+                "input_tokens": 100,
+                "cached_input_tokens": 20,
+                "output_tokens": 30,
+                "reasoning_output_tokens": 5,
+                "total_tokens": 130,
+            },
+            "last_token_usage": {"total_tokens": 40},
+            "model_context_window": 258400,
+        }
+
+        prediction = runner.build_prediction_row(
+            benchmark_row=row,
+            model_json=model_json,
+            evidence_source="model",
+            repo_root=ROOT,
+            baseline="grep-agent",
+            model="gpt-5.4-mini",
+            prompt_chars=321,
+            codex_usage=usage,
+            usage_events_seen=2,
+        )
+
+        self.assertEqual(prediction["baseline"], "grep-agent")
+        self.assertEqual(prediction["model"], "gpt-5.4-mini")
+        self.assertEqual(prediction["prompt_chars"], 321)
+        self.assertEqual(prediction["token_usage"]["source"], "codex_exec_json")
+        self.assertEqual(prediction["token_usage"]["events_seen"], 2)
+        self.assertEqual(
+            prediction["token_usage"]["total_token_usage"]["total_tokens"], 130
+        )
+        self.assertEqual(prediction["token_usage"]["last_token_usage"]["total_tokens"], 40)
+        self.assertEqual(prediction["token_usage"]["model_context_window"], 258400)
+
+    def test_run_codex_enables_json_events_and_returns_usage(self):
+        runner = load_module()
+        with tempfile.TemporaryDirectory() as tmp:
+            tmpdir = Path(tmp)
+            output_path = tmpdir / "out.json"
+            args = type(
+                "Args",
+                (),
+                {
+                    "repo_root": ROOT,
+                    "schema": ROOT / "schemas" / "baseline-prediction.schema.json",
+                    "model": "gpt-5.4-mini",
+                },
+            )()
+
+            def fake_run(command, **_kwargs):
+                self.assertIn("--json", command)
+                output_path.write_text(
+                    json.dumps(
+                        {"case_id": "case-5", "pred_answer": "answer", "evidence": []}
+                    ),
+                    encoding="utf-8",
+                )
+                stdout = json.dumps(
+                    {
+                        "type": "turn.completed",
+                        "usage": {
+                            "input_tokens": 11,
+                            "cached_input_tokens": 2,
+                            "output_tokens": 3,
+                            "reasoning_output_tokens": 1,
+                        },
+                    }
+                )
+                return type("Completed", (), {"returncode": 0, "stdout": stdout, "stderr": ""})()
+
+            with mock.patch.object(runner.subprocess, "run", side_effect=fake_run):
+                model_json, usage, usage_events_seen = runner.run_codex(
+                    "prompt", args, output_path
+                )
+
+        self.assertEqual(model_json["case_id"], "case-5")
+        self.assertEqual(usage_events_seen, 1)
+        self.assertEqual(usage["total_token_usage"]["total_tokens"], 14)
 
 
 if __name__ == "__main__":

@@ -135,6 +135,72 @@ class EvaluateMethodsTest(unittest.TestCase):
             self.assertEqual(report["summary"]["mean_llm_judge_score"], 0.92)
             self.assertIn("LLM Judge", markdown.read_text(encoding="utf-8"))
 
+    def test_evaluation_report_aggregates_prediction_token_usage(self):
+        evaluator = load_module()
+        with tempfile.TemporaryDirectory() as tmp:
+            tmpdir = Path(tmp)
+            benchmark = tmpdir / "benchmark.jsonl"
+            preds = tmpdir / "preds.jsonl"
+
+            case = {
+                "case_id": "case-1",
+                "query": "q",
+                "expected_answer": "标准答案",
+                "references": [{"path": "repo/a.c", "source_id": "src:a"}],
+                "evidence": [{"evidence_id": "E1", "path": "repo/a.c", "source_id": "src:a"}],
+                "answer_rubric": {"citation_policy": {"required": "never"}},
+            }
+            pred = {
+                "case_id": "case-1",
+                "pred_answer": "标准答案",
+                "evidence": [{"rank": 1, "path": "repo/a.c", "source_id": "src:a"}],
+                "prompt_chars": 321,
+                "token_usage": {
+                    "source": "codex_exec_json",
+                    "events_seen": 1,
+                    "total_token_usage": {
+                        "input_tokens": 100,
+                        "cached_input_tokens": 20,
+                        "output_tokens": 30,
+                        "reasoning_output_tokens": 5,
+                        "total_tokens": 130,
+                    },
+                    "last_token_usage": {"total_tokens": 40},
+                },
+            }
+            benchmark.write_text(json.dumps(case, ensure_ascii=False) + "\n", encoding="utf-8")
+            preds.write_text(json.dumps(pred, ensure_ascii=False) + "\n", encoding="utf-8")
+            args = argparse.Namespace(
+                benchmark=benchmark,
+                predictions=preds,
+                repo_root=ROOT,
+                top_k=10,
+                judge_threshold=0.8,
+                llm_judge_command=None,
+                llm_judge_provider=None,
+                llm_judge_api_key_env="DEEPSEEK_API_KEY",
+                llm_judge_base_url="https://api.deepseek.com",
+                llm_judge_model="deepseek-v4-pro",
+                llm_judge_temperature=0.0,
+                llm_judge_thinking=None,
+                llm_judge_reasoning_effort=None,
+                judge_timeout=60.0,
+                require_llm_judge=False,
+                output_json=None,
+                output_md=None,
+            )
+
+            report, exit_code = evaluator.evaluate(args)
+
+        self.assertEqual(exit_code, 0)
+        summary = report["summary"]
+        self.assertEqual(summary["token_usage_coverage"], 1.0)
+        self.assertEqual(summary["mean_total_tokens"], 130)
+        self.assertEqual(summary["sum_total_tokens"], 130)
+        self.assertEqual(summary["mean_cached_input_tokens"], 20)
+        self.assertEqual(report["cases"][0]["total_tokens"], 130)
+        self.assertEqual(report["cases"][0]["prompt_chars"], 321)
+
     def test_cli_calls_deepseek_compatible_judge(self):
         evaluator = load_module()
         captured = {}
