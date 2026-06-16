@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/kb-benchmark/source-inventory.schema.json",
+  "title": "Analyzer Source Inventory Row",
+  "type": "object",
+  "required": [
+    "source_id",
+    "project",
+    "source_set_id",
+    "repo_name",
+    "path",
+    "relative_path",
+    "modality",
+    "source_type",
+    "authority",
+    "language",
+    "line_count",
+    "size_bytes",
+    "sha256",
+    "parse_status"
+  ],
+  "properties": {
+    "source_id": {"type": "string", "minLength": 1},
+    "project": {"type": "string", "minLength": 1},
+    "source_set_id": {"type": "string", "minLength": 1},
+    "repo_name": {"type": "string", "minLength": 1},
+    "path": {"type": "string", "minLength": 1},
+    "relative_path": {"type": "string"},
+    "modality": {
+      "type": "string",
+      "enum": ["code", "doc", "script", "test", "config", "issue", "release", "binary", "data", "asset", "unknown"]
+    },
+    "source_type": {"type": "string", "minLength": 1},
+    "authority": {"type": "string", "minLength": 1},
+    "language": {"type": "string", "minLength": 1},
+    "line_count": {"type": "integer", "minimum": 0},
+    "size_bytes": {"type": "integer", "minimum": 0},
+    "sha256": {"type": "string", "minLength": 1},
+    "parse_status": {"type": "string", "enum": ["parsed", "partial", "skipped", "failed"]}
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,60 @@
+schema_version: generation-profile/v1
+benchmark:
+  id: vortex_benchmark_v1
+  output_name: runs/vortex_benchmark_v1.jsonl
+  target_count: 50
+  case_id_pattern: "{project}-v1-{layer}-{seq:03d}"
+input:
+  context_bundle: runs/vortex_context_bundle
+projects:
+  - id: vortex
+    target_count: 50
+layers:
+  - code: L1
+    zh: 单源检索
+    target_count: 15
+  - code: L2
+    zh: 跨源核对
+    target_count: 30
+  - code: L3
+    zh: 多跳机制
+    target_count: 5
+capability_seeds:
+  - code: doc_code_cross_check
+    zh: 文档代码交叉核查
+    expanded_from: README, docs, source inventory, and script/runtime source spans
+  - code: mechanism_trace
+    zh: 机制链路追踪
+    expanded_from: runtime API forwarding, simulator start/wait paths, microarchitecture docs
+  - code: build_simulation_flow
+    zh: 构建与仿真流程
+    expanded_from: Makefile, ci/blackbox.sh, README, simulation/debug docs
+  - code: tests_debug_evidence
+    zh: 测试与调试证据
+    expanded_from: OpenCL/kernel tests, debug_mode.md, debugging.md, simulator main
+  - code: negative_insufficient_evidence
+    zh: 负面与证据不足
+    expanded_from: doc/code mismatches and sparse documentation evidence
+  - code: rtl_hierarchy_trace
+    zh: RTL层级关系
+    expanded_from: RTL modules Vortex, VX_cluster, VX_socket, VX_cache_cluster
+  - code: runtime_api_trace
+    zh: Runtime API链路
+    expanded_from: runtime include/stub/simx/rtlsim/opae/xrt sources
+  - code: cache_and_perf
+    zh: 缓存与性能计数
+    expanded_from: cache docs, RTL cache hierarchy, perf utility source
+sampling:
+  query_style_mix:
+    colloquial: 0.34
+    contextual: 0.30
+    fact_check: 0.18
+    followup: 0.08
+    evidence_request: 0.10
+answer_policy:
+  require_direct_answer_first: true
+  citation_format: "`path:line-range`"
+  query_rewrite_policy: visible-query-semantics-only
+known_limits:
+  - CodeGraph was unavailable in the analyzer bundle, so call/callee-heavy cases are avoided unless directly supported by cited source spans.
+  - relation_graph is mostly defines/imports/doc_mentions_entity, so mechanism cases rely on explicit minimal evidence spans from source files.

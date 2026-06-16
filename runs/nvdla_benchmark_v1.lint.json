@@ -1,0 +1,9 @@
+{
+  "files": [
+    "runs/nvdla_benchmark_v1.jsonl"
+  ],
+  "rows": 50,
+  "fails": 0,
+  "warnings": 0,
+  "findings": []
+}

@@ -1,0 +1,1186 @@
+{
+  "mode": "method_evaluation",
+  "config": {
+    "benchmark": "runs/nvdla_benchmark_v1.jsonl",
+    "predictions": "predictions/nvdla_baseline_oracle_codex_predictions.jsonl",
+    "top_k": 5,
+    "judge_threshold": 0.8,
+    "llm_judge_provider": "deepseek",
+    "llm_judge_command": null,
+    "llm_judge_api_key_env": "DEEPSEEK_API_KEY",
+    "llm_judge_base_url": "https://api.deepseek.com",
+    "llm_judge_model": "deepseek-v4-pro",
+    "llm_judge_thinking": null,
+    "llm_judge_reasoning_effort": null
+  },
+  "summary": {
+    "cases": 50,
+    "missing_predictions": 0,
+    "retrieval_pass_rate": 1.0,
+    "strict_e2e_pass_rate": 0.86,
+    "answer_pass_rate": 0.86,
+    "citation_pass_rate": 1.0,
+    "mean_reference_recall_at_k": 1.0,
+    "mean_evidence_recall_at_k": 1.0,
+    "mean_evidence_precision_at_k": 1.0,
+    "mean_evidence_f1_at_k": 1.0,
+    "llm_judge_coverage": 1.0,
+    "mean_llm_judge_score": 0.9488,
+    "llm_judge_verdict_counts": {
+      "correct": 43,
+      "partial": 7
+    },
+    "llm_judge_error_counts": {},
+    "by_slice": {
+      "layer": {
+        "L1": {
+          "cases": 19,
+          "strict_e2e_pass_rate": 0.8421052631578947,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.9457894736842105
+        },
+        "L2": {
+          "cases": 24,
+          "strict_e2e_pass_rate": 0.8333333333333334,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.93625
+        },
+        "L3": {
+          "cases": 7,
+          "strict_e2e_pass_rate": 1.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 1.0
+        }
+      },
+      "capability": {
+        "build_sim_verif_flow": {
+          "cases": 3,
+          "strict_e2e_pass_rate": 1.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 1.0
+        },
+        "doc_code_cross_check": {
+          "cases": 6,
+          "strict_e2e_pass_rate": 0.8333333333333334,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.95
+        },
+        "mechanism_trace": {
+          "cases": 18,
+          "strict_e2e_pass_rate": 0.9444444444444444,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.9833333333333333
+        },
+        "repo_structure_location": {
+          "cases": 1,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.5
+        },
+        "rtl_symbol_location": {
+          "cases": 2,
+          "strict_e2e_pass_rate": 0.5,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.9
+        },
+        "software_stack_path": {
+          "cases": 20,
+          "strict_e2e_pass_rate": 0.85,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.937
+        }
+      },
+      "answer_type": {
+        "comparison": {
+          "cases": 3,
+          "strict_e2e_pass_rate": 0.6666666666666666,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.8
+        },
+        "fact_check": {
+          "cases": 12,
+          "strict_e2e_pass_rate": 1.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 1.0
+        },
+        "location": {
+          "cases": 2,
+          "strict_e2e_pass_rate": 0.5,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.9
+        },
+        "mechanism": {
+          "cases": 13,
+          "strict_e2e_pass_rate": 0.8461538461538461,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.9515384615384616
+        },
+        "procedure": {
+          "cases": 5,
+          "strict_e2e_pass_rate": 1.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 1.0
+        },
+        "synthesis": {
+          "cases": 3,
+          "strict_e2e_pass_rate": 0.3333333333333333,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.7233333333333334
+        },
+        "yes_no": {
+          "cases": 12,
+          "strict_e2e_pass_rate": 0.9166666666666666,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.975
+        }
+      }
+    }
+  },
+  "prediction_warnings": {
+    "duplicate_case_ids": [],
+    "unknown_case_ids": []
+  },
+  "cases": [
+    {
+      "case_id": "nvdla-v1-L1-001",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer accurately describes the nvdlav1 release as the non-configurable full-precision version with fixed MAC counts (2048 8-bit or 1024 16-bit). It includes line numbers (15-16, 17, 18-19) that fall within the expected citation range (13-19). All required atoms (A1 and A2) are satisfied.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L1-002",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 0.5,
+      "llm_judge_verdict": "partial",
+      "llm_judge_rationale": "预测答案正确描述了 vmod、syn、verif、tools 目录的职责，但缺少对 spec 目录（配置职责）的说明，未完全满足必需要点 A1 中的完整映射要求。",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge did not mark answer correct"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-003",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The answer correctly states the basic build/sanity simulation command as `bin/tmake` and describes its function, perfectly matching the expected answer and satisfying all required atoms with proper citation.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L1-004",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer correctly states that KMD is a Linux out-of-tree kernel module and uses DRM and GEM PRIME for DMA buffer allocation/sharing, matching both required atoms. Citations point to the exact evidence lines. No unsupported or missing claims.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L1-005",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 0.67,
+      "llm_judge_verdict": "partial",
+      "llm_judge_rationale": "The answer correctly states that UMD loads network from loadable and submits to KMD (atom A1). However, it omits the required detail that the package includes a test application demonstrating runtime interfaces (atom A2).",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge did not mark answer correct"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-006",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "答案准确列出了 runtime environment 的两个组成部分：user mode driver (UMD) 和 kernel mode driver (KMD)，符合查询要求。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-007",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 0.7,
+      "llm_judge_verdict": "partial",
+      "llm_judge_rationale": "The answer correctly identifies the engine scheduler as the user of the dependency graph (A1 satisfied). However, it omits the required fact that each layer includes dependencies, buffers, and functional block configuration (A2 missing), which is part of the expected response per the rubric.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge did not mark answer correct"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-008",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "Predicted answer lists all required steps from E1 (create, device info, load, tensor info/update, allocate, bind, submit, unload) in correct order. No missing or contradictory claims.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L1-009",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "预测答案准确说明了 NVDLA 编译包括 Parsing 和 Compiling 两步，并正确描述了 Parser 读取模型生成 layer 表示、Compiler 映射到硬件层并输出 NVDLA Loadable 的分工，满足所有 required atoms。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L1-010",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer correctly confirms the compiler output is stored in the standardized NVDLA Loadable format, and states that the same compiler tool can generate hardware layers for multiple NVDLA configurations. Both required atoms A1 and A2 are semantically matched, and the evidence E1 from compilation_tool.rst lines 23-27 is cited. No unsupported or contradictory claims are present.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L1-011",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer provides the exact command format and help parameter, satisfying both required atoms. The answer is semantically correct and matches the expected answer.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L1-012",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "Predicted answer correctly lists all three startup modes with corresponding command lines, matching the required atom and expected answer.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-013",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer accurately describes the command-execute-interrupt cycle: management processor sends configuration and activate command, hardware engine executes and issues interrupt upon completion, processor restarts the process, repeating until inference is complete. This matches the required atom semantically. Additional details about parallel layers and double-buffering are consistent with the source and do not contradict the core flow.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-014",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "预测答案准确描述了 independent mode 的 memory-to-memory 路径和 fused mode 通过 FIFO pipeline 绕过内存往返，与评分标准中的必需要素完全匹配。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L1-015",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "预测答案正确列出了查询请求的六个处理器（BDMA、CONV、SDP、PDP、CDP、RUBIK），与预期答案完全一致，满足必需要点 A1 的列表集合匹配，且无禁止内容。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L1-016",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer correctly states that DLA_NUM_GROUPS is defined as 2 and that it means each processor has 2 groups of registers, matching the expected answer and citing the appropriate source. All required atoms are satisfied.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L1-017",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "答案正确指出NUM_MAX_BDMA_OPS最大值为20，并说明dla_bdma_surface_desc使用transfers[NUM_MAX_BDMA_OPS]来固定容纳最多20个传输描述符，满足所有必需原子要求。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-018",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "预测答案明确指出当 num_transfers=0 时 dla_bdma_enable 不会启动硬件，因为会设置 OP_COMPLETED 并 goto exit，而硬件启动写操作在该路径之后。这与预期答案语义一致，包含所需原子 A1 和 A2，且不包含禁止原子 F1。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-019",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "预测答案与期望答案在语义上完全一致。两者均明确指出当 num_transfers 为 0 时不会进入 processor_bdma_program_slot 循环，并正确描述了 zero-transfer 检查在 for 循环之前，且均引用了正确的代码行范围。未违反任何禁止项，所有必需原子均已满足。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-020",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "预测答案明确指出不会继续正常编程，核心语义与期望答案一致；它包含了必需的原子声明 A1（不会继续编程）和 A2（返回 ERR(INVALID_INPUT)），未出现禁止原子 F1（继续编程）。引用的证据 E1 和 E2 也正确标注了路径和行号。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-021",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 0.7,
+      "llm_judge_verdict": "partial",
+      "llm_judge_rationale": "The answer correctly states that line_size must be 32B aligned and cites the correct evidence. However, it omits the additional required atom that the same check block also constrains source/destination line stride, making the answer partially correct.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge did not mark answer correct"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-022",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "预测答案准确描述了 BDMA slot 最后启用 OP 的寄存器写入顺序：先配置地址、尺寸、CMD、重复等，最后写入 CFG_OP 将 EN 置为 ENABLE。与预期答案完全一致，涵盖了所需的语义原子 A1 和 A2，无遗漏或矛盾。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-023",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer correctly states that BDMA does not have real shadow register groups and explains that dla_bdma_is_ready returns 0 when another group is programmed but not active, satisfying both required atoms A1 and A2. No claim contradicts the forbidden atom F1.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L1-024",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer correctly states that dla_bdma_set_producer is essentially an empty implementation with no actual register-setting logic, and explains that the comment indicates BDMA operations lack a producer bit, using interrupt pointer instead. Both required semantic facts (A1 and A2) are present. The citation to the relevant file and lines is included.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-025",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer correctly states that group cannot be allocated when group_status==0x3, and explains that it returns PROCESSOR_BUSY. It meets required atoms A1 and A2, avoids forbidden atom F1, and provides the required evidence citation. Semantically matches the expected answer.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-026",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The pred_answer correctly states that when both groups are idle, group_id comes from hw_consumer_ptr and rdma_id from hw_rdma_ptr, matching required atoms A1 and A2. It accurately reflects the code logic in the cited lines.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-027",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer correctly states that DMA address is not needed for DLA_MEM_HW type, citing the required evidence (engine.c:134-140) and explaining the 'no address required' comment and ret=0 exit. It fully satisfies the required atoms A1 and A2, does not violate the forbidden atom F1, and matches the expected answer semantics.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L3-028",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "预测答案正确描述了动态ROI输入层的条件、从ROI数组中读取描述符的过程以及地址计算公式（surface_addr + top*line_stride + bpp*left），与预期答案及所需证据完全一致，没有遗漏或矛盾。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L3-029",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The answer correctly states that dependency_count triggers enable operation when it reaches 0, and that the processor is selected via op_desc->op_type. It covers both required atoms A1 and A2, and aligns with the expected answer and gold evidence.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-030",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "预测答案明确表示 engine->status 非零时不会继续更新，并描述了跳过更新的逻辑（检查、打印、goto exit），与预期答案语义完全一致，且引用了正确的代码行。不包含禁止的原子（如继续更新），满足所有必需的语义要求。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L3-031",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer accurately describes the event handling order: CDMA weight done and data done events before OP_COMPLETED, and notes that group->events is cleared afterward. It directly addresses both required atoms from the rubric.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-032",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "预测答案明确说明了task_complete的判断条件：当engine->network->num_operations == engine->num_proc_hwl时置1，且提到了遍历所有processor（隐含DLA_OP_NUM个），语义上与期望答案一致，覆盖了所有必要原子，无矛盾或遗漏，因此正确。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-033",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer correctly states that dla_execute_task does not accept a new task when task_data is not NULL, and that it sets ERR(PROCESSOR_BUSY) and exits. This aligns with the expected answer and satisfies all required atoms (A1, A2) while avoiding the forbidden atom F1. Evidence citations reference the correct file and relevant lines.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L3-034",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer correctly states that BDMA_DONE_STATUS0 maps to BDMA group 0 and sets DLA_EVENT_OP_COMPLETED, and BDMA_DONE_STATUS1 maps to BDMA group 1 and sets DLA_EVENT_OP_COMPLETED, matching the required atoms A1 and A2 from the rubric.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-035",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "预测答案明确回答‘会’，并描述了与预期答案一致的逻辑：通过 glb_reg_write(S_INTR_STATUS, reg) 写入以清除/确认状态，随后重读 mask 和 status，与证据 E1 完全吻合。核心语义无差异，且所需原子声明 A1 已涵盖，故完全正确。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-036",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer correctly describes the nvdla_submit ioctl path: it copies the user task via copy_from_user, allocates a kernel task, fills it with nvdla_fill_task_desc, and calls nvdla_task_submit. Both required atoms A1 and A2 are semantically covered. The citation to E1 (nvdla_gem.c:79-115) is consistent. Any additional details do not contradict the expected answer.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-037",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer correctly explains that nvdla_fill_task_desc does more than just record num_addresses; it allocates an array of nvdla_mem_handle, copies the address list from user space using copy_from_user, handles failures by freeing and returning -EFAULT, and assigns the kernel-allocated array to task->address_list. This matches all required atoms: it states allocation+copy (A1) and describes failure handling (A2). The answer is semantically equivalent to the expected answer and is supported by the cited evidence.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-038",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer correctly states that nvdla_gem_create_object rounds size up to PAGE_SIZE and that DMA memory is allocated via dma_alloc_attrs. Both required atoms (A1, A2) are satisfied and properly supported by citations to the required evidence (E2, E1). No missing or contradictory information.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L3-039",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "预测答案准确描述了从PRIME fd转换为GEM handle，通过GEM object lookup获取nvdla_gem_object，读取nobj->dma_addr，并释放对象的完整路径，正确引用了代码位置，与预期答案和评分标准完全吻合。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L1-040",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer correctly lists all four DRM ioctl commands (NVDLA_SUBMIT, NVDLA_GEM_CREATE, NVDLA_GEM_MMAP, NVDLA_GEM_DESTROY) as required by the answer goal and the required atom A1. It also provides the proper citation (file path and lines), matching the expected evidence. No unsupported or missing claims.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-041",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 0.4,
+      "llm_judge_verdict": "partial",
+      "llm_judge_rationale": "The predicted answer correctly states that os_initial enables BDMA/Rubik while small and large disable them; however, it fails to mention weight compression support and atom_size values, which are required by the rubric. This results in incomplete coverage of the required facts.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge did not mark answer correct"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-042",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 0.67,
+      "llm_judge_verdict": "partial",
+      "llm_judge_rationale": "The answer correctly states that DESTINATION_PROCESSOR and DESTINATION_DMA use different read address functions, matching the primary query intent. However, it omits the required atom A2 (unknown destination returns -EINVAL), which is part of the complete expected answer per the rubric. This missing detail prevents a full score.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge did not mark answer correct"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L3-043",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "预测答案完全覆盖了要求的所有语义要点：两者均使用 dma_buf CPU access 与 vmap（A1），写方向为 src 到映射缓冲区（A2），读方向为映射缓冲区到 dst（A3）。表述准确，与期望答案一致，无多余或错误信息。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L1-044",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "预测答案明确指出 IRuntime API 包含 load、allocateSystemMemory、bindInputTensor 和 submit，与预期答案和 E1 证据完全一致，满足所有必要原子 A1 的要求，无遗漏或矛盾之处。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-045",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer correctly states that Runtime::load requires at least one submit, task, and memory entry each. It references the exact check from the code and states that failure occurs if any are missing. All required atoms (conclusion and evidence fact) are present, no forbidden contradictions, and citation is provided.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-046",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The predicted answer correctly explains that bindInputTensor uses inputBindId()==index to select memories and sets handle and virt addr, fully matching the required atoms. No unsupported or contradictory claims.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L3-047",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "The answer covers all required checks (number of entries, address id bounds, memory id bounds, null handle) as specified in A1, and correctly states that writing handle/offset only occurs after validation, satisfying A2. It matches the expected answer and rubric atoms.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L2-048",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "Predicted answer directly answers the query with the correct conclusion that submitInternal does not proceed if not loaded or missing tasks/submission sets. It mentions the checks at the beginning and the resulting InvalidState error, satisfying both required atoms A1 and A2 without violating the forbidden atom F1. The evidence lines and code reference match exactly.",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    },
+    {
+      "case_id": "nvdla-v1-L1-049",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 0.8,
+      "llm_judge_verdict": "partial",
+      "llm_judge_rationale": "The answer correctly identifies the file and location of NV_nvdla (satisfying A1) and confirms the presence of CSB, DBB, and CVSRAM ports. However, required atom A2 expects explicit inclusion of interrupt/pwrbus signals, which are part of the port list but not mentioned in the answer. This partial omission prevents a perfect score, though the core query is addressed.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge did not mark answer correct"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-050",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": 1.0,
+      "llm_judge_verdict": "correct",
+      "llm_judge_rationale": "预测答案正确指出 NV_NVDLA_bdma 位于 repo_sources/nvdla/hw/vmod/nvdla/bdma/NV_NVDLA_bdma.v，且明确列出对外端口包含 CSB、CVIF、MCIF 和 done interrupt，满足所有必需信息点，无矛盾。",
+      "llm_judge_error": null,
+      "answer_pass": true,
+      "retrieval_pass": true,
+      "strict_e2e_pass": true,
+      "missing_prediction": false,
+      "notes": []
+    }
+  ]
+}

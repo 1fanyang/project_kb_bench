@@ -1,0 +1,79 @@
+{
+  "actual_count": 50,
+  "answer_type_counts": {
+    "comparison": 3,
+    "fact_check": 12,
+    "location": 2,
+    "mechanism": 13,
+    "procedure": 5,
+    "synthesis": 3,
+    "yes_no": 12
+  },
+  "benchmark_id": "nvdla_benchmark_v1",
+  "benchmark_jsonl": "runs/nvdla_benchmark_v1.jsonl",
+  "capability_counts": {
+    "build_sim_verif_flow": 3,
+    "doc_code_cross_check": 6,
+    "mechanism_trace": 18,
+    "repo_structure_location": 1,
+    "rtl_symbol_location": 2,
+    "software_stack_path": 20
+  },
+  "context_bundle": "runs/nvdla_context_bundle",
+  "created_at": "2026-06-15T10:25:28Z",
+  "generation_profile": "runs/nvdla_generation_profile.yaml",
+  "generator_version": "benchmark-generator/v1-agent",
+  "layer_counts": {
+    "L1": 19,
+    "L2": 24,
+    "L3": 7
+  },
+  "lint": {
+    "command": "python3 /Users/yangyifan/.codex/skills/benchmark-generator/scripts/lint_benchmark_jsonl.py runs/nvdla_benchmark_v1.jsonl --repo-root . --fail-on-warn --json-report runs/nvdla_benchmark_v1.lint.json",
+    "fails": 0,
+    "report": "runs/nvdla_benchmark_v1.lint.json",
+    "rows": 50,
+    "status": "pass",
+    "updated_at": "2026-06-15T10:27:21Z",
+    "warnings": 0
+  },
+  "project": {
+    "display_name": "NVDLA",
+    "id": "nvdla"
+  },
+  "query_rewrite_policy": "No hidden evidence-derived facts; normalized only from visible query semantics.",
+  "schema_version": "benchmark-metadata/v1",
+  "source_snapshots": [
+    {
+      "authority": "primary_source",
+      "available": true,
+      "branch": "nvdlav1",
+      "commit": "8e06b1b9d85aab65b40d43d08eec5ea4681ff715",
+      "id": "nvdla_hw",
+      "local_root": "repo_sources/nvdla/hw",
+      "repo_name": "nvdla/hw",
+      "source_role": "main_hw_repo"
+    },
+    {
+      "authority": "primary_source",
+      "available": true,
+      "branch": "master",
+      "commit": "79538ba1b52b040a4a4645f630e457fa01839e90",
+      "id": "nvdla_sw",
+      "local_root": "repo_sources/nvdla/sw",
+      "repo_name": "nvdla/sw",
+      "source_role": "main_sw_repo"
+    },
+    {
+      "authority": "documentation",
+      "available": true,
+      "branch": "master",
+      "commit": "31f5740eaca197f73aae12eb0645014d2d9a9df5",
+      "id": "nvdla_doc",
+      "local_root": "repo_sources/nvdla/doc",
+      "repo_name": "nvdla/doc",
+      "source_role": "doc_source_repo"
+    }
+  ],
+  "target_count": 50
+}

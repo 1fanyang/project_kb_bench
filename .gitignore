@@ -1,0 +1,7 @@
+.omx/
+archive/
+examples/
+dsk
+repo_sources/
+__pycache__/
+*.py[cod]

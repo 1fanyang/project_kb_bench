@@ -1,0 +1,82 @@
+{
+  "mode": "codex_token_usage_verification",
+  "benchmark": "examples/chip-kb-v1/sample_benchmark.jsonl",
+  "case_id": "chip_demo-v1-L3-001",
+  "model": null,
+  "repo_paths": [
+    "examples/chip-kb-v1/sample_source"
+  ],
+  "runs": {
+    "oracle": {
+      "baseline": "oracle",
+      "prompt_chars": 1061,
+      "usage_events_seen": 1,
+      "token_count_events_seen": 1,
+      "total_tokens": 31943,
+      "input_tokens": 31710,
+      "cached_input_tokens": 23424,
+      "output_tokens": 233,
+      "reasoning_output_tokens": 101,
+      "last_total_tokens": 31943,
+      "model_context_window": null,
+      "model_case_id": "chip_demo-v1-L3-001",
+      "pred_answer_chars": 233,
+      "model_evidence_items": 0,
+      "raw_usage": {
+        "total_token_usage": {
+          "input_tokens": 31710,
+          "cached_input_tokens": 23424,
+          "output_tokens": 233,
+          "reasoning_output_tokens": 101,
+          "total_tokens": 31943
+        },
+        "last_token_usage": {
+          "input_tokens": 31710,
+          "cached_input_tokens": 23424,
+          "output_tokens": 233,
+          "reasoning_output_tokens": 101,
+          "total_tokens": 31943
+        }
+      }
+    },
+    "grep-agent": {
+      "baseline": "grep-agent",
+      "prompt_chars": 905,
+      "usage_events_seen": 1,
+      "token_count_events_seen": 1,
+      "total_tokens": 129524,
+      "input_tokens": 128525,
+      "cached_input_tokens": 89600,
+      "output_tokens": 999,
+      "reasoning_output_tokens": 516,
+      "last_total_tokens": 129524,
+      "model_context_window": null,
+      "model_case_id": "chip_demo-v1-L3-001",
+      "pred_answer_chars": 233,
+      "model_evidence_items": 2,
+      "raw_usage": {
+        "total_token_usage": {
+          "input_tokens": 128525,
+          "cached_input_tokens": 89600,
+          "output_tokens": 999,
+          "reasoning_output_tokens": 516,
+          "total_tokens": 129524
+        },
+        "last_token_usage": {
+          "input_tokens": 128525,
+          "cached_input_tokens": 89600,
+          "output_tokens": 999,
+          "reasoning_output_tokens": 516,
+          "total_tokens": 129524
+        }
+      }
+    }
+  },
+  "comparison": {
+    "oracle_total_tokens": 31943,
+    "grep_agent_total_tokens": 129524,
+    "grep_minus_oracle_total_tokens": 97581,
+    "grep_to_oracle_total_token_ratio": 4.055,
+    "oracle_less_than_grep": true
+  }
+}

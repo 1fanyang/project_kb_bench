@@ -1,0 +1,54 @@
+schema_version: generation-profile/v1
+benchmark:
+  id: nvdla_benchmark_v1
+  output_name: runs/nvdla_benchmark_v1.jsonl
+  target_count: 50
+  case_id_pattern: "{project}-v1-{layer}-{seq:03d}"
+input:
+  context_bundle: runs/nvdla_context_bundle
+projects:
+  - id: nvdla
+    target_count: 50
+layers:
+  - code: L1
+    zh: 单源检索
+    target_count: 24
+  - code: L2
+    zh: 跨源核对
+    target_count: 20
+  - code: L3
+    zh: 多跳机制
+    target_count: 6
+capability_seeds:
+  - code: repo_structure_location
+    zh: 项目结构定位
+    expanded_from: analyzer_report.md source inventory
+  - code: rtl_symbol_location
+    zh: RTL 符号定位
+    expanded_from: relation_graph defines(module) and RTL source inventory
+  - code: software_stack_path
+    zh: 软件栈路径
+    expanded_from: KMD, UMD, runtime, Linux port, and regression source inventory
+  - code: doc_code_cross_check
+    zh: 文档代码核对
+    expanded_from: documentation headings and doc/code source alignment
+  - code: build_sim_verif_flow
+    zh: 构建仿真验证流程
+    expanded_from: Makefile/script/doc command sources
+  - code: mechanism_trace
+    zh: 机制链路解释
+    expanded_from: function and macro definitions plus selected evidence spans
+sampling:
+  query_style_mix:
+    colloquial: 0.36
+    contextual: 0.28
+    fact_check: 0.18
+    followup: 0.10
+    evidence_request: 0.08
+answer_policy:
+  require_direct_answer_first: true
+  citation_format: "`path:line-range`"
+  query_rewrite_policy: visible-query-semantics-only
+known_limits:
+  - CodeGraph was unavailable in the analyzer bundle, so call/callee and dataflow-heavy questions are down-weighted.
+  - relation_graph contains mostly defines/contains/doc_mentions_entity, so mechanism cases use explicit evidence spans from referenced source files.

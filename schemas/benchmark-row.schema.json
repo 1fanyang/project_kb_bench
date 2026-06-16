@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/kb-benchmark/benchmark-row.schema.json",
+  "title": "Benchmark JSONL Row v1",
+  "type": "object",
+  "required": [
+    "case_id",
+    "project",
+    "layer",
+    "query",
+    "query_rewrite",
+    "answer_type",
+    "references",
+    "evidence",
+    "expected_answer",
+    "answer_rubric"
+  ],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "project": {"type": "string", "minLength": 1},
+    "layer": {"$ref": "#/$defs/label"},
+    "capability": {"$ref": "#/$defs/label"},
+    "query": {"type": "string", "minLength": 1},
+    "query_rewrite": {"type": "string", "minLength": 1},
+    "answer_type": {"$ref": "#/$defs/label"},
+    "references": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/reference"}
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/evidence"}
+    },
+    "expected_answer": {"type": "string", "minLength": 1},
+    "answer_rubric": {"$ref": "#/$defs/rubric"},
+    "tags": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "label": {
+      "type": "object",
+      "required": ["code", "zh"],
+      "properties": {
+        "code": {"type": "string", "minLength": 1},
+        "zh": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "reference": {
+      "type": "object",
+      "properties": {
+        "source_id": {"type": "string"},
+        "repo_name": {"type": "string"},
+        "source_type": {"type": "string"},
+        "authority": {"type": "string"},
+        "path": {"type": "string"},
+        "expected_entities": {"type": "array", "items": {"type": "string"}}
+      },
+      "anyOf": [
+        {"required": ["source_id"]},
+        {"required": ["path"]}
+      ],
+      "additionalProperties": true
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["evidence_id", "source_id", "path", "role", "statement"],
+      "properties": {
+        "evidence_id": {"type": "string", "minLength": 1},
+        "source_id": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "lines": {"type": "string"},
+        "role": {"type": "string", "minLength": 1},
+        "statement": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "rubric": {
+      "type": "object",
+      "required": ["answer_goal", "required_atoms"],
+      "properties": {
+        "answer_goal": {"type": "string", "minLength": 1},
+        "required_atoms": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/required_atom"}
+        },
+        "forbidden_atoms": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/forbidden_atom"}
+        },
+        "citation_policy": {"$ref": "#/$defs/citation_policy"}
+      },
+      "additionalProperties": true
+    },
+    "required_atom": {
+      "type": "object",
+      "required": ["id", "role", "statement", "match_type", "evidence_ids", "weight"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "role": {"type": "string", "minLength": 1},
+        "statement": {"type": "string", "minLength": 1},
+        "match_type": {"type": "string", "minLength": 1},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "depends_on": {"type": "array", "items": {"type": "string"}},
+        "weight": {"type": "number", "exclusiveMinimum": 0}
+      },
+      "additionalProperties": true
+    },
+    "forbidden_atom": {
+      "type": "object",
+      "required": ["id", "statement"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "statement": {"type": "string", "minLength": 1},
+        "match_type": {"type": "string"},
+        "severity": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "citation_policy": {
+      "type": "object",
+      "properties": {
+        "required": {"type": "string"},
+        "required_evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "acceptable_granularity": {"type": "string"}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

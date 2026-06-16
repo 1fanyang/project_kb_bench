@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/kb-benchmark/relation-graph.schema.json",
+  "title": "Analyzer Relation Graph Row",
+  "type": "object",
+  "required": [
+    "relation_id",
+    "project",
+    "subject",
+    "predicate",
+    "object",
+    "evidence",
+    "extractor",
+    "confidence"
+  ],
+  "properties": {
+    "relation_id": {"type": "string", "minLength": 1},
+    "project": {"type": "string", "minLength": 1},
+    "subject": {"$ref": "#/$defs/endpoint"},
+    "predicate": {"type": "string", "minLength": 1},
+    "object": {"$ref": "#/$defs/endpoint"},
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/evidence_anchor"}
+    },
+    "extractor": {"type": "string", "minLength": 1},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+  },
+  "$defs": {
+    "endpoint": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {"type": "string", "minLength": 1},
+        "id": {"type": "string"},
+        "name": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "evidence_anchor": {
+      "type": "object",
+      "required": ["source_id", "path", "summary"],
+      "properties": {
+        "source_id": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "lines": {"type": "string"},
+        "summary": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

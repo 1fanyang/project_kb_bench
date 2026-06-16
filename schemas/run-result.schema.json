@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/kb-benchmark/run-result.schema.json",
+  "title": "Benchmark Run Result Row",
+  "type": "object",
+  "required": ["case_id", "answer"],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "retrieved_contexts": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/context"}
+    },
+    "retrieved": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/context"}
+    },
+    "contexts": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/context"}
+    },
+    "answer": {"type": "string"}
+  },
+  "$defs": {
+    "context": {
+      "type": "object",
+      "properties": {
+        "rank": {"type": "integer", "minimum": 1},
+        "source_id": {"type": "string"},
+        "path": {"type": "string"},
+        "lines": {"type": "string"},
+        "text": {"type": "string"},
+        "score": {"type": "number"}
+      },
+      "anyOf": [
+        {"required": ["source_id"]},
+        {"required": ["path"]}
+      ],
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

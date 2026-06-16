@@ -1,0 +1,1267 @@
+{
+  "mode": "method_evaluation",
+  "config": {
+    "benchmark": "runs/nvdla_benchmark_v1.jsonl",
+    "predictions": "predictions/nvdla_baseline_oracle_codex_predictions.jsonl",
+    "top_k": 10,
+    "judge_threshold": 0.8,
+    "llm_judge_provider": null,
+    "llm_judge_command": null,
+    "llm_judge_api_key_env": "DEEPSEEK_API_KEY",
+    "llm_judge_base_url": "https://api.deepseek.com",
+    "llm_judge_model": null,
+    "llm_judge_thinking": null,
+    "llm_judge_reasoning_effort": null
+  },
+  "summary": {
+    "cases": 50,
+    "missing_predictions": 0,
+    "retrieval_pass_rate": 1.0,
+    "strict_e2e_pass_rate": 0.0,
+    "answer_pass_rate": 0.0,
+    "citation_pass_rate": 1.0,
+    "mean_reference_recall_at_k": 1.0,
+    "mean_evidence_recall_at_k": 1.0,
+    "mean_evidence_precision_at_k": 1.0,
+    "mean_evidence_f1_at_k": 1.0,
+    "llm_judge_coverage": 0.0,
+    "mean_llm_judge_score": 0.0,
+    "by_slice": {
+      "layer": {
+        "L1": {
+          "cases": 19,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0
+        },
+        "L2": {
+          "cases": 24,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0
+        },
+        "L3": {
+          "cases": 7,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0
+        }
+      },
+      "capability": {
+        "build_sim_verif_flow": {
+          "cases": 3,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0
+        },
+        "doc_code_cross_check": {
+          "cases": 6,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0
+        },
+        "mechanism_trace": {
+          "cases": 18,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0
+        },
+        "repo_structure_location": {
+          "cases": 1,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0
+        },
+        "rtl_symbol_location": {
+          "cases": 2,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0
+        },
+        "software_stack_path": {
+          "cases": 20,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0
+        }
+      },
+      "answer_type": {
+        "comparison": {
+          "cases": 3,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0
+        },
+        "fact_check": {
+          "cases": 12,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0
+        },
+        "location": {
+          "cases": 2,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0
+        },
+        "mechanism": {
+          "cases": 13,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0
+        },
+        "procedure": {
+          "cases": 5,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0
+        },
+        "synthesis": {
+          "cases": 3,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0
+        },
+        "yes_no": {
+          "cases": 12,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0
+        }
+      }
+    }
+  },
+  "prediction_warnings": {
+    "duplicate_case_ids": [],
+    "unknown_case_ids": []
+  },
+  "cases": [
+    {
+      "case_id": "nvdla-v1-L1-001",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-002",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-003",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-004",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-005",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-006",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-007",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-008",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-009",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-010",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-011",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-012",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-013",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-014",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-015",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-016",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-017",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-018",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-019",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-020",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-021",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-022",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-023",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-024",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-025",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-026",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-027",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L3-028",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L3-029",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-030",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L3-031",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-032",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-033",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L3-034",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-035",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-036",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-037",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-038",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L3-039",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-040",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-041",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-042",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L3-043",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-044",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-045",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-046",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L3-047",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L2-048",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-049",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "nvdla-v1-L1-050",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "notes": [
+        "llm judge not available"
+      ]
+    }
+  ]
+}

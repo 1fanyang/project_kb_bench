@@ -1,0 +1,9 @@
+{
+  "bundle": "runs/nvdla_context_bundle",
+  "sources": 2085,
+  "entities": 25436,
+  "relations": 25442,
+  "fails": 0,
+  "warnings": 0,
+  "findings": []
+}
