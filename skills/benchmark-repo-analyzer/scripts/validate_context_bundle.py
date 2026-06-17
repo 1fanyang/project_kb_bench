@@ -61,6 +61,17 @@ RELATION_REQUIRED = {
     "confidence",
 }
 
+SIGNAL_REQUIRED = {
+    "signal_id",
+    "project",
+    "axis",
+    "attribute",
+    "anchor",
+    "evidence",
+    "extractor",
+    "confidence",
+}
+
 MODALITIES = {
     "code",
     "doc",
@@ -309,6 +320,47 @@ def validate_relations(
     return by_id
 
 
+def validate_signals(
+    rows: list[dict[str, Any]],
+    path: Path,
+    project_id: str | None,
+    sources: dict[str, dict[str, Any]],
+    entities: dict[str, dict[str, Any]],
+    findings: list[Finding],
+) -> dict[str, int]:
+    by_id: set[str] = set()
+    by_attribute: dict[str, int] = {}
+    for row in rows:
+        line = row.get("_line")
+        signal_id = str(row.get("signal_id", "<missing>"))
+        missing = sorted(SIGNAL_REQUIRED - set(row))
+        if missing:
+            add(findings, "FAIL", str(path), line, signal_id, f"signal missing fields: {', '.join(missing)}")
+        if signal_id in by_id:
+            add(findings, "FAIL", str(path), line, signal_id, "duplicate signal_id")
+        elif signal_id != "<missing>":
+            by_id.add(signal_id)
+        if project_id and row.get("project") != project_id:
+            add(findings, "FAIL", str(path), line, signal_id, "`project` does not match manifest project.id")
+        if row.get("axis") not in {2, 3}:
+            add(findings, "FAIL", str(path), line, signal_id, "`axis` must be 2 or 3")
+        if not is_number_0_to_1(row.get("confidence")):
+            add(findings, "FAIL", str(path), line, signal_id, "`confidence` must be a number from 0 to 1")
+        anchor = row.get("anchor")
+        if not isinstance(anchor, dict):
+            add(findings, "FAIL", str(path), line, signal_id, "`anchor` must be an object")
+            continue
+        source_id = anchor.get("source_id")
+        entity_id = anchor.get("entity_id")
+        if source_id and source_id not in sources:
+            add(findings, "FAIL", str(path), line, signal_id, "anchor.source_id not present in source inventory")
+        if entity_id and entity_id not in entities:
+            add(findings, "FAIL", str(path), line, signal_id, "anchor.entity_id not present in entity index")
+        attribute = str(row.get("attribute", "<missing>"))
+        by_attribute[attribute] = by_attribute.get(attribute, 0) + 1
+    return by_attribute
+
+
 def main() -> int:
     args = parse_args()
     bundle = args.bundle
@@ -328,6 +380,9 @@ def main() -> int:
 
     manifest = load_json(manifest_path, findings) if manifest_path.exists() else None
     source_set_ids = validate_manifest(manifest_path, manifest, findings)
+    project_id = None
+    if isinstance(manifest, dict) and isinstance(manifest.get("project"), dict):
+        project_id = manifest["project"].get("id")
     source_rows = load_jsonl(source_path, findings) if source_path.exists() else []
     entity_rows = load_jsonl(entity_path, findings) if entity_path.exists() else []
     relation_rows = load_jsonl(relation_path, findings) if relation_path.exists() else []
@@ -335,6 +390,13 @@ def main() -> int:
     sources = validate_sources(source_rows, source_path, args.repo_root, source_set_ids, findings)
     entities = validate_entities(entity_rows, entity_path, sources, findings)
     relations = validate_relations(relation_rows, relation_path, sources, entities, findings)
+    signal_path = bundle / "signal_index.jsonl"
+    signal_rows = load_jsonl(signal_path, findings) if signal_path.exists() else []
+    signal_counts = (
+        validate_signals(signal_rows, signal_path, project_id, sources, entities, findings)
+        if signal_path.exists()
+        else {}
+    )
 
     if report_path.exists() and len(report_path.read_text(encoding="utf-8", errors="replace").strip()) < 80:
         add(findings, "WARN", str(report_path), None, None, "analyzer_report.md is very short")
@@ -346,6 +408,8 @@ def main() -> int:
         "sources": len(sources),
         "entities": len(entities),
         "relations": len(relations),
+        "signals": len(signal_rows),
+        "signal_counts": dict(sorted(signal_counts.items())),
         "fails": fail_count,
         "warnings": warn_count,
         "findings": [asdict(finding) for finding in findings],
@@ -353,6 +417,8 @@ def main() -> int:
 
     print(f"Bundle: {bundle}")
     print(f"Sources: {len(sources)}  Entities: {len(entities)}  Relations: {len(relations)}")
+    if signal_path.exists():
+        print(f"Signals: {len(signal_rows)}  Attributes: {dict(sorted(signal_counts.items()))}")
     print(f"FAIL: {fail_count}  WARN: {warn_count}")
     for finding in findings[:100]:
         loc = f"{finding.file}:{finding.line}" if finding.line else finding.file
