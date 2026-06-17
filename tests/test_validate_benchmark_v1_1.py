@@ -132,6 +132,11 @@ class ValidateBenchmarkV11Test(unittest.TestCase):
         row = answerable_row()
         row["case_id"] = "case-missing"
         row["answerability"] = "unanswerable_missing_evidence"
+        row["difficulty"] = {
+            "axis1_layer": "L1",
+            "axis2_retrieval": ["negative_evidence"],
+            "axis3_reasoning": ["snapshot_gap"],
+        }
         row["references"] = []
         row["evidence"] = []
         row["expected_answer"] = "无法从当前快照确认这个行为；列出的源码中没有支持该说法的证据。"
@@ -183,6 +188,128 @@ class ValidateBenchmarkV11Test(unittest.TestCase):
 
                 self.assertIn("`references` must be a non-empty list for answerable rows", messages)
                 self.assertIn("`evidence` must be a non-empty list for answerable rows", messages)
+
+    def test_v1_1_rejects_l2_single_source_evidence(self):
+        validator = load_module()
+        row = answerable_row()
+        row["answerability"] = "answerable"
+        row["layer"] = {"code": "L2", "zh": "跨源核对"}
+        row["difficulty"] = {
+            "axis1_layer": "L2",
+            "axis2_retrieval": ["long_tail"],
+            "axis3_reasoning": ["conditional_behavior"],
+            "claim_sources": {"long_tail": ["sig:demo:a"], "conditional_behavior": ["sig:demo:b"]},
+        }
+
+        findings = []
+        records = validator.validate_benchmark_rows(
+            [row],
+            findings,
+            ROOT,
+            {},
+            schema_version="v1.1",
+        )
+
+        self.assertFalse(records[0]["pass"])
+        self.assertIn("L2_SINGLE_SOURCE", records[0]["reason_codes"])
+
+    def test_v1_1_accepts_l3_with_cross_source_chain(self):
+        validator = load_module()
+        row = answerable_row()
+        row["answerability"] = "answerable"
+        row["layer"] = {"code": "L3", "zh": "多跳机制"}
+        row["difficulty"] = {
+            "axis1_layer": "L3",
+            "axis2_retrieval": ["long_tail"],
+            "axis3_reasoning": ["conditional_behavior"],
+            "claim_sources": {"long_tail": ["sig:demo:a"], "conditional_behavior": ["sig:demo:b"]},
+        }
+        row["references"].append({"source_id": "src:b", "path": "repo/b.c"})
+        row["evidence"].append(
+            {
+                "evidence_id": "E2",
+                "source_id": "src:b",
+                "path": "repo/b.c",
+                "lines": "20-21",
+                "role": "state",
+                "statement": "The state update happens after the guard.",
+            }
+        )
+        row["answer_rubric"]["required_atoms"] = [
+            {
+                "id": "A1",
+                "role": "evidence_fact",
+                "statement": "The guard blocks launch when count is zero.",
+                "match_type": "semantic_fact",
+                "evidence_ids": ["E1"],
+                "weight": 1.0,
+            },
+            {
+                "id": "A2",
+                "role": "conclusion",
+                "statement": "The later state update therefore does not happen on that path.",
+                "match_type": "semantic_reasoning",
+                "evidence_ids": ["E2"],
+                "depends_on": ["A1"],
+                "weight": 1.0,
+            },
+        ]
+
+        findings = []
+        records = validator.validate_benchmark_rows(
+            [row],
+            findings,
+            ROOT,
+            {},
+            schema_version="v1.1",
+        )
+
+        self.assertTrue(records[0]["pass"], records)
+
+    def test_structural_gate_json_is_written_by_cli(self):
+        import json
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmpdir = Path(tmp)
+            benchmark = tmpdir / "benchmark.jsonl"
+            gate = tmpdir / "structural.json"
+            row = answerable_row()
+            row.pop("_file", None)
+            row.pop("_line", None)
+            row["answerability"] = "answerable"
+            row["difficulty"] = {
+                "axis1_layer": "L1",
+                "axis2_retrieval": ["long_tail"],
+                "axis3_reasoning": ["conditional_behavior"],
+                "claim_sources": {"long_tail": ["sig:demo:a"], "conditional_behavior": ["sig:demo:b"]},
+            }
+            benchmark.write_text(json.dumps(row, ensure_ascii=False) + "\n", encoding="utf-8")
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "lint",
+                    str(benchmark),
+                    "--schema-version",
+                    "v1.1",
+                    "--repo-root",
+                    str(ROOT),
+                    "--structural-gate-json",
+                    str(gate),
+                ],
+                cwd=ROOT,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            records = json.loads(gate.read_text(encoding="utf-8"))
+            self.assertEqual(records[0]["case_id"], "case-answerable")
+            self.assertTrue(records[0]["pass"])
 
 
 if __name__ == "__main__":

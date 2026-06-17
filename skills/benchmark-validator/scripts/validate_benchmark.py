@@ -45,6 +45,18 @@ ANSWERABILITY_VALUES = {
     "unanswerable_false_premise",
     "unanswerable_ambiguous",
 }
+CONDITIONAL_EVIDENCE_ROLES = {"trigger_condition", "branch", "guard", "predicate", "state"}
+STRUCTURAL_REASON_MESSAGES = {
+    "MISSING_DIFFICULTY": "`difficulty` is required in v1.1 mode",
+    "DIFFICULTY_LAYER_MISMATCH": "`difficulty.axis1_layer` must match `layer.code`",
+    "INSUFFICIENT_DIFFICULTY_SIGNALS": "v1.1 rows need at least two difficulty signals across axes",
+    "L2_SINGLE_SOURCE": "L2 rows need evidence from at least two source_id values",
+    "L3_SINGLE_SOURCE": "L3 rows need evidence from at least two source_id values",
+    "L3_NO_ATOM_CHAIN": "L3 rows need at least one required atom with depends_on",
+    "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE": "`conditional_behavior` needs guard/branch/predicate/state evidence",
+    "FORBIDDEN_ATOMS_REQUIRED": "yes_no, fact_check, and false_premise rows need forbidden_atoms",
+    "FILE_ANCHOR_LEAK": "query names an evidence file without file_anchor_required tag",
+}
 ZERO_EVIDENCE_ANSWERABILITY = {
     "unanswerable_missing_evidence",
 }
@@ -154,6 +166,7 @@ def parse_args() -> argparse.Namespace:
     lint.add_argument("--sample-size", type=int, default=5, help="Number of cases to include in evidence sample report")
     lint.add_argument("--markdown-report", type=Path, help="Write Markdown report")
     lint.add_argument("--json-report", type=Path, help="Write JSON report")
+    lint.add_argument("--structural-gate-json", type=Path, help="Write v1.1 structural gate records to JSON")
     lint.add_argument("--fail-on-warn", action="store_true", help="Exit non-zero when WARN findings exist")
     lint.add_argument(
         "--schema-version",
@@ -264,6 +277,72 @@ def label_code(value: Any) -> str:
     if isinstance(value, dict):
         return str(value.get("code", "<missing>"))
     return str(value)
+
+
+def row_tags(row: dict[str, Any]) -> set[str]:
+    tags = row.get("tags", [])
+    return {str(item) for item in tags if isinstance(item, str)} if isinstance(tags, list) else set()
+
+
+def difficulty_attributes(row: dict[str, Any]) -> list[str]:
+    difficulty = row.get("difficulty")
+    if not isinstance(difficulty, dict):
+        return []
+    attrs: list[str] = []
+    for key in ("axis2_retrieval", "axis3_reasoning"):
+        values = difficulty.get(key, [])
+        if isinstance(values, list):
+            attrs.extend(str(value) for value in values if isinstance(value, str))
+    return attrs
+
+
+def evidence_source_ids(row: dict[str, Any]) -> set[str]:
+    evidence = row.get("evidence", [])
+    if not isinstance(evidence, list):
+        return set()
+    return {
+        str(item.get("source_id"))
+        for item in evidence
+        if isinstance(item, dict) and is_nonempty_string(item.get("source_id"))
+    }
+
+
+def has_atom_dependency(row: dict[str, Any]) -> bool:
+    rubric = row.get("answer_rubric", {})
+    atoms = rubric.get("required_atoms", []) if isinstance(rubric, dict) else []
+    if not isinstance(atoms, list):
+        return False
+    for atom in atoms:
+        if isinstance(atom, dict) and isinstance(atom.get("depends_on"), list) and atom["depends_on"]:
+            return True
+    return False
+
+
+def has_conditional_evidence_role(row: dict[str, Any]) -> bool:
+    evidence = row.get("evidence", [])
+    if not isinstance(evidence, list):
+        return False
+    return any(
+        isinstance(item, dict) and item.get("role") in CONDITIONAL_EVIDENCE_ROLES
+        for item in evidence
+    )
+
+
+def query_mentions_evidence_file(row: dict[str, Any]) -> bool:
+    query = str(row.get("query", ""))
+    evidence = row.get("evidence", [])
+    if not isinstance(evidence, list):
+        return False
+    for item in evidence:
+        if not isinstance(item, dict):
+            continue
+        path = str(item.get("path", ""))
+        if path and path in query:
+            return True
+        filename = Path(path).name
+        if filename and "." in filename and filename in query:
+            return True
+    return False
 
 
 def citation_required(row: dict[str, Any]) -> tuple[bool, list[str], str]:
@@ -530,6 +609,60 @@ def validate_rubric(row: dict[str, Any], findings: list[Finding], evidence_ids: 
             add(findings, "FAIL", row["_file"], row["_line"], case_id, f"citation_policy references unknown evidence_id: {evidence_id}")
 
 
+def structural_gate_record(row: dict[str, Any]) -> dict[str, Any]:
+    case_id = str(row.get("case_id", "<missing>"))
+    layer = label_code(row.get("layer"))
+    answer_type = label_code(row.get("answer_type"))
+    answerability = str(row.get("answerability", "answerable"))
+    difficulty = row.get("difficulty")
+    reason_codes: list[str] = []
+
+    if not isinstance(difficulty, dict):
+        reason_codes.append("MISSING_DIFFICULTY")
+        attrs: list[str] = []
+    else:
+        attrs = difficulty_attributes(row)
+        if difficulty.get("axis1_layer") != layer:
+            reason_codes.append("DIFFICULTY_LAYER_MISMATCH")
+
+    if len(set(attrs + ([layer] if layer == "L3" else []))) < 2:
+        reason_codes.append("INSUFFICIENT_DIFFICULTY_SIGNALS")
+
+    source_ids = evidence_source_ids(row)
+    if layer == "L2" and len(source_ids) < 2:
+        reason_codes.append("L2_SINGLE_SOURCE")
+    if layer == "L3":
+        if len(source_ids) < 2:
+            reason_codes.append("L3_SINGLE_SOURCE")
+        if not has_atom_dependency(row):
+            reason_codes.append("L3_NO_ATOM_CHAIN")
+
+    if "conditional_behavior" in attrs and not has_conditional_evidence_role(row):
+        reason_codes.append("CONDITIONAL_BEHAVIOR_WITHOUT_ROLE")
+
+    rubric = row.get("answer_rubric", {})
+    forbidden_atoms = rubric.get("forbidden_atoms", []) if isinstance(rubric, dict) else []
+    if (
+        answer_type in {"yes_no", "fact_check"}
+        or answerability == "unanswerable_false_premise"
+        or "false_premise" in attrs
+    ) and not forbidden_atoms:
+        reason_codes.append("FORBIDDEN_ATOMS_REQUIRED")
+
+    if "file_anchor_required" not in row_tags(row) and query_mentions_evidence_file(row):
+        reason_codes.append("FILE_ANCHOR_LEAK")
+
+    return {
+        "case_id": case_id,
+        "pass": not reason_codes,
+        "reason_codes": reason_codes,
+        "reasons": [STRUCTURAL_REASON_MESSAGES[code] for code in reason_codes],
+        "layer": layer,
+        "answerability": answerability,
+        "attributes": attrs,
+    }
+
+
 def validate_benchmark_rows(
     rows: list[dict[str, Any]],
     findings: list[Finding],
@@ -578,6 +711,11 @@ def validate_benchmark_rows(
         )
         validate_expected_answer(row, findings)
         validate_rubric(row, findings, evidence_ids)
+        if schema_version == "v1.1":
+            record = structural_gate_record(row)
+            structural_records.append(record)
+            for code in record["reason_codes"]:
+                add(findings, "FAIL", row["_file"], row["_line"], case_id, STRUCTURAL_REASON_MESSAGES[code])
     return structural_records
 
 
@@ -950,6 +1088,12 @@ def run_lint(args: argparse.Namespace) -> int:
     if args.json_report:
         args.json_report.parent.mkdir(parents=True, exist_ok=True)
         args.json_report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if args.structural_gate_json:
+        args.structural_gate_json.parent.mkdir(parents=True, exist_ok=True)
+        args.structural_gate_json.write_text(
+            json.dumps(structural_records, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
     if fail_count:
         return 1
     if args.fail_on_warn and warn_count:
