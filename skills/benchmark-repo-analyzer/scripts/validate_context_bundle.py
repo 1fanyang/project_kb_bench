@@ -152,7 +152,7 @@ def load_jsonl(path: Path, findings: list[Finding]) -> list[dict[str, Any]]:
 
 
 def is_number_0_to_1(value: Any) -> bool:
-    return isinstance(value, (int, float)) and 0 <= float(value) <= 1
+    return not isinstance(value, bool) and isinstance(value, (int, float)) and 0 <= float(value) <= 1
 
 
 def resolve_path(path_value: str, repo_root: Path) -> Path:

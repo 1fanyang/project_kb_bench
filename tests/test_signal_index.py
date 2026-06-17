@@ -92,6 +92,17 @@ class SignalIndexTest(unittest.TestCase):
             },
             {
                 "_line": 3,
+                "signal_id": "sig:bool-confidence",
+                "project": "demo",
+                "axis": 2,
+                "attribute": "long_tail",
+                "anchor": {"kind": "entity", "entity_id": "ent:a", "source_id": "src:a"},
+                "evidence": {"reference_count": 1},
+                "extractor": "test",
+                "confidence": True,
+            },
+            {
+                "_line": 4,
                 "signal_id": "sig:duplicate",
                 "project": "demo",
                 "axis": 2,
@@ -102,7 +113,7 @@ class SignalIndexTest(unittest.TestCase):
                 "confidence": 0.9,
             },
             {
-                "_line": 4,
+                "_line": 5,
                 "signal_id": "sig:duplicate",
                 "project": "demo",
                 "axis": 2,
@@ -131,6 +142,7 @@ class SignalIndexTest(unittest.TestCase):
         self.assertIn("`extractor` must be a non-empty string", fail_messages)
         self.assertEqual(fail_messages.count("`axis` must be integer 2 or 3"), 2)
         self.assertIn("`evidence` must be an object", fail_messages)
+        self.assertIn("`confidence` must be a number from 0 to 1", fail_messages)
         self.assertIn("anchor.source_id must be a string", fail_messages)
         self.assertIn("anchor.entity_id must be a string", fail_messages)
         self.assertIn("duplicate signal_id", fail_messages)
