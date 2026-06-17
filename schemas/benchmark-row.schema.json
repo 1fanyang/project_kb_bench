@@ -161,10 +161,12 @@
   "allOf": [
     {
       "if": {
-        "anyOf": [
-          {"not": {"required": ["answerability"]}},
-          {"properties": {"answerability": {"const": "answerable"}}}
-        ]
+        "not": {
+          "required": ["answerability"],
+          "properties": {
+            "answerability": {"const": "unanswerable_missing_evidence"}
+          }
+        }
       },
       "then": {
         "properties": {

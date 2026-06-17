@@ -47,7 +47,6 @@ ANSWERABILITY_VALUES = {
 }
 ZERO_EVIDENCE_ANSWERABILITY = {
     "unanswerable_missing_evidence",
-    "unanswerable_false_premise",
 }
 
 ATOM_ROLES = {

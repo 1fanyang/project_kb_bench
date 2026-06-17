@@ -167,6 +167,23 @@ class ValidateBenchmarkV11Test(unittest.TestCase):
 
         self.assertIn("`evidence` must be a non-empty list for answerable rows", messages)
 
+    def test_v1_1_rejects_non_missing_evidence_unanswerable_rows_with_empty_anchors(self):
+        validator = load_module()
+        for answerability in ("unanswerable_false_premise", "unanswerable_ambiguous"):
+            with self.subTest(answerability=answerability):
+                row = answerable_row()
+                row["case_id"] = f"case-{answerability}"
+                row["answerability"] = answerability
+                row["references"] = []
+                row["evidence"] = []
+                row["answer_rubric"]["required_atoms"][0]["evidence_ids"] = []
+                row["answer_rubric"]["citation_policy"] = {"required": "never"}
+
+                messages = lint_fail_messages(validator, row, schema_version="v1.1")
+
+                self.assertIn("`references` must be a non-empty list for answerable rows", messages)
+                self.assertIn("`evidence` must be a non-empty list for answerable rows", messages)
+
 
 if __name__ == "__main__":
     unittest.main()
