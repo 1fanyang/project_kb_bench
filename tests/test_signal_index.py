@@ -20,6 +20,13 @@ def load_validator():
     return module
 
 
+def write_jsonl(path, rows):
+    path.write_text(
+        "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows),
+        encoding="utf-8",
+    )
+
+
 class SignalIndexTest(unittest.TestCase):
     def test_signal_index_schema_file_exists_and_names_required_fields(self):
         schema_path = ROOT / "schemas" / "signal-index.schema.json"
@@ -120,6 +127,142 @@ class SignalIndexTest(unittest.TestCase):
             signals = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
             self.assertTrue(any(item["attribute"] == "long_tail" for item in signals))
             self.assertTrue(any(item["attribute"] == "non_code_anchor" for item in signals))
+
+    def test_signal_builder_default_long_tail_threshold_is_three(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            bundle = Path(tmp) / "bundle"
+            bundle.mkdir()
+            write_jsonl(
+                bundle / "source_inventory.jsonl",
+                [
+                    {
+                        "source_id": "src:code",
+                        "project": "demo",
+                        "source_set_id": "main",
+                        "repo_name": "demo",
+                        "path": "main.py",
+                        "relative_path": "main.py",
+                        "modality": "code",
+                        "source_type": "code.python",
+                        "authority": "primary_source",
+                        "language": "python",
+                        "line_count": 10,
+                        "size_bytes": 10,
+                        "sha256": "sha256:1",
+                        "parse_status": "parsed",
+                    }
+                ],
+            )
+            write_jsonl(
+                bundle / "entity_index.jsonl",
+                [
+                    {
+                        "entity_id": "ent:target",
+                        "project": "demo",
+                        "source_id": "src:code",
+                        "name": "target",
+                        "kind": "function",
+                        "path": "main.py",
+                        "line_start": 1,
+                        "line_end": 2,
+                        "extractor": "test",
+                        "confidence": 0.9,
+                    }
+                ],
+            )
+            write_jsonl(
+                bundle / "relation_graph.jsonl",
+                [
+                    {
+                        "relation_id": f"rel:{index}",
+                        "project": "demo",
+                        "subject": {"type": "source", "id": "src:code", "name": "main.py"},
+                        "predicate": "contains",
+                        "object": {"type": "entity", "id": "ent:target", "name": "target"},
+                        "evidence": [{"source_id": "src:code", "path": "main.py", "lines": str(index)}],
+                        "extractor": "test",
+                        "confidence": 0.8,
+                    }
+                    for index in (1, 2)
+                ],
+            )
+            output = bundle / "signal_index.jsonl"
+
+            result = subprocess.run(
+                [sys.executable, str(BUILDER), str(bundle), "--output", str(output)],
+                cwd=ROOT,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            signals = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
+            long_tail = [item for item in signals if item["attribute"] == "long_tail"]
+            self.assertEqual(len(long_tail), 1)
+            self.assertEqual(long_tail[0]["evidence"]["threshold"], 3)
+            self.assertEqual(long_tail[0]["evidence"]["reference_count"], 2)
+
+    def test_signal_builder_emits_distracting_info_on_axis_two(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            bundle = Path(tmp) / "bundle"
+            bundle.mkdir()
+            sources = []
+            entities = []
+            for index in (1, 2):
+                source_id = f"src:code:{index}"
+                sources.append(
+                    {
+                        "source_id": source_id,
+                        "project": "demo",
+                        "source_set_id": "main",
+                        "repo_name": "demo",
+                        "path": f"file{index}.py",
+                        "relative_path": f"file{index}.py",
+                        "modality": "code",
+                        "source_type": "code.python",
+                        "authority": "primary_source",
+                        "language": "python",
+                        "line_count": 10,
+                        "size_bytes": 10,
+                        "sha256": f"sha256:{index}",
+                        "parse_status": "parsed",
+                    }
+                )
+                entities.append(
+                    {
+                        "entity_id": f"ent:duplicate:{index}",
+                        "project": "demo",
+                        "source_id": source_id,
+                        "name": "duplicate",
+                        "kind": "function",
+                        "path": f"file{index}.py",
+                        "line_start": 1,
+                        "line_end": 2,
+                        "extractor": "test",
+                        "confidence": 0.9,
+                    }
+                )
+            write_jsonl(bundle / "source_inventory.jsonl", sources)
+            write_jsonl(bundle / "entity_index.jsonl", entities)
+            write_jsonl(bundle / "relation_graph.jsonl", [])
+            output = bundle / "signal_index.jsonl"
+
+            result = subprocess.run(
+                [sys.executable, str(BUILDER), str(bundle), "--output", str(output)],
+                cwd=ROOT,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            signals = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
+            distracting = [item for item in signals if item["attribute"] == "distracting_info"]
+            self.assertEqual(len(distracting), 2)
+            self.assertEqual({item["axis"] for item in distracting}, {2})
 
 
 if __name__ == "__main__":

@@ -24,7 +24,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--long-tail-threshold",
         type=int,
-        default=1,
+        default=3,
         help="Maximum relation endpoint count for long_tail entity signals",
     )
     return parser.parse_args()
@@ -202,7 +202,7 @@ def build_distracting_info_signals(project: str, entities: list[dict[str, Any]])
                 "collision_sources": source_ids[:20],
                 "total_entities_with_name": len(group),
             }
-            signals.append(make_signal(project, "distracting_info", 3, anchor, evidence, 0.66))
+            signals.append(make_signal(project, "distracting_info", 2, anchor, evidence, 0.66))
     return signals
 
 
