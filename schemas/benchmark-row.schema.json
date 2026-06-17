@@ -23,18 +23,47 @@
     "query": {"type": "string", "minLength": 1},
     "query_rewrite": {"type": "string", "minLength": 1},
     "answer_type": {"$ref": "#/$defs/label"},
+    "answerability": {
+      "type": "string",
+      "enum": [
+        "answerable",
+        "unanswerable_missing_evidence",
+        "unanswerable_false_premise",
+        "unanswerable_ambiguous"
+      ]
+    },
     "references": {
       "type": "array",
-      "minItems": 1,
       "items": {"$ref": "#/$defs/reference"}
     },
     "evidence": {
       "type": "array",
-      "minItems": 1,
       "items": {"$ref": "#/$defs/evidence"}
     },
     "expected_answer": {"type": "string", "minLength": 1},
     "answer_rubric": {"$ref": "#/$defs/rubric"},
+    "difficulty": {
+      "type": "object",
+      "properties": {
+        "axis1_layer": {"type": "string", "enum": ["L1", "L2", "L3"]},
+        "axis2_retrieval": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "axis3_reasoning": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "claim_sources": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        }
+      },
+      "additionalProperties": true
+    },
     "tags": {"type": "array", "items": {"type": "string"}}
   },
   "$defs": {
@@ -129,5 +158,30 @@
       "additionalProperties": true
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "anyOf": [
+          {"not": {"required": ["answerability"]}},
+          {"properties": {"answerability": {"const": "answerable"}}}
+        ]
+      },
+      "then": {
+        "properties": {
+          "references": {"minItems": 1},
+          "evidence": {"minItems": 1}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"answerability": {"const": "unanswerable_missing_evidence"}}},
+      "then": {
+        "properties": {
+          "references": {"minItems": 0},
+          "evidence": {"minItems": 0}
+        }
+      }
+    }
+  ],
   "additionalProperties": true
 }

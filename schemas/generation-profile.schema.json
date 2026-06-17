@@ -63,6 +63,30 @@
         },
         "additionalProperties": true
       }
+    },
+    "attribute_quotas": {
+      "type": "object",
+      "properties": {
+        "rule": {"type": "string"},
+        "per_attribute_minimum": {
+          "type": "object",
+          "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+        }
+      },
+      "additionalProperties": true
+    },
+    "answerability_mix": {
+      "type": "object",
+      "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+    },
+    "adversarial_gate": {
+      "type": "object",
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "judge": {"type": "object", "additionalProperties": true},
+        "baselines": {"type": "object", "additionalProperties": true}
+      },
+      "additionalProperties": true
     }
   },
   "additionalProperties": true

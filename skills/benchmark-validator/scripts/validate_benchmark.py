@@ -38,6 +38,18 @@ ANSWER_TYPES = {
     "synthesis": "综合归纳",
 }
 
+SCHEMA_VERSIONS = {"v1", "v1.1"}
+ANSWERABILITY_VALUES = {
+    "answerable",
+    "unanswerable_missing_evidence",
+    "unanswerable_false_premise",
+    "unanswerable_ambiguous",
+}
+ZERO_EVIDENCE_ANSWERABILITY = {
+    "unanswerable_missing_evidence",
+    "unanswerable_false_premise",
+}
+
 ATOM_ROLES = {
     "conclusion",
     "evidence_fact",
@@ -144,6 +156,12 @@ def parse_args() -> argparse.Namespace:
     lint.add_argument("--markdown-report", type=Path, help="Write Markdown report")
     lint.add_argument("--json-report", type=Path, help="Write JSON report")
     lint.add_argument("--fail-on-warn", action="store_true", help="Exit non-zero when WARN findings exist")
+    lint.add_argument(
+        "--schema-version",
+        choices=sorted(SCHEMA_VERSIONS),
+        default="v1",
+        help="Validation rules to enforce. v1 keeps legacy compatibility; v1.1 enables answerability and structural rules.",
+    )
 
     evaluate = subparsers.add_parser("evaluate", help="Evaluate run results against a benchmark")
     evaluate.add_argument("benchmark", type=Path, help="Benchmark JSONL file")
@@ -155,6 +173,12 @@ def parse_args() -> argparse.Namespace:
     evaluate.add_argument("--sample-size", type=int, default=5, help="Number of cases to include in sample report")
     evaluate.add_argument("--markdown-report", type=Path, help="Write Markdown report")
     evaluate.add_argument("--json-report", type=Path, help="Write JSON report")
+    evaluate.add_argument(
+        "--schema-version",
+        choices=sorted(SCHEMA_VERSIONS),
+        default="v1",
+        help="Validation rules to enforce before scoring run results.",
+    )
     return parser.parse_args()
 
 
@@ -350,13 +374,21 @@ def validate_references_and_evidence(
     findings: list[Finding],
     repo_root: Path,
     sources: dict[str, dict[str, Any]],
+    schema_version: str = "v1",
 ) -> set[str]:
     case_id = str(row.get("case_id", "<missing>"))
+    answerability = str(row.get("answerability", "answerable"))
+    zero_evidence_allowed = (
+        schema_version == "v1.1"
+        and answerability in ZERO_EVIDENCE_ANSWERABILITY
+    )
     references = row.get("references")
     reference_paths: set[str] = set()
     reference_source_ids: set[str] = set()
-    if not isinstance(references, list) or not references:
-        add(findings, "FAIL", row["_file"], row["_line"], case_id, "`references` must be a non-empty list")
+    if not isinstance(references, list):
+        add(findings, "FAIL", row["_file"], row["_line"], case_id, "`references` must be a list")
+    elif not references and not zero_evidence_allowed:
+        add(findings, "FAIL", row["_file"], row["_line"], case_id, "`references` must be a non-empty list for answerable rows")
     else:
         for index, ref in enumerate(references):
             if not isinstance(ref, dict):
@@ -380,8 +412,11 @@ def validate_references_and_evidence(
 
     evidence = row.get("evidence")
     evidence_ids: set[str] = set()
-    if not isinstance(evidence, list) or not evidence:
-        add(findings, "FAIL", row["_file"], row["_line"], case_id, "`evidence` must be a non-empty list")
+    if not isinstance(evidence, list):
+        add(findings, "FAIL", row["_file"], row["_line"], case_id, "`evidence` must be a list")
+        return evidence_ids
+    if not evidence and not zero_evidence_allowed:
+        add(findings, "FAIL", row["_file"], row["_line"], case_id, "`evidence` must be a non-empty list for answerable rows")
         return evidence_ids
     for index, item in enumerate(evidence):
         if not isinstance(item, dict):
@@ -496,8 +531,15 @@ def validate_rubric(row: dict[str, Any], findings: list[Finding], evidence_ids: 
             add(findings, "FAIL", row["_file"], row["_line"], case_id, f"citation_policy references unknown evidence_id: {evidence_id}")
 
 
-def validate_benchmark_rows(rows: list[dict[str, Any]], findings: list[Finding], repo_root: Path, sources: dict[str, dict[str, Any]]) -> None:
+def validate_benchmark_rows(
+    rows: list[dict[str, Any]],
+    findings: list[Finding],
+    repo_root: Path,
+    sources: dict[str, dict[str, Any]],
+    schema_version: str = "v1",
+) -> list[dict[str, Any]]:
     seen_case_ids: set[str] = set()
+    structural_records: list[dict[str, Any]] = []
     for row in rows:
         case_id = str(row.get("case_id", "<missing>"))
         missing = sorted(REQUIRED_ROW_FIELDS - set(row))
@@ -523,10 +565,21 @@ def validate_benchmark_rows(rows: list[dict[str, Any]], findings: list[Finding],
                 add(findings, "WARN", row["_file"], row["_line"], case_id, f"non-standard answer_type.code: {code}")
             elif zh != ANSWER_TYPES[code]:
                 add(findings, "WARN", row["_file"], row["_line"], case_id, f"answer_type.zh should be {ANSWER_TYPES[code]!r}")
+        if schema_version == "v1.1":
+            answerability = row.get("answerability")
+            if answerability not in ANSWERABILITY_VALUES:
+                add(findings, "FAIL", row["_file"], row["_line"], case_id, "`answerability` is required in v1.1 mode")
         validate_query_rewrite(row, findings)
-        evidence_ids = validate_references_and_evidence(row, findings, repo_root, sources)
+        evidence_ids = validate_references_and_evidence(
+            row,
+            findings,
+            repo_root,
+            sources,
+            schema_version=schema_version,
+        )
         validate_expected_answer(row, findings)
         validate_rubric(row, findings, evidence_ids)
+    return structural_records
 
 
 def selected_samples(rows: list[dict[str, Any]], findings: list[Finding], sample_size: int) -> list[dict[str, Any]]:
@@ -867,7 +920,13 @@ def run_lint(args: argparse.Namespace) -> int:
     for path in args.benchmark:
         rows.extend(load_jsonl(path, findings))
     sources = load_source_inventory(args.context_bundle, findings)
-    validate_benchmark_rows(rows, findings, args.repo_root, sources)
+    structural_records = validate_benchmark_rows(
+        rows,
+        findings,
+        args.repo_root,
+        sources,
+        schema_version=args.schema_version,
+    )
     fail_count = sum(1 for finding in findings if finding.severity == "FAIL")
     warn_count = sum(1 for finding in findings if finding.severity == "WARN")
     samples = selected_samples(rows, findings, args.sample_size)
@@ -903,7 +962,13 @@ def run_evaluate(args: argparse.Namespace) -> int:
     findings: list[Finding] = []
     benchmark_rows = load_jsonl(args.benchmark, findings)
     sources = load_source_inventory(args.context_bundle, findings)
-    validate_benchmark_rows(benchmark_rows, findings, args.repo_root, sources)
+    structural_records = validate_benchmark_rows(
+        benchmark_rows,
+        findings,
+        args.repo_root,
+        sources,
+        schema_version=args.schema_version,
+    )
     benchmark_by_id = {str(row.get("case_id")): row for row in benchmark_rows if is_nonempty_string(row.get("case_id"))}
     run_by_id: dict[str, dict[str, Any]] = {}
     for row in load_jsonl(args.run_results, findings):
