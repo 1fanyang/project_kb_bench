@@ -65,6 +65,76 @@ class SignalIndexTest(unittest.TestCase):
 
         self.assertEqual([f.message for f in findings if f.severity == "FAIL"], [])
 
+    def test_context_validator_rejects_schema_invalid_signal_rows_without_crashing(self):
+        validator = load_validator()
+        rows = [
+            {
+                "_line": 1,
+                "signal_id": "",
+                "project": "",
+                "axis": 2.0,
+                "attribute": "",
+                "anchor": {"kind": "entity", "entity_id": ["ent:a"], "source_id": ["src:a"]},
+                "evidence": [],
+                "extractor": "",
+                "confidence": 0.9,
+            },
+            {
+                "_line": 2,
+                "signal_id": "sig:bool-axis",
+                "project": "demo",
+                "axis": True,
+                "attribute": "long_tail",
+                "anchor": {"kind": "entity", "entity_id": "ent:a", "source_id": "src:a"},
+                "evidence": {"reference_count": 1},
+                "extractor": "test",
+                "confidence": 0.9,
+            },
+            {
+                "_line": 3,
+                "signal_id": "sig:duplicate",
+                "project": "demo",
+                "axis": 2,
+                "attribute": "long_tail",
+                "anchor": {"kind": "entity", "entity_id": "ent:a", "source_id": "src:a"},
+                "evidence": {"reference_count": 1},
+                "extractor": "test",
+                "confidence": 0.9,
+            },
+            {
+                "_line": 4,
+                "signal_id": "sig:duplicate",
+                "project": "demo",
+                "axis": 2,
+                "attribute": "long_tail",
+                "anchor": {"kind": "entity", "entity_id": "ent:a", "source_id": "src:a"},
+                "evidence": {"reference_count": 1},
+                "extractor": "test",
+                "confidence": 0.9,
+            },
+        ]
+        findings = []
+
+        validator.validate_signals(
+            rows,
+            Path("signal_index.jsonl"),
+            project_id="demo",
+            sources={"src:a": {"source_id": "src:a"}},
+            entities={"ent:a": {"entity_id": "ent:a"}},
+            findings=findings,
+        )
+
+        fail_messages = [f.message for f in findings if f.severity == "FAIL"]
+        self.assertIn("`signal_id` must be a non-empty string", fail_messages)
+        self.assertIn("`project` must be a non-empty string", fail_messages)
+        self.assertIn("`attribute` must be a non-empty string", fail_messages)
+        self.assertIn("`extractor` must be a non-empty string", fail_messages)
+        self.assertEqual(fail_messages.count("`axis` must be integer 2 or 3"), 2)
+        self.assertIn("`evidence` must be an object", fail_messages)
+        self.assertIn("anchor.source_id must be a string", fail_messages)
+        self.assertIn("anchor.entity_id must be a string", fail_messages)
+        self.assertIn("duplicate signal_id", fail_messages)
+
     def test_signal_builder_emits_long_tail_and_non_code_signals(self):
         with tempfile.TemporaryDirectory() as tmp:
             bundle = Path(tmp) / "bundle"
@@ -263,6 +333,87 @@ class SignalIndexTest(unittest.TestCase):
             distracting = [item for item in signals if item["attribute"] == "distracting_info"]
             self.assertEqual(len(distracting), 2)
             self.assertEqual({item["axis"] for item in distracting}, {2})
+
+    def test_signal_builder_emits_conditional_behavior_on_axis_three(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            bundle = Path(tmp) / "bundle"
+            bundle.mkdir()
+            write_jsonl(
+                bundle / "source_inventory.jsonl",
+                [
+                    {
+                        "source_id": "src:code",
+                        "project": "demo",
+                        "source_set_id": "main",
+                        "repo_name": "demo",
+                        "path": "main.py",
+                        "relative_path": "main.py",
+                        "modality": "code",
+                        "source_type": "code.python",
+                        "authority": "primary_source",
+                        "language": "python",
+                        "line_count": 10,
+                        "size_bytes": 10,
+                        "sha256": "sha256:1",
+                        "parse_status": "parsed",
+                    }
+                ],
+            )
+            write_jsonl(
+                bundle / "entity_index.jsonl",
+                [
+                    {
+                        "entity_id": "ent:target",
+                        "project": "demo",
+                        "source_id": "src:code",
+                        "name": "target",
+                        "kind": "function",
+                        "path": "main.py",
+                        "line_start": 1,
+                        "line_end": 2,
+                        "extractor": "test",
+                        "confidence": 0.9,
+                    }
+                ],
+            )
+            write_jsonl(
+                bundle / "relation_graph.jsonl",
+                [
+                    {
+                        "relation_id": "rel:condition",
+                        "project": "demo",
+                        "subject": {"type": "source", "id": "src:code", "name": "main.py"},
+                        "predicate": "checks_condition",
+                        "object": {"type": "entity", "id": "ent:target", "name": "target"},
+                        "evidence": [
+                            {
+                                "source_id": "src:code",
+                                "path": "main.py",
+                                "lines": "4",
+                                "summary": "main.py checks target condition",
+                            }
+                        ],
+                        "extractor": "test",
+                        "confidence": 0.8,
+                    }
+                ],
+            )
+            output = bundle / "signal_index.jsonl"
+
+            result = subprocess.run(
+                [sys.executable, str(BUILDER), str(bundle), "--output", str(output)],
+                cwd=ROOT,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            signals = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
+            conditional = [item for item in signals if item["attribute"] == "conditional_behavior"]
+            self.assertEqual(len(conditional), 1)
+            self.assertEqual(conditional[0]["axis"], 3)
 
 
 if __name__ == "__main__":

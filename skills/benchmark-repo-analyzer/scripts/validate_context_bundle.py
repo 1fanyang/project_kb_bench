@@ -332,30 +332,43 @@ def validate_signals(
     by_attribute: dict[str, int] = {}
     for row in rows:
         line = row.get("_line")
-        signal_id = str(row.get("signal_id", "<missing>"))
+        signal_id_value = row.get("signal_id")
+        signal_id = signal_id_value if isinstance(signal_id_value, str) and signal_id_value else "<missing>"
         missing = sorted(SIGNAL_REQUIRED - set(row))
         if missing:
             add(findings, "FAIL", str(path), line, signal_id, f"signal missing fields: {', '.join(missing)}")
-        if signal_id in by_id:
+        for field in ("signal_id", "project", "attribute", "extractor"):
+            if not isinstance(row.get(field), str) or not row.get(field):
+                add(findings, "FAIL", str(path), line, signal_id, f"`{field}` must be a non-empty string")
+        if signal_id != "<missing>" and signal_id in by_id:
             add(findings, "FAIL", str(path), line, signal_id, "duplicate signal_id")
         elif signal_id != "<missing>":
             by_id.add(signal_id)
         if project_id and row.get("project") != project_id:
             add(findings, "FAIL", str(path), line, signal_id, "`project` does not match manifest project.id")
-        if row.get("axis") not in {2, 3}:
-            add(findings, "FAIL", str(path), line, signal_id, "`axis` must be 2 or 3")
+        axis = row.get("axis")
+        if not isinstance(axis, int) or isinstance(axis, bool) or axis not in {2, 3}:
+            add(findings, "FAIL", str(path), line, signal_id, "`axis` must be integer 2 or 3")
         if not is_number_0_to_1(row.get("confidence")):
             add(findings, "FAIL", str(path), line, signal_id, "`confidence` must be a number from 0 to 1")
+        if not isinstance(row.get("evidence"), dict):
+            add(findings, "FAIL", str(path), line, signal_id, "`evidence` must be an object")
         anchor = row.get("anchor")
         if not isinstance(anchor, dict):
             add(findings, "FAIL", str(path), line, signal_id, "`anchor` must be an object")
             continue
         source_id = anchor.get("source_id")
         entity_id = anchor.get("entity_id")
-        if source_id and source_id not in sources:
-            add(findings, "FAIL", str(path), line, signal_id, "anchor.source_id not present in source inventory")
-        if entity_id and entity_id not in entities:
-            add(findings, "FAIL", str(path), line, signal_id, "anchor.entity_id not present in entity index")
+        if source_id not in (None, ""):
+            if not isinstance(source_id, str):
+                add(findings, "FAIL", str(path), line, signal_id, "anchor.source_id must be a string")
+            elif source_id not in sources:
+                add(findings, "FAIL", str(path), line, signal_id, "anchor.source_id not present in source inventory")
+        if entity_id not in (None, ""):
+            if not isinstance(entity_id, str):
+                add(findings, "FAIL", str(path), line, signal_id, "anchor.entity_id must be a string")
+            elif entity_id not in entities:
+                add(findings, "FAIL", str(path), line, signal_id, "anchor.entity_id not present in entity index")
         attribute = str(row.get("attribute", "<missing>"))
         by_attribute[attribute] = by_attribute.get(attribute, 0) + 1
     return by_attribute
