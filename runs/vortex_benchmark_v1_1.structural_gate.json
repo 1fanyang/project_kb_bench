@@ -8,23 +8,11 @@
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
       "long_tail",
-      "implicit_domain_knowledge"
+      "doc_code_divergence"
     ]
   },
   {
     "case_id": "vortex-v1_1-L1-002",
-    "pass": true,
-    "reason_codes": [],
-    "reasons": [],
-    "layer": "L1",
-    "answerability": "unanswerable_missing_evidence",
-    "attributes": [
-      "non_code_anchor",
-      "implicit_domain_knowledge"
-    ]
-  },
-  {
-    "case_id": "vortex-v1_1-L1-003",
     "pass": true,
     "reason_codes": [],
     "reasons": [],
@@ -36,6 +24,18 @@
     ]
   },
   {
+    "case_id": "vortex-v1_1-L1-003",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
     "case_id": "vortex-v1_1-L1-004",
     "pass": true,
     "reason_codes": [],
@@ -44,7 +44,7 @@
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
       "distracting_info",
-      "implicit_domain_knowledge"
+      "doc_code_divergence"
     ]
   },
   {
@@ -68,7 +68,7 @@
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
       "long_tail",
-      "implicit_domain_knowledge"
+      "doc_code_divergence"
     ]
   },
   {
@@ -91,8 +91,8 @@
     "layer": "L1",
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
-      "non_code_anchor",
-      "implicit_domain_knowledge"
+      "long_tail",
+      "doc_code_divergence"
     ]
   },
   {
@@ -104,7 +104,7 @@
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
       "long_tail",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -115,8 +115,8 @@
     "layer": "L1",
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
-      "distracting_info",
-      "implicit_domain_knowledge"
+      "long_tail",
+      "doc_code_divergence"
     ]
   },
   {
@@ -140,7 +140,7 @@
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
       "long_tail",
-      "implicit_domain_knowledge"
+      "doc_code_divergence"
     ]
   },
   {
@@ -152,7 +152,7 @@
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
       "long_tail",
-      "implicit_domain_knowledge"
+      "doc_code_divergence"
     ]
   },
   {
@@ -163,7 +163,7 @@
     "layer": "L1",
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
-      "non_code_anchor",
+      "long_tail",
       "implicit_domain_knowledge"
     ]
   },
@@ -176,7 +176,7 @@
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
       "long_tail",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -187,8 +187,8 @@
     "layer": "L1",
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
-      "distracting_info",
-      "implicit_domain_knowledge"
+      "long_tail",
+      "doc_code_divergence"
     ]
   },
   {
@@ -211,7 +211,7 @@
     "layer": "L1",
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "implicit_domain_knowledge"
     ]
   },
@@ -235,7 +235,7 @@
     "layer": "L1",
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
-      "non_code_anchor",
+      "distracting_info",
       "implicit_domain_knowledge"
     ]
   },
@@ -248,7 +248,7 @@
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
       "long_tail",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -283,7 +283,7 @@
     "layer": "L1",
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "implicit_domain_knowledge"
     ]
   },
@@ -307,7 +307,7 @@
     "layer": "L1",
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
-      "non_code_anchor",
+      "distracting_info",
       "implicit_domain_knowledge"
     ]
   },
@@ -320,7 +320,7 @@
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
       "long_tail",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -355,7 +355,7 @@
     "layer": "L1",
     "answerability": "unanswerable_missing_evidence",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "implicit_domain_knowledge"
     ]
   },
@@ -367,8 +367,8 @@
     "layer": "L1",
     "answerability": "answerable",
     "attributes": [
-      "distracting_info",
-      "conditional_behavior"
+      "long_tail",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -379,7 +379,7 @@
     "layer": "L1",
     "answerability": "answerable",
     "attributes": [
-      "non_code_anchor",
+      "distracting_info",
       "implicit_domain_knowledge"
     ]
   },
@@ -392,7 +392,7 @@
     "answerability": "answerable",
     "attributes": [
       "long_tail",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -403,7 +403,7 @@
     "layer": "L1",
     "answerability": "answerable",
     "attributes": [
-      "distracting_info",
+      "long_tail",
       "implicit_domain_knowledge"
     ]
   },
@@ -416,7 +416,7 @@
     "answerability": "answerable",
     "attributes": [
       "long_tail",
-      "conditional_behavior"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -427,7 +427,7 @@
     "layer": "L1",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "implicit_domain_knowledge"
     ]
   },
@@ -439,8 +439,8 @@
     "layer": "L1",
     "answerability": "answerable",
     "attributes": [
-      "distracting_info",
-      "conditional_behavior"
+      "long_tail",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -451,7 +451,7 @@
     "layer": "L1",
     "answerability": "answerable",
     "attributes": [
-      "non_code_anchor",
+      "distracting_info",
       "implicit_domain_knowledge"
     ]
   },
@@ -464,7 +464,7 @@
     "answerability": "answerable",
     "attributes": [
       "long_tail",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -475,7 +475,7 @@
     "layer": "L1",
     "answerability": "answerable",
     "attributes": [
-      "distracting_info",
+      "long_tail",
       "implicit_domain_knowledge"
     ]
   },
@@ -488,7 +488,7 @@
     "answerability": "answerable",
     "attributes": [
       "long_tail",
-      "conditional_behavior"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -499,7 +499,7 @@
     "layer": "L1",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "implicit_domain_knowledge"
     ]
   },
@@ -511,8 +511,8 @@
     "layer": "L1",
     "answerability": "answerable",
     "attributes": [
-      "distracting_info",
-      "conditional_behavior"
+      "long_tail",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -523,7 +523,7 @@
     "layer": "L1",
     "answerability": "answerable",
     "attributes": [
-      "non_code_anchor",
+      "distracting_info",
       "implicit_domain_knowledge"
     ]
   },
@@ -536,7 +536,7 @@
     "answerability": "answerable",
     "attributes": [
       "long_tail",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -560,7 +560,7 @@
     "answerability": "answerable",
     "attributes": [
       "long_tail",
-      "conditional_behavior"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -571,7 +571,7 @@
     "layer": "L1",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "implicit_domain_knowledge"
     ]
   },
@@ -583,8 +583,8 @@
     "layer": "L1",
     "answerability": "answerable",
     "attributes": [
-      "distracting_info",
-      "conditional_behavior"
+      "long_tail",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -595,7 +595,7 @@
     "layer": "L1",
     "answerability": "answerable",
     "attributes": [
-      "non_code_anchor",
+      "distracting_info",
       "implicit_domain_knowledge"
     ]
   },

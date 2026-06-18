@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from pathlib import Path
@@ -55,18 +56,6 @@ PREFERRED_ATTRIBUTE_GROUPS = [
     ("distracting_info", "implicit_domain_knowledge"),
     ("long_tail", "conditional_behavior"),
 ]
-
-ATTRIBUTE_ZH = {
-    "conditional_behavior": "条件行为",
-    "distracting_info": "干扰信息",
-    "doc_code_divergence": "文档和代码差异",
-    "implicit_domain_knowledge": "隐含领域知识",
-    "long_tail": "长尾位置",
-    "negative_evidence": "负面证据",
-    "non_code_anchor": "非代码锚点",
-    "quantitative_aggregation": "数量汇总",
-    "version_fork": "版本分叉",
-}
 
 MISSING_SCENARIOS = [
     "runtime API 的返回码是否区分队列已满和参数非法",
@@ -124,6 +113,14 @@ class Signal:
     lines: str
 
 
+@dataclass(frozen=True)
+class ProfileExpectations:
+    target_count: int
+    layer_counts: dict[str, int]
+    answerability_counts: dict[str, int]
+    version_fork_minimum: float | None
+
+
 def read_jsonl(path: Path) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     with path.open(encoding="utf-8") as handle:
@@ -171,23 +168,104 @@ def path_label(path: str) -> str:
     return path
 
 
-def attr_label(attribute: str) -> str:
-    return ATTRIBUTE_ZH.get(attribute, attribute)
-
-
-def evidence_scope(evidence: list[dict[str, str]], selected: list[Signal]) -> str:
-    chunks = []
-    for item, signal in zip(evidence, selected):
-        chunks.append(f"{path_label(item['path'])}:{item['lines']}（{attr_label(signal.attribute)}）")
-    return "、".join(chunks)
-
-
 def citation_chunks(evidence: list[dict[str, str]]) -> str:
     return "；".join(f"`{item['path']}:{item['lines']}`" for item in evidence)
 
 
 def visible_files(evidence: list[dict[str, str]]) -> str:
     return "、".join(path_label(item["path"]) for item in evidence)
+
+
+def parse_simple_profile(profile: Path) -> ProfileExpectations:
+    text = profile.read_text(encoding="utf-8")
+    target_match = re.search(r"benchmark:\n(?:  .+\n)*?  target_count:\s*(\d+)", text)
+    if not target_match:
+        raise ValueError(f"{profile} missing benchmark target_count")
+    layer_counts: dict[str, int] = {}
+    current_layer: str | None = None
+    in_answerability = False
+    answerability_mix: dict[str, float] = {}
+    version_fork_minimum: float | None = None
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        layer_match = re.match(r"- code:\s*(L[123])$", line)
+        if layer_match:
+            current_layer = layer_match.group(1)
+            continue
+        target_count_match = re.match(r"target_count:\s*(\d+)$", line)
+        if target_count_match and current_layer:
+            layer_counts[current_layer] = int(target_count_match.group(1))
+            current_layer = None
+            continue
+        if line == "answerability_mix:":
+            in_answerability = True
+            continue
+        if in_answerability:
+            mix_match = re.match(r"([a-z_]+):\s*([0-9.]+)$", line)
+            if mix_match:
+                answerability_mix[mix_match.group(1)] = float(mix_match.group(2))
+                continue
+            if line and not raw_line.startswith("  "):
+                in_answerability = False
+        version_match = re.match(r"version_fork:\s*([0-9.]+)$", line)
+        if version_match:
+            version_fork_minimum = float(version_match.group(1))
+    target_count = int(target_match.group(1))
+    answerability_counts = {
+        answerability: int(round(target_count * mix))
+        for answerability, mix in answerability_mix.items()
+    }
+    return ProfileExpectations(
+        target_count=target_count,
+        layer_counts=layer_counts,
+        answerability_counts=answerability_counts,
+        version_fork_minimum=version_fork_minimum,
+    )
+
+
+def validate_profile(project: str, profile: Path) -> ProfileExpectations:
+    expectations = parse_simple_profile(profile)
+    expected_layers = dict(Counter(LAYER_PLAN))
+    expected_answerability = dict(Counter(ANSWERABILITY_PLAN))
+    if expectations.target_count != len(LAYER_PLAN):
+        raise ValueError(f"{profile} target_count does not match generator plan")
+    if expectations.layer_counts != expected_layers:
+        raise ValueError(f"{profile} layer counts do not match generator plan")
+    if expectations.answerability_counts != expected_answerability:
+        raise ValueError(f"{profile} answerability mix does not match generator plan")
+    if project == "vortex" and expectations.version_fork_minimum not in (0, 0.0):
+        raise ValueError(f"{profile} must keep Vortex version_fork at 0")
+    return expectations
+
+
+def parse_range(lines: str) -> tuple[int, int]:
+    start = parse_line_start(lines)
+    end = start
+    if "-" in str(lines):
+        try:
+            end = max(start, int(str(lines).split("-", 1)[1]))
+        except ValueError:
+            end = start
+    return start, end
+
+
+def read_snippet(repo_root: Path, path: str, lines: str) -> str:
+    source_path = repo_root / path
+    start, end = parse_range(lines)
+    try:
+        source_lines = source_path.read_text(encoding="utf-8", errors="replace").splitlines()
+    except OSError:
+        return ""
+    selected = source_lines[start - 1 : end]
+    cleaned: list[str] = []
+    for line in selected:
+        normalized = " ".join(line.strip().split())
+        if normalized:
+            cleaned.append(normalized)
+    text = " / ".join(cleaned)
+    if len(text) > 180:
+        text = text[:177].rstrip() + "..."
+    return text or "(blank lines)"
 
 
 def load_sources(bundle: Path, project: str, repo_root: Path) -> dict[str, Source]:
@@ -282,6 +360,32 @@ def choose_attribute_pair(index: int, signals_by_attribute: dict[str, list[Signa
     return available_axis2[index % len(available_axis2)], available_axis3[index % len(available_axis3)]
 
 
+def select_l1_signals(index: int, signals_by_attribute: dict[str, list[Signal]]) -> list[Signal]:
+    by_source: dict[str, list[Signal]] = defaultdict(list)
+    for signals in signals_by_attribute.values():
+        for signal in signals:
+            if signal.attribute == "conditional_behavior":
+                continue
+            by_source[signal.source_id].append(signal)
+    candidates: list[tuple[str, list[Signal], list[Signal]]] = []
+    for source_id, signals in by_source.items():
+        axis2 = sorted(
+            [signal for signal in signals if signal.axis == 2],
+            key=lambda signal: (signal.path, signal.attribute, signal.signal_id),
+        )
+        axis3 = sorted(
+            [signal for signal in signals if signal.axis == 3],
+            key=lambda signal: (signal.path, signal.attribute, signal.signal_id),
+        )
+        if axis2 and axis3:
+            candidates.append((source_id, axis2, axis3))
+    if not candidates:
+        raise ValueError("L1 generation requires same-source axis2 and axis3 signals")
+    candidates.sort(key=lambda item: item[0])
+    _, axis2, axis3 = candidates[index % len(candidates)]
+    return [axis2[index % len(axis2)], axis3[(index // max(1, len(axis2))) % len(axis3)]]
+
+
 def select_signals(
     index: int,
     layer: str,
@@ -289,6 +393,8 @@ def select_signals(
     signals_by_attribute: dict[str, list[Signal]],
     answerability: str,
 ) -> list[Signal]:
+    if layer == "L1":
+        return select_l1_signals(index, signals_by_attribute)
     attrs = list(choose_attribute_pair(index, signals_by_attribute, project))
     if answerability == "unanswerable_missing_evidence" and "conditional_behavior" in attrs:
         attrs = ["long_tail", "implicit_domain_knowledge"]
@@ -337,24 +443,24 @@ def reference_for(source: Source) -> dict[str, str]:
     }
 
 
-def make_evidence(signals: list[Signal], sources: dict[str, Source]) -> list[dict[str, str]]:
+def make_evidence(signals: list[Signal], sources: dict[str, Source], repo_root: Path, layer: str) -> list[dict[str, str]]:
     evidence: list[dict[str, str]] = []
-    for index, signal in enumerate(signals, 1):
+    evidence_signals = signals[:1] if layer == "L1" else signals
+    for index, signal in enumerate(evidence_signals, 1):
         source = sources[signal.source_id]
         role = "trigger_condition" if signal.attribute == "conditional_behavior" else "evidence_fact"
         if signal.attribute == "doc_code_divergence":
             role = "comparison_point"
+        lines = line_window(source, signal.lines)
+        snippet = read_snippet(repo_root, source.path, lines)
         evidence.append(
             {
                 "evidence_id": f"E{index}",
                 "source_id": source.source_id,
                 "path": source.path,
-                "lines": line_window(source, signal.lines),
+                "lines": lines,
                 "role": role,
-                "statement": (
-                    f"{source.path}:{line_window(source, signal.lines)} is cited as "
-                    f"{attr_label(signal.attribute)} evidence."
-                ),
+                "statement": f"这些行显示：{snippet}",
             }
         )
     return evidence
@@ -409,7 +515,6 @@ def required_atoms(
     answerability: str,
     layer: str,
     evidence: list[dict[str, str]],
-    selected: list[Signal],
 ) -> list[dict[str, Any]]:
     if answerability == "unanswerable_missing_evidence":
         return [
@@ -427,9 +532,7 @@ def required_atoms(
         atom: dict[str, Any] = {
             "id": f"A{index}",
             "role": "conclusion" if index == 1 else ("reasoning" if layer == "L3" else "evidence_fact"),
-            "statement": (
-                f"{item['path']}:{item['lines']} provides {attr_label(selected[index - 1].attribute)} evidence"
-            ),
+            "statement": f"{path_label(item['path'])}:{item['lines']} 显示：{item['statement'].removeprefix('这些行显示：')}",
             "match_type": "path_or_symbol" if index == 1 else "semantic_fact",
             "evidence_ids": [item["evidence_id"]],
             "weight": 2 if index == 1 else 1,
@@ -438,6 +541,25 @@ def required_atoms(
             atom["depends_on"] = [f"A{index - 1}"]
         atoms.append(atom)
     return atoms
+
+
+def unique_references(selected: list[Signal], sources: dict[str, Source]) -> list[dict[str, str]]:
+    refs: list[dict[str, str]] = []
+    seen: set[str] = set()
+    for signal in selected:
+        if signal.source_id in seen:
+            continue
+        seen.add(signal.source_id)
+        refs.append(reference_for(sources[signal.source_id]))
+    return refs
+
+
+def answer_from_evidence(evidence: list[dict[str, str]]) -> str:
+    parts = [
+        f"`{item['path']}:{item['lines']}` 显示：{item['statement'].removeprefix('这些行显示：')}"
+        for item in evidence
+    ]
+    return "；".join(parts)
 
 
 def forbidden_atoms(answerability: str, answer_type_code: str, selected: list[Signal]) -> list[dict[str, str]]:
@@ -461,6 +583,7 @@ def make_row(
     answerability: str,
     selected: list[Signal],
     sources: dict[str, Source],
+    repo_root: Path,
 ) -> dict[str, Any]:
     case_id = f"{project}-v1_1-{layer}-{seq:03d}"
     cap = capability(seq - 1, project)
@@ -473,39 +596,38 @@ def make_row(
         scenario = MISSING_SCENARIOS[(seq - 1) % len(MISSING_SCENARIOS)]
         query = f"{project} 里能确认{scenario}吗？我现在没找到对应证据。"
         rewrite = f"判断 {project} 中“{scenario}”是否有可核验证据。"
-        expected = "无法判断；当前问题没有提供可核验的 references 或 evidence，不能凭空确认这个行为或配置。"
+        expected = "无法判断；当前问题没有给出可核验的源码或文档片段，不能凭空确认这个行为或配置。需要补充对应文件、行号、日志或文档片段后才能回答。"
         evidence: list[dict[str, str]] = []
         references: list[dict[str, str]] = []
         policy = citation_policy(evidence, required="never")
     else:
-        evidence = make_evidence(selected, sources)
-        references = [reference_for(sources[signal.source_id]) for signal in selected]
+        evidence = make_evidence(selected, sources, repo_root, layer)
+        references = unique_references(selected, sources)
         files = visible_files(evidence)
-        scope = evidence_scope(evidence, selected)
-        attrs = "、".join(attr_label(signal.attribute) for signal in selected)
+        visible_answer = answer_from_evidence(evidence)
         if answerability == "unanswerable_false_premise":
-            query = f"有人说 {files} 不足以支持这些 {attrs} 线索，这个说法对吗？给我引用。"
-            rewrite = f"核对 {files} 是否支持可见问题中的 {attrs} 线索。"
-            expected = f"不支持这个否定说法；在给定范围内，能核验的依据是 {scope}。引用：{citation_chunks(evidence)}。"
+            query = f"有人说 {files} 这几行没有任何可用信息，这个说法对吗？给我引用。"
+            rewrite = f"核对 {files} 这几行是否包含可用信息。"
+            expected = f"不支持这个说法；{visible_answer}。引用：{citation_chunks(evidence)}。"
         elif answerability == "unanswerable_ambiguous":
             query = f"只看 {files}，能判断这里说的是哪个版本或哪个执行路径吗？请给行号。"
             rewrite = f"判断 {files} 中的证据是否足以区分版本或执行路径。"
-            expected = f"只能给出有限结论；这些引用能定位到 {scope}，但问题没有明确版本或执行路径，不能进一步消除歧义。引用：{citation_chunks(evidence)}。"
+            expected = f"只能给出有限结论；{visible_answer}。但问题没有明确版本或执行路径，不能进一步消除歧义。引用：{citation_chunks(evidence)}。"
         else:
             query_styles = (
                 f"帮我看下 {files}，这些位置能说明什么？请带行号。",
-                f"我在查 {files}，这里和 {attrs} 有关的证据在哪里？",
-                f"{files} 里这几处能不能作为 {attrs} 的依据？给引用。",
+                f"我在查 {files}，这些行具体写了什么？",
+                f"{files} 里这几处能不能作为源码或文档依据？给引用。",
                 f"只看 {files}，可以确认哪些可核验结论？",
             )
             query = query_styles[seq % len(query_styles)]
-            rewrite = f"核对 {files} 中与 {attrs} 相关的可核验证据。"
-            expected = f"可以确认的范围是 {scope}；这些引用给出了当前问题可直接核验的文件和行号。引用：{citation_chunks(evidence)}。"
+            rewrite = f"核对 {files} 中这些行的可见内容。"
+            expected = f"可以确认：{visible_answer}。引用：{citation_chunks(evidence)}。"
         policy = citation_policy(evidence)
 
     rubric = {
         "answer_goal": "回答用户提出的可核验证据需求。",
-        "required_atoms": required_atoms(answerability, layer, evidence, selected),
+        "required_atoms": required_atoms(answerability, layer, evidence),
         "forbidden_atoms": forbidden_atoms(answerability, atype["code"], selected),
         "citation_policy": policy,
     }
@@ -529,13 +651,13 @@ def make_row(
 
 
 def generate(project: str, bundle: Path, profile: Path, repo_root: Path) -> list[dict[str, Any]]:
-    del profile
+    validate_profile(project, profile)
     sources = load_sources(bundle, project, repo_root)
     signals_by_attribute = load_signals(bundle, project, sources)
     rows: list[dict[str, Any]] = []
     for index, (layer, answerability) in enumerate(zip(LAYER_PLAN, ANSWERABILITY_PLAN), 1):
         selected = select_signals(index, layer, project, signals_by_attribute, answerability)
-        rows.append(make_row(project, index, layer, answerability, selected, sources))
+        rows.append(make_row(project, index, layer, answerability, selected, sources, repo_root))
     return rows
 
 
