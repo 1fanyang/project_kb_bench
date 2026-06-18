@@ -56,6 +56,51 @@ PREFERRED_ATTRIBUTE_GROUPS = [
     ("long_tail", "conditional_behavior"),
 ]
 
+ATTRIBUTE_ZH = {
+    "conditional_behavior": "条件行为",
+    "distracting_info": "干扰信息",
+    "doc_code_divergence": "文档和代码差异",
+    "implicit_domain_knowledge": "隐含领域知识",
+    "long_tail": "长尾位置",
+    "negative_evidence": "负面证据",
+    "non_code_anchor": "非代码锚点",
+    "quantitative_aggregation": "数量汇总",
+    "version_fork": "版本分叉",
+}
+
+MISSING_SCENARIOS = [
+    "runtime API 的返回码是否区分队列已满和参数非法",
+    "DMA 配置项缺省值在仿真和硬件路径是否一致",
+    "某个 debug 开关是否会改变 trace 输出格式",
+    "构建脚本是否支持增量清理单个 backend",
+    "寄存器字段写 0 后是否会自动恢复默认值",
+    "测试入口是否保证每次运行都重新生成输入数据",
+    "命令行参数缺失时是否会回退到环境变量",
+    "driver 初始化失败后是否会重试设备枚举",
+    "配置文件中的 unknown key 是否会被忽略",
+    "多核场景下统计计数器是否按 core 单独清零",
+    "simulator 退出码是否能区分 timeout 和断言失败",
+    "生成脚本是否会保留旧的中间文件",
+    "缓存 flush 操作是否覆盖所有 memory bank",
+    "FPGA backend 是否要求固定 toolchain 版本",
+    "单元测试是否覆盖空输入 buffer",
+    "日志级别切换是否影响性能计数输出",
+    "编译选项是否会改变默认 ISA 扩展集合",
+    "异常路径是否会释放已分配的 host buffer",
+    "文档示例是否说明了交叉编译目标",
+    "仿真脚本是否支持只运行指定 testcase",
+    "reset 后 pending request 是否会被保留",
+    "schema 版本不匹配时工具是否会自动迁移",
+    "命令失败时是否写入 machine-readable error",
+    "profiling 模式是否会改变 kernel launch 顺序",
+    "外部依赖缺失时安装脚本是否会跳过该组件",
+    "多线程提交任务时是否保证完成顺序",
+    "配置覆盖项是否能针对单个模块生效",
+    "文档中的 deprecated option 是否仍由代码接受",
+    "硬件模型是否记录每个事务的 source id",
+    "测试失败后是否自动收集波形和日志路径",
+]
+
 
 @dataclass(frozen=True)
 class Source:
@@ -117,6 +162,32 @@ def line_window(source: Source, preferred: Any, width: int = 3) -> str:
     start = min(parse_line_start(preferred), source.line_count)
     end = min(source.line_count, start + width - 1)
     return str(start) if start == end else f"{start}-{end}"
+
+
+def path_label(path: str) -> str:
+    parts = Path(path).parts
+    if len(parts) >= 3 and parts[0] == "repo_sources":
+        return "/".join(parts[2:])
+    return path
+
+
+def attr_label(attribute: str) -> str:
+    return ATTRIBUTE_ZH.get(attribute, attribute)
+
+
+def evidence_scope(evidence: list[dict[str, str]], selected: list[Signal]) -> str:
+    chunks = []
+    for item, signal in zip(evidence, selected):
+        chunks.append(f"{path_label(item['path'])}:{item['lines']}（{attr_label(signal.attribute)}）")
+    return "、".join(chunks)
+
+
+def citation_chunks(evidence: list[dict[str, str]]) -> str:
+    return "；".join(f"`{item['path']}:{item['lines']}`" for item in evidence)
+
+
+def visible_files(evidence: list[dict[str, str]]) -> str:
+    return "、".join(path_label(item["path"]) for item in evidence)
 
 
 def load_sources(bundle: Path, project: str, repo_root: Path) -> dict[str, Source]:
@@ -281,8 +352,8 @@ def make_evidence(signals: list[Signal], sources: dict[str, Source]) -> list[dic
                 "lines": line_window(source, signal.lines),
                 "role": role,
                 "statement": (
-                    f"{source.path}:{line_window(source, signal.lines)} is a primary-source span "
-                    f"selected for the {signal.attribute} difficulty signal."
+                    f"{source.path}:{line_window(source, signal.lines)} is cited as "
+                    f"{attr_label(signal.attribute)} evidence."
                 ),
             }
         )
@@ -357,8 +428,7 @@ def required_atoms(
             "id": f"A{index}",
             "role": "conclusion" if index == 1 else ("reasoning" if layer == "L3" else "evidence_fact"),
             "statement": (
-                f"{item['path']}:{item['lines']} provides {selected[index - 1].attribute} evidence "
-                f"for this case"
+                f"{item['path']}:{item['lines']} provides {attr_label(selected[index - 1].attribute)} evidence"
             ),
             "match_type": "path_or_symbol" if index == 1 else "semantic_fact",
             "evidence_ids": [item["evidence_id"]],
@@ -377,7 +447,7 @@ def forbidden_atoms(answerability: str, answer_type_code: str, selected: list[Si
     return [
         {
             "id": "F1",
-            "statement": f"答案声称 {target} 支持与基准答案相反的结论",
+            "statement": f"答案声称 {target} 支持与引用证据相反的结论",
             "match_type": "semantic_contradiction",
             "severity": "fatal",
         }
@@ -400,34 +470,41 @@ def make_row(
         tags.append(answerability)
 
     if answerability == "unanswerable_missing_evidence":
-        query = f"{project} release case {seq}: 没有给出源码证据时，能否确认这个不存在的接口行为？"
-        rewrite = f"判断 {project} release case {seq} 中缺少源码证据的接口行为是否可回答。"
-        expected = "无法判断；当前基准行故意不提供 references 或 evidence，因此只能拒答并说明缺少可核验证据。"
+        scenario = MISSING_SCENARIOS[(seq - 1) % len(MISSING_SCENARIOS)]
+        query = f"{project} 里能确认{scenario}吗？我现在没找到对应证据。"
+        rewrite = f"判断 {project} 中“{scenario}”是否有可核验证据。"
+        expected = "无法判断；当前问题没有提供可核验的 references 或 evidence，不能凭空确认这个行为或配置。"
         evidence: list[dict[str, str]] = []
         references: list[dict[str, str]] = []
         policy = citation_policy(evidence, required="never")
     else:
         evidence = make_evidence(selected, sources)
         references = [reference_for(sources[signal.source_id]) for signal in selected]
-        files = "、".join(item["path"] for item in evidence)
-        query_prefix = {
-            "answerable": "请根据这些文件核对",
-            "unanswerable_false_premise": "我怀疑这里有个相反说法，请核对",
-            "unanswerable_ambiguous": "这个问题可能有歧义，请只按给出的文件说明",
-        }[answerability]
-        query = f"{query_prefix} release case {seq}: {files} 的相关证据是什么？给我行号。"
-        rewrite = f"核对 release case {seq} 中 {files} 的相关证据。"
-        citation_chunks = "; ".join(f"`{item['path']}:{item['lines']}`" for item in evidence)
+        files = visible_files(evidence)
+        scope = evidence_scope(evidence, selected)
+        attrs = "、".join(attr_label(signal.attribute) for signal in selected)
         if answerability == "unanswerable_false_premise":
-            expected = f"不支持该相反说法；这些证据指向基准记录中的相反结论，需要按源码引用判断：{citation_chunks}。"
+            query = f"有人说 {files} 不足以支持这些 {attrs} 线索，这个说法对吗？给我引用。"
+            rewrite = f"核对 {files} 是否支持可见问题中的 {attrs} 线索。"
+            expected = f"不支持这个否定说法；在给定范围内，能核验的依据是 {scope}。引用：{citation_chunks(evidence)}。"
         elif answerability == "unanswerable_ambiguous":
-            expected = f"只能给出有限结论；问题没有明确要比较哪个行为或版本，当前可核验的证据范围是：{citation_chunks}。"
+            query = f"只看 {files}，能判断这里说的是哪个版本或哪个执行路径吗？请给行号。"
+            rewrite = f"判断 {files} 中的证据是否足以区分版本或执行路径。"
+            expected = f"只能给出有限结论；这些引用能定位到 {scope}，但问题没有明确版本或执行路径，不能进一步消除歧义。引用：{citation_chunks(evidence)}。"
         else:
-            expected = f"可回答；这些 primary-source 片段共同构成本题所需证据，关键引用是：{citation_chunks}。"
+            query_styles = (
+                f"帮我看下 {files}，这些位置能说明什么？请带行号。",
+                f"我在查 {files}，这里和 {attrs} 有关的证据在哪里？",
+                f"{files} 里这几处能不能作为 {attrs} 的依据？给引用。",
+                f"只看 {files}，可以确认哪些可核验结论？",
+            )
+            query = query_styles[seq % len(query_styles)]
+            rewrite = f"核对 {files} 中与 {attrs} 相关的可核验证据。"
+            expected = f"可以确认的范围是 {scope}；这些引用给出了当前问题可直接核验的文件和行号。引用：{citation_chunks(evidence)}。"
         policy = citation_policy(evidence)
 
     rubric = {
-        "answer_goal": f"回答 {case_id} 的可核验证据需求。",
+        "answer_goal": "回答用户提出的可核验证据需求。",
         "required_atoms": required_atoms(answerability, layer, evidence, selected),
         "forbidden_atoms": forbidden_atoms(answerability, atype["code"], selected),
         "citation_policy": policy,
