@@ -1,0 +1,31 @@
+{
+  "answerability_counts": {
+    "answerable": 14,
+    "unanswerable_ambiguous": 1,
+    "unanswerable_false_premise": 2,
+    "unanswerable_missing_evidence": 3
+  },
+  "attribute_counts": {
+    "distracting_info": 10,
+    "implicit_domain_knowledge": 20,
+    "long_tail": 20
+  },
+  "benchmark_id": "nvdla_benchmark_v1_1_smoke",
+  "context_bundle": "runs/nvdla_context_bundle",
+  "generated_at": "2026-06-18T05:21:51.538165+00:00",
+  "generation_mode": "smoke_from_migrated_rows_with_signal_index_sampling",
+  "generation_profile": "runs/nvdla_generation_profile_v1_1.yaml",
+  "layer_counts": {
+    "L1": 20
+  },
+  "notes": [
+    "Smoke corpus intentionally preserves migrated evidence grounding for answerable rows.",
+    "Unanswerable missing-evidence rows use zero evidence and real signal_index claim_sources.",
+    "No v1 benchmark artifacts were read for mutation or overwritten."
+  ],
+  "project": "nvdla",
+  "row_count": 20,
+  "schema_version": "benchmark-metadata/v1.1-smoke",
+  "signal_index": "runs/nvdla_context_bundle/signal_index.jsonl",
+  "source_rows": "runs/nvdla_benchmark_v1_1_migrated.jsonl"
+}

@@ -1,0 +1,33 @@
+{
+  "answerability_counts": {
+    "answerable": 14,
+    "unanswerable_ambiguous": 1,
+    "unanswerable_false_premise": 2,
+    "unanswerable_missing_evidence": 3
+  },
+  "attribute_counts": {
+    "distracting_info": 9,
+    "doc_code_divergence": 10,
+    "implicit_domain_knowledge": 20,
+    "long_tail": 20,
+    "non_code_anchor": 1
+  },
+  "benchmark_id": "vortex_benchmark_v1_1_smoke",
+  "context_bundle": "runs/vortex_context_bundle",
+  "generated_at": "2026-06-18T05:21:51.778842+00:00",
+  "generation_mode": "smoke_from_migrated_rows_with_signal_index_sampling",
+  "generation_profile": "runs/vortex_generation_profile_v1_1.yaml",
+  "layer_counts": {
+    "L1": 20
+  },
+  "notes": [
+    "Smoke corpus intentionally preserves migrated evidence grounding for answerable rows.",
+    "Unanswerable missing-evidence rows use zero evidence and real signal_index claim_sources.",
+    "No v1 benchmark artifacts were read for mutation or overwritten."
+  ],
+  "project": "vortex",
+  "row_count": 20,
+  "schema_version": "benchmark-metadata/v1.1-smoke",
+  "signal_index": "runs/vortex_context_bundle/signal_index.jsonl",
+  "source_rows": "runs/vortex_benchmark_v1_1_migrated.jsonl"
+}
