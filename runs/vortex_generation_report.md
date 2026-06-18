@@ -69,3 +69,10 @@
 ## Lint Status
 
 - Passed with `Rows: 50`, `FAIL: 0`, `WARN: 0` using `--fail-on-warn`.
+
+## v1.1 Migration Audit
+
+The v1 benchmark rows were stamped into a sidecar v1.1 candidate file and
+audited with `--schema-version v1.1`. The original v1 JSONL file was not
+modified. Rows that fail the structural gate are inputs for rewrite, relabel,
+or archive decisions during v1.1 corpus construction.

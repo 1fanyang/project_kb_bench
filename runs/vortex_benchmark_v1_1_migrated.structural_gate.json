@@ -1,0 +1,944 @@
+[
+  {
+    "case_id": "vortex-v1-L1-001",
+    "pass": false,
+    "reason_codes": [
+      "FORBIDDEN_ATOMS_REQUIRED"
+    ],
+    "reasons": [
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-002",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-003",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L1-004",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-005",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FORBIDDEN_ATOMS_REQUIRED",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "non_code_anchor",
+      "conditional_behavior",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L1-006",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-007",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "non_code_anchor",
+      "conditional_behavior",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L3-008",
+    "pass": false,
+    "reason_codes": [
+      "L3_NO_ATOM_CHAIN",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L3 rows need at least one required atom with depends_on",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-009",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "non_code_anchor",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-010",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "non_code_anchor",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-011",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-012",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-013",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-014",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L1-015",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-016",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L1-017",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-018",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L1-019",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FORBIDDEN_ATOMS_REQUIRED"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-020",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "non_code_anchor",
+      "conditional_behavior",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L1-021",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-022",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-023",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-024",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FORBIDDEN_ATOMS_REQUIRED",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-025",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-026",
+    "pass": false,
+    "reason_codes": [
+      "FORBIDDEN_ATOMS_REQUIRED",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L3-027",
+    "pass": false,
+    "reason_codes": [
+      "L3_NO_ATOM_CHAIN"
+    ],
+    "reasons": [
+      "L3 rows need at least one required atom with depends_on"
+    ],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L1-028",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "non_code_anchor"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-029",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "non_code_anchor",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-030",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "non_code_anchor",
+      "conditional_behavior",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L1-031",
+    "pass": false,
+    "reason_codes": [
+      "FORBIDDEN_ATOMS_REQUIRED"
+    ],
+    "reasons": [
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L1-032",
+    "pass": false,
+    "reason_codes": [
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-033",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L1-034",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-035",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FORBIDDEN_ATOMS_REQUIRED",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L1-036",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-037",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L1-038",
+    "pass": false,
+    "reason_codes": [
+      "FORBIDDEN_ATOMS_REQUIRED"
+    ],
+    "reasons": [
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L1-039",
+    "pass": false,
+    "reason_codes": [
+      "FORBIDDEN_ATOMS_REQUIRED"
+    ],
+    "reasons": [
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L1-040",
+    "pass": false,
+    "reason_codes": [
+      "FORBIDDEN_ATOMS_REQUIRED"
+    ],
+    "reasons": [
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L3-041",
+    "pass": false,
+    "reason_codes": [
+      "L3_NO_ATOM_CHAIN",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L3 rows need at least one required atom with depends_on",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-042",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-043",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-044",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-045",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-046",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-047",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L2-048",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "non_code_anchor",
+      "conditional_behavior",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L3-049",
+    "pass": false,
+    "reason_codes": [
+      "L3_SINGLE_SOURCE",
+      "L3_NO_ATOM_CHAIN",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "L3 rows need evidence from at least two source_id values",
+      "L3 rows need at least one required atom with depends_on",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1-L3-050",
+    "pass": false,
+    "reason_codes": [
+      "L3_NO_ATOM_CHAIN",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L3 rows need at least one required atom with depends_on",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence",
+      "implicit_domain_knowledge"
+    ]
+  }
+]

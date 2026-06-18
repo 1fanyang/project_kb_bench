@@ -1,0 +1,929 @@
+[
+  {
+    "case_id": "nvdla-v1-L1-001",
+    "pass": false,
+    "reason_codes": [
+      "FORBIDDEN_ATOMS_REQUIRED"
+    ],
+    "reasons": [
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-002",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-003",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-004",
+    "pass": false,
+    "reason_codes": [
+      "FORBIDDEN_ATOMS_REQUIRED"
+    ],
+    "reasons": [
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-005",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-006",
+    "pass": false,
+    "reason_codes": [
+      "FORBIDDEN_ATOMS_REQUIRED",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-007",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-008",
+    "pass": false,
+    "reason_codes": [
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-009",
+    "pass": false,
+    "reason_codes": [
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-010",
+    "pass": false,
+    "reason_codes": [
+      "FORBIDDEN_ATOMS_REQUIRED",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-011",
+    "pass": false,
+    "reason_codes": [
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-012",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-013",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-014",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-015",
+    "pass": false,
+    "reason_codes": [
+      "INSUFFICIENT_DIFFICULTY_SIGNALS",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FORBIDDEN_ATOMS_REQUIRED",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "v1.1 rows need at least two difficulty signals across axes",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-016",
+    "pass": false,
+    "reason_codes": [
+      "INSUFFICIENT_DIFFICULTY_SIGNALS",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FORBIDDEN_ATOMS_REQUIRED",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "v1.1 rows need at least two difficulty signals across axes",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-017",
+    "pass": false,
+    "reason_codes": [
+      "INSUFFICIENT_DIFFICULTY_SIGNALS",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FORBIDDEN_ATOMS_REQUIRED"
+    ],
+    "reasons": [
+      "v1.1 rows need at least two difficulty signals across axes",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-018",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-019",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-020",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-021",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-022",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-023",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-024",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FORBIDDEN_ATOMS_REQUIRED"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-025",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-026",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-027",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L3-028",
+    "pass": false,
+    "reason_codes": [
+      "L3_SINGLE_SOURCE",
+      "L3_NO_ATOM_CHAIN",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L3 rows need evidence from at least two source_id values",
+      "L3 rows need at least one required atom with depends_on",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L3-029",
+    "pass": false,
+    "reason_codes": [
+      "L3_SINGLE_SOURCE",
+      "L3_NO_ATOM_CHAIN",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "L3 rows need evidence from at least two source_id values",
+      "L3 rows need at least one required atom with depends_on",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-030",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L3-031",
+    "pass": false,
+    "reason_codes": [
+      "L3_SINGLE_SOURCE",
+      "L3_NO_ATOM_CHAIN",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L3 rows need evidence from at least two source_id values",
+      "L3 rows need at least one required atom with depends_on",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-032",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FORBIDDEN_ATOMS_REQUIRED"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-033",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L3-034",
+    "pass": false,
+    "reason_codes": [
+      "L3_SINGLE_SOURCE",
+      "L3_NO_ATOM_CHAIN",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "L3 rows need evidence from at least two source_id values",
+      "L3 rows need at least one required atom with depends_on",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-035",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FORBIDDEN_ATOMS_REQUIRED"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-036",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-037",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-038",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FORBIDDEN_ATOMS_REQUIRED"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L3-039",
+    "pass": false,
+    "reason_codes": [
+      "L3_SINGLE_SOURCE",
+      "L3_NO_ATOM_CHAIN",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L3 rows need evidence from at least two source_id values",
+      "L3 rows need at least one required atom with depends_on",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-040",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FORBIDDEN_ATOMS_REQUIRED",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-041",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-042",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L3-043",
+    "pass": false,
+    "reason_codes": [
+      "L3_SINGLE_SOURCE",
+      "L3_NO_ATOM_CHAIN",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L3 rows need evidence from at least two source_id values",
+      "L3 rows need at least one required atom with depends_on",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-044",
+    "pass": false,
+    "reason_codes": [
+      "INSUFFICIENT_DIFFICULTY_SIGNALS",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE",
+      "FORBIDDEN_ATOMS_REQUIRED",
+      "FILE_ANCHOR_LEAK"
+    ],
+    "reasons": [
+      "v1.1 rows need at least two difficulty signals across axes",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence",
+      "yes_no, fact_check, and false_premise rows need forbidden_atoms",
+      "query names an evidence file without file_anchor_required tag"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-045",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-046",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L3-047",
+    "pass": false,
+    "reason_codes": [
+      "L3_SINGLE_SOURCE",
+      "L3_NO_ATOM_CHAIN",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L3 rows need evidence from at least two source_id values",
+      "L3 rows need at least one required atom with depends_on",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L2-048",
+    "pass": false,
+    "reason_codes": [
+      "L2_SINGLE_SOURCE",
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "L2 rows need evidence from at least two source_id values",
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-049",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "nvdla-v1-L1-050",
+    "pass": false,
+    "reason_codes": [
+      "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE"
+    ],
+    "reasons": [
+      "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    ],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  }
+]
