@@ -460,6 +460,70 @@ class SignalIndexTest(unittest.TestCase):
             self.assertEqual(len(conditional), 1)
             self.assertEqual(conditional[0]["axis"], 3)
 
+    def test_signal_builder_does_not_label_reads_as_conditional_behavior(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            bundle = Path(tmp) / "bundle"
+            bundle.mkdir()
+            write_jsonl(
+                bundle / "source_inventory.jsonl",
+                [
+                    {
+                        "source_id": "src:code",
+                        "project": "demo",
+                        "source_set_id": "main",
+                        "repo_name": "demo",
+                        "path": "main.py",
+                        "relative_path": "main.py",
+                        "modality": "code",
+                        "source_type": "code.python",
+                        "authority": "primary_source",
+                        "language": "python",
+                        "line_count": 10,
+                        "size_bytes": 10,
+                        "sha256": "sha256:1",
+                        "parse_status": "parsed",
+                    }
+                ],
+            )
+            write_jsonl(bundle / "entity_index.jsonl", [])
+            write_jsonl(
+                bundle / "relation_graph.jsonl",
+                [
+                    {
+                        "relation_id": "rel:read",
+                        "project": "demo",
+                        "subject": {"type": "source", "id": "src:code", "name": "main.py"},
+                        "predicate": "reads",
+                        "object": {"type": "source", "id": "src:code", "name": "main.py"},
+                        "evidence": [
+                            {
+                                "source_id": "src:code",
+                                "path": "main.py",
+                                "lines": "4",
+                                "summary": "main.py reads value",
+                            }
+                        ],
+                        "extractor": "test",
+                        "confidence": 0.8,
+                    }
+                ],
+            )
+            output = bundle / "signal_index.jsonl"
+
+            result = subprocess.run(
+                [sys.executable, str(BUILDER), str(bundle), "--output", str(output)],
+                cwd=ROOT,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            signals = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
+            conditional = [item for item in signals if item["attribute"] == "conditional_behavior"]
+            self.assertEqual(conditional, [])
+
     def test_signal_builder_emits_conditional_behavior_from_source_text(self):
         with tempfile.TemporaryDirectory() as tmp:
             tmpdir = Path(tmp)

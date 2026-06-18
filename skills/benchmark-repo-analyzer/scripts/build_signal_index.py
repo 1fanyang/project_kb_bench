@@ -14,7 +14,7 @@ from typing import Any
 
 
 NON_CODE_MODALITIES = {"script", "config"}
-CONDITIONAL_PREDICATES = {"checks_condition", "reads", "writes"}
+CONDITIONAL_PREDICATES = {"checks_condition"}
 CONDITIONAL_TEXT_MODALITIES = {"code", "script", "config", "test"}
 CONDITIONAL_TEXT_RE = re.compile(
     r"\b(if|else|case|switch|when|guard|assert|for|while|unless)\b|&&|\|\||\?",
