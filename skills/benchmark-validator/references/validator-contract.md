@@ -97,6 +97,27 @@ Warnings:
 - short expected answer;
 - weak coverage distribution.
 
+## v1.1 Validation Mode
+
+Use `--schema-version v1.1` to enable v1.1 checks. The default remains `v1`
+so existing benchmarks continue to lint unchanged.
+
+Structural gate reports are written with:
+
+```bash
+python3 skills/benchmark-validator/scripts/validate_benchmark.py lint benchmark.jsonl \
+  --schema-version v1.1 \
+  --structural-gate-json benchmark.structural_gate.json
+```
+
+Adversarial dry-run reports are written with:
+
+```bash
+python3 skills/benchmark-validator/scripts/adversarial_gate.py benchmark.jsonl \
+  --dry-run \
+  --output-jsonl benchmark.adversarial_gate.jsonl
+```
+
 ## Report Shape
 
 Markdown reports should include:

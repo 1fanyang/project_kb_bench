@@ -49,6 +49,27 @@ answer_policy:
   citation_format: "`path:line-range`"
 ```
 
+## v1.1 Generation Inputs
+
+For v1.1 generation, consume `signal_index.jsonl` when it is present. The
+generator chooses target difficulty attributes first, then selects anchors from
+matching signals. It should not scan the source repositories to infer difficulty
+attributes that the analyzer did not expose.
+
+Profile additions:
+
+- `attribute_quotas.per_attribute_minimum`
+- `answerability_mix`
+- `adversarial_gate`
+
+Every v1.1 row should include:
+
+- `answerability`
+- `difficulty.axis1_layer`
+- `difficulty.axis2_retrieval`
+- `difficulty.axis3_reasoning`
+- `difficulty.claim_sources`
+
 ## Capability Seeds
 
 Capabilities are project-related and should be expanded from analyzer output. The skill defines the seed mechanism, not a fixed taxonomy.

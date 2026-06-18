@@ -43,7 +43,28 @@ Optional files:
 parse_diagnostics.jsonl
 unresolved_sources.jsonl
 graph_summary.json
+signal_index.jsonl
 ```
+
+## v1.1 optional file: signal_index.jsonl
+
+`signal_index.jsonl` is optional for v1 bundles and recommended for v1.1 generation.
+Each row records one analyzer-derived difficulty signal. The generator must use
+this artifact for attribute-first sampling instead of rediscovering difficulty
+from source files.
+
+Required fields:
+
+| Field | Meaning |
+|---|---|
+| `signal_id` | Stable signal id, unique inside the bundle. |
+| `project` | Project id from manifest. |
+| `axis` | Difficulty axis, currently `2` retrieval difficulty or `3` reasoning difficulty. |
+| `attribute` | Difficulty attribute such as `long_tail` or `conditional_behavior`. |
+| `anchor` | Entity or source anchor the signal applies to. |
+| `evidence` | Extractor-specific evidence payload. |
+| `extractor` | Tool or heuristic that produced the signal. |
+| `confidence` | Number from `0.0` to `1.0`. |
 
 ## project_manifest.json
 
