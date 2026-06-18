@@ -56,6 +56,10 @@ STRUCTURAL_REASON_MESSAGES = {
     "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE": "`conditional_behavior` needs guard/branch/predicate/state evidence",
     "FORBIDDEN_ATOMS_REQUIRED": "yes_no, fact_check, and false_premise rows need forbidden_atoms",
     "FILE_ANCHOR_LEAK": "query names an evidence file without file_anchor_required tag",
+    "MISSING_CLAIM_SOURCES": "`difficulty.claim_sources` is required in v1.1 mode",
+    "MISSING_CLAIM_SOURCE_ATTRIBUTE": "`difficulty.claim_sources` must include signals for every difficulty attribute",
+    "UNKNOWN_CLAIM_SOURCE_SIGNAL": "`difficulty.claim_sources` references an unknown signal_id",
+    "CLAIM_SOURCE_SIGNAL_MISMATCH": "`difficulty.claim_sources` signal does not match row project, axis, or attribute",
 }
 ZERO_EVIDENCE_ANSWERABILITY = {
     "unanswerable_missing_evidence",
@@ -239,6 +243,20 @@ def load_source_inventory(bundle: Path | None, findings: list[Finding]) -> dict[
     return sources
 
 
+def load_signal_index(bundle: Path | None, findings: list[Finding]) -> dict[str, dict[str, Any]]:
+    if bundle is None:
+        return {}
+    signal_path = bundle / "signal_index.jsonl"
+    if not signal_path.exists():
+        return {}
+    signals: dict[str, dict[str, Any]] = {}
+    for row in load_jsonl(signal_path, findings):
+        signal_id = row.get("signal_id")
+        if isinstance(signal_id, str) and signal_id:
+            signals[signal_id] = row
+    return signals
+
+
 def is_nonempty_string(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
 
@@ -285,15 +303,31 @@ def row_tags(row: dict[str, Any]) -> set[str]:
 
 
 def difficulty_attributes(row: dict[str, Any]) -> list[str]:
+    return [attribute for _, attribute in difficulty_axis_attributes(row)]
+
+
+def difficulty_axis_attributes(row: dict[str, Any]) -> list[tuple[int, str]]:
     difficulty = row.get("difficulty")
     if not isinstance(difficulty, dict):
         return []
-    attrs: list[str] = []
-    for key in ("axis2_retrieval", "axis3_reasoning"):
+    attrs: list[tuple[int, str]] = []
+    for key, axis in (("axis2_retrieval", 2), ("axis3_reasoning", 3)):
         values = difficulty.get(key, [])
         if isinstance(values, list):
-            attrs.extend(str(value) for value in values if isinstance(value, str))
+            attrs.extend((axis, str(value)) for value in values if isinstance(value, str))
     return attrs
+
+
+def missing_evidence_refusal(row: dict[str, Any]) -> bool:
+    references = row.get("references", [])
+    evidence = row.get("evidence", [])
+    return (
+        row.get("answerability") == "unanswerable_missing_evidence"
+        and isinstance(references, list)
+        and not references
+        and isinstance(evidence, list)
+        and not evidence
+    )
 
 
 def evidence_source_ids(row: dict[str, Any]) -> set[str]:
@@ -609,36 +643,73 @@ def validate_rubric(row: dict[str, Any], findings: list[Finding], evidence_ids: 
             add(findings, "FAIL", row["_file"], row["_line"], case_id, f"citation_policy references unknown evidence_id: {evidence_id}")
 
 
-def structural_gate_record(row: dict[str, Any]) -> dict[str, Any]:
+def structural_gate_record(row: dict[str, Any], signals: dict[str, dict[str, Any]] | None = None) -> dict[str, Any]:
     case_id = str(row.get("case_id", "<missing>"))
     layer = label_code(row.get("layer"))
     answer_type = label_code(row.get("answer_type"))
     answerability = str(row.get("answerability", "answerable"))
     difficulty = row.get("difficulty")
     reason_codes: list[str] = []
+    reason_messages: list[str] = []
+
+    def add_reason(code: str, message: str | None = None) -> None:
+        reason_codes.append(code)
+        reason_messages.append(message or STRUCTURAL_REASON_MESSAGES[code])
 
     if not isinstance(difficulty, dict):
-        reason_codes.append("MISSING_DIFFICULTY")
+        add_reason("MISSING_DIFFICULTY")
         attrs: list[str] = []
     else:
         attrs = difficulty_attributes(row)
         if difficulty.get("axis1_layer") != layer:
-            reason_codes.append("DIFFICULTY_LAYER_MISMATCH")
+            add_reason("DIFFICULTY_LAYER_MISMATCH")
+        claim_sources = difficulty.get("claim_sources")
+        if not isinstance(claim_sources, dict):
+            add_reason("MISSING_CLAIM_SOURCES")
+        else:
+            for axis, attribute in difficulty_axis_attributes(row):
+                signal_ids = claim_sources.get(attribute)
+                if (
+                    not isinstance(signal_ids, list)
+                    or not signal_ids
+                    or not all(is_nonempty_string(signal_id) for signal_id in signal_ids)
+                ):
+                    add_reason("MISSING_CLAIM_SOURCE_ATTRIBUTE")
+                    continue
+                if signals:
+                    for signal_id in signal_ids:
+                        signal = signals.get(signal_id)
+                        if signal is None:
+                            add_reason(
+                                "UNKNOWN_CLAIM_SOURCE_SIGNAL",
+                                f"`difficulty.claim_sources` references unknown signal_id: {signal_id}",
+                            )
+                            continue
+                        if (
+                            signal.get("project") != row.get("project")
+                            or signal.get("axis") != axis
+                            or signal.get("attribute") != attribute
+                        ):
+                            add_reason(
+                                "CLAIM_SOURCE_SIGNAL_MISMATCH",
+                                "`difficulty.claim_sources` signal does not match row project, axis, or attribute: "
+                                f"{signal_id}",
+                            )
 
     if len(set(attrs + ([layer] if layer == "L3" else []))) < 2:
-        reason_codes.append("INSUFFICIENT_DIFFICULTY_SIGNALS")
+        add_reason("INSUFFICIENT_DIFFICULTY_SIGNALS")
 
     source_ids = evidence_source_ids(row)
     if layer == "L2" and len(source_ids) < 2:
-        reason_codes.append("L2_SINGLE_SOURCE")
+        add_reason("L2_SINGLE_SOURCE")
     if layer == "L3":
         if len(source_ids) < 2:
-            reason_codes.append("L3_SINGLE_SOURCE")
+            add_reason("L3_SINGLE_SOURCE")
         if not has_atom_dependency(row):
-            reason_codes.append("L3_NO_ATOM_CHAIN")
+            add_reason("L3_NO_ATOM_CHAIN")
 
     if "conditional_behavior" in attrs and not has_conditional_evidence_role(row):
-        reason_codes.append("CONDITIONAL_BEHAVIOR_WITHOUT_ROLE")
+        add_reason("CONDITIONAL_BEHAVIOR_WITHOUT_ROLE")
 
     rubric = row.get("answer_rubric", {})
     forbidden_atoms = rubric.get("forbidden_atoms", []) if isinstance(rubric, dict) else []
@@ -647,16 +718,16 @@ def structural_gate_record(row: dict[str, Any]) -> dict[str, Any]:
         or answerability == "unanswerable_false_premise"
         or "false_premise" in attrs
     ) and not forbidden_atoms:
-        reason_codes.append("FORBIDDEN_ATOMS_REQUIRED")
+        add_reason("FORBIDDEN_ATOMS_REQUIRED")
 
     if "file_anchor_required" not in row_tags(row) and query_mentions_evidence_file(row):
-        reason_codes.append("FILE_ANCHOR_LEAK")
+        add_reason("FILE_ANCHOR_LEAK")
 
     return {
         "case_id": case_id,
         "pass": not reason_codes,
         "reason_codes": reason_codes,
-        "reasons": [STRUCTURAL_REASON_MESSAGES[code] for code in reason_codes],
+        "reasons": reason_messages,
         "layer": layer,
         "answerability": answerability,
         "attributes": attrs,
@@ -669,6 +740,7 @@ def validate_benchmark_rows(
     repo_root: Path,
     sources: dict[str, dict[str, Any]],
     schema_version: str = "v1",
+    signals: dict[str, dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     seen_case_ids: set[str] = set()
     structural_records: list[dict[str, Any]] = []
@@ -712,10 +784,10 @@ def validate_benchmark_rows(
         validate_expected_answer(row, findings)
         validate_rubric(row, findings, evidence_ids)
         if schema_version == "v1.1":
-            record = structural_gate_record(row)
+            record = structural_gate_record(row, signals=signals)
             structural_records.append(record)
-            for code in record["reason_codes"]:
-                add(findings, "FAIL", row["_file"], row["_line"], case_id, STRUCTURAL_REASON_MESSAGES[code])
+            for message in record["reasons"]:
+                add(findings, "FAIL", row["_file"], row["_line"], case_id, message)
     return structural_records
 
 
@@ -962,14 +1034,15 @@ def evaluate_case(row: dict[str, Any], run_row: dict[str, Any], top_k: int, answ
     contexts = normalize_contexts(run_row, top_k)
     references = [ref for ref in row.get("references", []) if isinstance(ref, dict)]
     evidence_items = [item for item in row.get("evidence", []) if isinstance(item, dict)]
+    no_gold_retrieval_required = missing_evidence_refusal(row)
     matched_refs = sum(1 for ref in references if reference_matched(ref, contexts))
     matched_evidence = sum(1 for item in evidence_items if evidence_matched(item, contexts))
-    reference_recall = matched_refs / len(references) if references else 0.0
-    evidence_recall = matched_evidence / len(evidence_items) if evidence_items else 0.0
+    reference_recall = matched_refs / len(references) if references else (1.0 if no_gold_retrieval_required else 0.0)
+    evidence_recall = matched_evidence / len(evidence_items) if evidence_items else (1.0 if no_gold_retrieval_required else 0.0)
     answer = str(run_row.get("answer", ""))
     citation_ok = answer_citation_pass(row, answer)
     atom_coverage, conclusions_ok, fatal_forbidden, atom_matches = score_atoms(row, answer)
-    retrieval_ok = evidence_recall == 1.0
+    retrieval_ok = no_gold_retrieval_required or evidence_recall == 1.0
     answer_ok = conclusions_ok and atom_coverage >= answer_threshold and not fatal_forbidden
     if retrieval_ok and answer_ok and citation_ok:
         verdict = "PASS"
@@ -1057,12 +1130,14 @@ def run_lint(args: argparse.Namespace) -> int:
     for path in args.benchmark:
         rows.extend(load_jsonl(path, findings))
     sources = load_source_inventory(args.context_bundle, findings)
+    signals = load_signal_index(args.context_bundle, findings)
     structural_records = validate_benchmark_rows(
         rows,
         findings,
         args.repo_root,
         sources,
         schema_version=args.schema_version,
+        signals=signals,
     )
     fail_count = sum(1 for finding in findings if finding.severity == "FAIL")
     warn_count = sum(1 for finding in findings if finding.severity == "WARN")
@@ -1105,12 +1180,14 @@ def run_evaluate(args: argparse.Namespace) -> int:
     findings: list[Finding] = []
     benchmark_rows = load_jsonl(args.benchmark, findings)
     sources = load_source_inventory(args.context_bundle, findings)
+    signals = load_signal_index(args.context_bundle, findings)
     structural_records = validate_benchmark_rows(
         benchmark_rows,
         findings,
         args.repo_root,
         sources,
         schema_version=args.schema_version,
+        signals=signals,
     )
     benchmark_by_id = {str(row.get("case_id")): row for row in benchmark_rows if is_nonempty_string(row.get("case_id"))}
     run_by_id: dict[str, dict[str, Any]] = {}

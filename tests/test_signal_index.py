@@ -33,6 +33,7 @@ class SignalIndexTest(unittest.TestCase):
         self.assertTrue(schema_path.exists())
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         self.assertEqual(schema["title"], "Analyzer Signal Index Row")
+        self.assertIn("relation_id", schema["properties"]["anchor"]["properties"])
         self.assertEqual(
             set(schema["required"]),
             {"signal_id", "project", "axis", "attribute", "anchor", "evidence", "extractor", "confidence"},
@@ -64,6 +65,38 @@ class SignalIndexTest(unittest.TestCase):
         )
 
         self.assertEqual([f.message for f in findings if f.severity == "FAIL"], [])
+
+    def test_context_validator_rejects_unknown_relation_anchor(self):
+        validator = load_validator()
+        rows = [
+            {
+                "_line": 1,
+                "signal_id": "sig:demo:relation",
+                "project": "demo",
+                "axis": 3,
+                "attribute": "doc_code_divergence",
+                "anchor": {"kind": "relation", "relation_id": "rel:missing"},
+                "evidence": {"predicate": "doc_mentions_entity"},
+                "extractor": "test",
+                "confidence": 0.9,
+            }
+        ]
+        findings = []
+
+        validator.validate_signals(
+            rows,
+            Path("signal_index.jsonl"),
+            project_id="demo",
+            sources={},
+            entities={},
+            relations={},
+            findings=findings,
+        )
+
+        self.assertIn(
+            "anchor.relation_id not present in relation graph",
+            [f.message for f in findings if f.severity == "FAIL"],
+        )
 
     def test_context_validator_rejects_schema_invalid_signal_rows_without_crashing(self):
         validator = load_validator()
@@ -426,6 +459,68 @@ class SignalIndexTest(unittest.TestCase):
             conditional = [item for item in signals if item["attribute"] == "conditional_behavior"]
             self.assertEqual(len(conditional), 1)
             self.assertEqual(conditional[0]["axis"], 3)
+
+    def test_signal_builder_emits_conditional_behavior_from_source_text(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmpdir = Path(tmp)
+            source = tmpdir / "main.py"
+            source.write_text("def launch(count):\n    if count == 0:\n        return\n", encoding="utf-8")
+            bundle = tmpdir / "bundle"
+            bundle.mkdir()
+            write_jsonl(
+                bundle / "source_inventory.jsonl",
+                [
+                    {
+                        "source_id": "src:code",
+                        "project": "demo",
+                        "source_set_id": "main",
+                        "repo_name": "demo",
+                        "path": str(source),
+                        "relative_path": "main.py",
+                        "modality": "code",
+                        "source_type": "code.python",
+                        "authority": "primary_source",
+                        "language": "python",
+                        "line_count": 3,
+                        "size_bytes": source.stat().st_size,
+                        "sha256": "sha256:1",
+                        "parse_status": "parsed",
+                    }
+                ],
+            )
+            write_jsonl(bundle / "entity_index.jsonl", [])
+            write_jsonl(bundle / "relation_graph.jsonl", [])
+            output = bundle / "signal_index.jsonl"
+
+            result = subprocess.run(
+                [sys.executable, str(BUILDER), str(bundle), "--output", str(output)],
+                cwd=ROOT,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            signals = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
+            conditional = [item for item in signals if item["attribute"] == "conditional_behavior"]
+            self.assertEqual(len(conditional), 1)
+            self.assertEqual(conditional[0]["axis"], 3)
+
+    def test_generated_context_signal_indexes_include_axis_three_signals(self):
+        for signal_index in (
+            ROOT / "runs" / "nvdla_context_bundle" / "signal_index.jsonl",
+            ROOT / "runs" / "vortex_context_bundle" / "signal_index.jsonl",
+        ):
+            if not signal_index.exists():
+                self.skipTest(f"missing local artifact: {signal_index}")
+            axes = {
+                json.loads(line)["axis"]
+                for line in signal_index.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            }
+
+            self.assertIn(3, axes, signal_index)
 
 
 if __name__ == "__main__":

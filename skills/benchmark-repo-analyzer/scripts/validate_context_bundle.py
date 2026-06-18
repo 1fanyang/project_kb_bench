@@ -327,7 +327,9 @@ def validate_signals(
     sources: dict[str, dict[str, Any]],
     entities: dict[str, dict[str, Any]],
     findings: list[Finding],
+    relations: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, int]:
+    relations = relations or {}
     by_id: set[str] = set()
     by_attribute: dict[str, int] = {}
     for row in rows:
@@ -359,6 +361,7 @@ def validate_signals(
             continue
         source_id = anchor.get("source_id")
         entity_id = anchor.get("entity_id")
+        relation_id = anchor.get("relation_id")
         if source_id not in (None, ""):
             if not isinstance(source_id, str):
                 add(findings, "FAIL", str(path), line, signal_id, "anchor.source_id must be a string")
@@ -369,6 +372,11 @@ def validate_signals(
                 add(findings, "FAIL", str(path), line, signal_id, "anchor.entity_id must be a string")
             elif entity_id not in entities:
                 add(findings, "FAIL", str(path), line, signal_id, "anchor.entity_id not present in entity index")
+        if relation_id not in (None, ""):
+            if not isinstance(relation_id, str):
+                add(findings, "FAIL", str(path), line, signal_id, "anchor.relation_id must be a string")
+            elif relation_id not in relations:
+                add(findings, "FAIL", str(path), line, signal_id, "anchor.relation_id not present in relation graph")
         attribute = str(row.get("attribute", "<missing>"))
         by_attribute[attribute] = by_attribute.get(attribute, 0) + 1
     return by_attribute
@@ -406,7 +414,7 @@ def main() -> int:
     signal_path = bundle / "signal_index.jsonl"
     signal_rows = load_jsonl(signal_path, findings) if signal_path.exists() else []
     signal_counts = (
-        validate_signals(signal_rows, signal_path, project_id, sources, entities, findings)
+        validate_signals(signal_rows, signal_path, project_id, sources, entities, findings, relations=relations)
         if signal_path.exists()
         else {}
     )

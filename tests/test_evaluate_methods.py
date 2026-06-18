@@ -46,6 +46,22 @@ class EvaluateMethodsTest(unittest.TestCase):
         self.assertEqual(scores["evidence_precision_at_k"], 0.5)
         self.assertEqual(scores["reference_recall_at_k"], 1.0)
 
+    def test_missing_evidence_refusal_has_no_gold_retrieval_requirement(self):
+        evaluator = load_module()
+        gold = {
+            "answerability": "unanswerable_missing_evidence",
+            "references": [],
+            "evidence": [],
+        }
+        pred = {"evidence": []}
+
+        scores = evaluator.score_retrieval(gold, pred, top_k=10)
+
+        self.assertEqual(scores["reference_recall_at_k"], 1.0)
+        self.assertEqual(scores["evidence_recall_at_k"], 1.0)
+        self.assertEqual(scores["evidence_precision_at_k"], 1.0)
+        self.assertEqual(scores["evidence_f1_at_k"], 1.0)
+
     def test_citation_pass_requires_gold_evidence_path_line_in_pred_answer(self):
         evaluator = load_module()
         gold = {

@@ -36,6 +36,15 @@ ANSWER_TYPES = {
     "synthesis": "综合归纳",
 }
 SCHEMA_VERSIONS = {"v1", "v1.1"}
+ANSWERABILITY_VALUES = {
+    "answerable",
+    "unanswerable_missing_evidence",
+    "unanswerable_false_premise",
+    "unanswerable_ambiguous",
+}
+ZERO_EVIDENCE_ANSWERABILITY = {
+    "unanswerable_missing_evidence",
+}
 CONDITIONAL_EVIDENCE_ROLES = {"trigger_condition", "branch", "guard", "predicate", "state"}
 STRUCTURAL_REASON_MESSAGES = {
     "MISSING_DIFFICULTY": "`difficulty` is required in v1.1 mode",
@@ -47,6 +56,8 @@ STRUCTURAL_REASON_MESSAGES = {
     "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE": "`conditional_behavior` needs guard/branch/predicate/state evidence",
     "FORBIDDEN_ATOMS_REQUIRED": "yes_no, fact_check, and false_premise rows need forbidden_atoms",
     "FILE_ANCHOR_LEAK": "query names an evidence file without file_anchor_required tag",
+    "MISSING_CLAIM_SOURCES": "`difficulty.claim_sources` is required in v1.1 mode",
+    "MISSING_CLAIM_SOURCE_ATTRIBUTE": "`difficulty.claim_sources` must include signals for every difficulty attribute",
 }
 
 ATOM_ROLES = {
@@ -185,15 +196,26 @@ def row_tags(row: dict[str, Any]) -> set[str]:
 
 
 def difficulty_attributes(row: dict[str, Any]) -> list[str]:
+    return [attribute for _, attribute in difficulty_axis_attributes(row)]
+
+
+def difficulty_axis_attributes(row: dict[str, Any]) -> list[tuple[int, str]]:
     difficulty = row.get("difficulty")
     if not isinstance(difficulty, dict):
         return []
-    attrs: list[str] = []
-    for key in ("axis2_retrieval", "axis3_reasoning"):
+    attrs: list[tuple[int, str]] = []
+    for key, axis in (("axis2_retrieval", 2), ("axis3_reasoning", 3)):
         values = difficulty.get(key, [])
         if isinstance(values, list):
-            attrs.extend(str(value) for value in values if isinstance(value, str))
+            attrs.extend((axis, str(value)) for value in values if isinstance(value, str))
     return attrs
+
+
+def zero_evidence_allowed(row: dict[str, Any], schema_version: str) -> bool:
+    return (
+        schema_version == "v1.1"
+        and str(row.get("answerability", "answerable")) in ZERO_EVIDENCE_ANSWERABILITY
+    )
 
 
 def evidence_source_ids(row: dict[str, Any]) -> set[str]:
@@ -325,12 +347,20 @@ def validate_query_rewrite(row: dict[str, Any], findings: list[Finding]) -> None
             add(findings, "WARN", row["_file"], row["_line"], case_id, f"`query_rewrite` introduces technical token absent from query: {token}")
 
 
-def validate_references(row: dict[str, Any], findings: list[Finding], repo_root: Path) -> set[str]:
+def validate_references(
+    row: dict[str, Any],
+    findings: list[Finding],
+    repo_root: Path,
+    schema_version: str = "v1",
+) -> set[str]:
     case_id = str(row.get("case_id", "<missing>"))
     references = row.get("references")
     reference_paths: set[str] = set()
-    if not isinstance(references, list) or not references:
-        add(findings, "FAIL", row["_file"], row["_line"], case_id, "`references` must be a non-empty list")
+    if not isinstance(references, list):
+        add(findings, "FAIL", row["_file"], row["_line"], case_id, "`references` must be a list")
+        return reference_paths
+    if not references and not zero_evidence_allowed(row, schema_version):
+        add(findings, "FAIL", row["_file"], row["_line"], case_id, "`references` must be a non-empty list for answerable rows")
         return reference_paths
     for index, ref in enumerate(references):
         if not isinstance(ref, dict):
@@ -350,12 +380,21 @@ def validate_references(row: dict[str, Any], findings: list[Finding], repo_root:
     return reference_paths
 
 
-def validate_evidence(row: dict[str, Any], findings: list[Finding], repo_root: Path, reference_paths: set[str]) -> set[str]:
+def validate_evidence(
+    row: dict[str, Any],
+    findings: list[Finding],
+    repo_root: Path,
+    reference_paths: set[str],
+    schema_version: str = "v1",
+) -> set[str]:
     case_id = str(row.get("case_id", "<missing>"))
     evidence = row.get("evidence")
     evidence_ids: set[str] = set()
-    if not isinstance(evidence, list) or not evidence:
-        add(findings, "FAIL", row["_file"], row["_line"], case_id, "`evidence` must be a non-empty list")
+    if not isinstance(evidence, list):
+        add(findings, "FAIL", row["_file"], row["_line"], case_id, "`evidence` must be a list")
+        return evidence_ids
+    if not evidence and not zero_evidence_allowed(row, schema_version):
+        add(findings, "FAIL", row["_file"], row["_line"], case_id, "`evidence` must be a non-empty list for answerable rows")
         return evidence_ids
     for index, item in enumerate(evidence):
         if not isinstance(item, dict):
@@ -494,6 +533,18 @@ def structural_gate_record(row: dict[str, Any]) -> dict[str, Any]:
         attrs = difficulty_attributes(row)
         if difficulty.get("axis1_layer") != layer:
             reason_codes.append("DIFFICULTY_LAYER_MISMATCH")
+        claim_sources = difficulty.get("claim_sources")
+        if not isinstance(claim_sources, dict):
+            reason_codes.append("MISSING_CLAIM_SOURCES")
+        else:
+            for _, attribute in difficulty_axis_attributes(row):
+                signal_ids = claim_sources.get(attribute)
+                if (
+                    not isinstance(signal_ids, list)
+                    or not signal_ids
+                    or not all(is_nonempty_string(signal_id) for signal_id in signal_ids)
+                ):
+                    reason_codes.append("MISSING_CLAIM_SOURCE_ATTRIBUTE")
 
     if len(set(attrs + ([layer] if layer == "L3" else []))) < 2:
         reason_codes.append("INSUFFICIENT_DIFFICULTY_SIGNALS")
@@ -556,9 +607,13 @@ def validate_row(
     if "capability" in row:
         validate_label_object(row, "capability", findings)
     validate_answer_type(row, findings)
+    if schema_version == "v1.1":
+        answerability = row.get("answerability")
+        if answerability not in ANSWERABILITY_VALUES:
+            add(findings, "FAIL", row["_file"], row["_line"], case_id, "`answerability` is required in v1.1 mode")
     validate_query_rewrite(row, findings)
-    reference_paths = validate_references(row, findings, repo_root)
-    evidence_ids = validate_evidence(row, findings, repo_root, reference_paths)
+    reference_paths = validate_references(row, findings, repo_root, schema_version=schema_version)
+    evidence_ids = validate_evidence(row, findings, repo_root, reference_paths, schema_version=schema_version)
     validate_expected_answer(row, findings)
     validate_rubric(row, findings, evidence_ids)
     if schema_version == "v1.1":

@@ -23,6 +23,7 @@
       "properties": {
         "kind": {"type": "string"},
         "entity_id": {"type": "string"},
+        "relation_id": {"type": "string"},
         "source_id": {"type": "string"},
         "path": {"type": "string"},
         "lines": {"type": "string"}

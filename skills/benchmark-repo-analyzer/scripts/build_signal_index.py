@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -14,6 +15,16 @@ from typing import Any
 
 NON_CODE_MODALITIES = {"script", "config"}
 CONDITIONAL_PREDICATES = {"checks_condition", "reads", "writes"}
+CONDITIONAL_TEXT_MODALITIES = {"code", "script", "config", "test"}
+CONDITIONAL_TEXT_RE = re.compile(
+    r"\b(if|else|case|switch|when|guard|assert|for|while|unless)\b|&&|\|\||\?",
+    re.IGNORECASE,
+)
+AXIS3_RELATION_ATTRIBUTES = {
+    "contains": "implicit_domain_knowledge",
+    "doc_mentions_entity": "doc_code_divergence",
+    "imports_or_includes": "implicit_domain_knowledge",
+}
 EXTRACTOR = "deterministic_signal_builder_v1"
 
 
@@ -240,6 +251,88 @@ def build_conditional_behavior_signals(project: str, relations: list[dict[str, A
     return signals
 
 
+def build_relation_reasoning_signals(project: str, relations: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    signals: list[dict[str, Any]] = []
+    for relation in relations:
+        predicate = relation.get("predicate")
+        attribute = AXIS3_RELATION_ATTRIBUTES.get(str(predicate))
+        relation_id = relation.get("relation_id")
+        if attribute is None or not isinstance(relation_id, str) or not relation_id:
+            continue
+        evidence_item = first_evidence_item(relation)
+        anchor = {
+            "kind": "relation",
+            "relation_id": relation_id,
+            "source_id": evidence_item.get("source_id"),
+            "path": evidence_item.get("path"),
+            "lines": evidence_item.get("lines"),
+        }
+        evidence = {
+            "predicate": predicate,
+            "subject": relation.get("subject"),
+            "object": relation.get("object"),
+            "summary": evidence_item.get("summary"),
+        }
+        signals.append(make_signal(project, attribute, 3, anchor, evidence, 0.68))
+    return signals
+
+
+def resolve_source_path(source: dict[str, Any]) -> Path | None:
+    path = source.get("path")
+    if not isinstance(path, str) or not path:
+        return None
+    candidate = Path(path)
+    if candidate.exists():
+        return candidate
+    relative_path = source.get("relative_path")
+    if isinstance(relative_path, str) and relative_path:
+        candidate = Path(relative_path)
+        if candidate.exists():
+            return candidate
+    return None
+
+
+def build_conditional_text_signals(project: str, sources: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    signals: list[dict[str, Any]] = []
+    for source in sources:
+        modality = source.get("modality")
+        if modality not in CONDITIONAL_TEXT_MODALITIES:
+            continue
+        source_id = source.get("source_id")
+        if not isinstance(source_id, str) or not source_id:
+            continue
+        source_path = resolve_source_path(source)
+        if source_path is None:
+            continue
+        try:
+            lines = source_path.read_text(encoding="utf-8", errors="replace").splitlines()
+        except OSError:
+            continue
+        matched: list[dict[str, Any]] = []
+        for lineno, line in enumerate(lines, 1):
+            if not CONDITIONAL_TEXT_RE.search(line):
+                continue
+            matched.append({"line": lineno, "text": line.strip()[:160]})
+            if len(matched) >= 5:
+                break
+        if not matched:
+            continue
+        anchor = {
+            "kind": "source",
+            "source_id": source_id,
+            "path": source.get("path"),
+            "lines": str(matched[0]["line"]),
+        }
+        evidence = {
+            "modality": modality,
+            "language": source.get("language"),
+            "source_type": source.get("source_type"),
+            "sample_lines": matched,
+        }
+        signals.append(make_signal(project, "conditional_behavior", 3, anchor, evidence, 0.7))
+    return signals
+
+
 def dedupe_signals(signals: list[dict[str, Any]]) -> list[dict[str, Any]]:
     by_id: dict[str, dict[str, Any]] = {}
     for signal in signals:
@@ -266,6 +359,8 @@ def build_signals(bundle: Path, long_tail_threshold: int) -> list[dict[str, Any]
     signals.extend(build_non_code_anchor_signals(project, sources))
     signals.extend(build_distracting_info_signals(project, entities))
     signals.extend(build_conditional_behavior_signals(project, relations))
+    signals.extend(build_relation_reasoning_signals(project, relations))
+    signals.extend(build_conditional_text_signals(project, sources))
     return dedupe_signals(signals)
 
 

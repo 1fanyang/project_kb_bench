@@ -136,6 +136,10 @@ class ValidateBenchmarkV11Test(unittest.TestCase):
             "axis1_layer": "L1",
             "axis2_retrieval": ["negative_evidence"],
             "axis3_reasoning": ["snapshot_gap"],
+            "claim_sources": {
+                "negative_evidence": ["sig:demo:negative"],
+                "snapshot_gap": ["sig:demo:snapshot"],
+            },
         }
         row["references"] = []
         row["evidence"] = []
@@ -161,6 +165,38 @@ class ValidateBenchmarkV11Test(unittest.TestCase):
         messages = lint_fail_messages(validator, row, schema_version="v1.1")
 
         self.assertEqual(messages, [])
+
+    def test_evaluate_case_allows_missing_evidence_refusal_without_retrieval(self):
+        validator = load_module()
+        row = answerable_row()
+        row["case_id"] = "case-missing-eval"
+        row["answerability"] = "unanswerable_missing_evidence"
+        row["references"] = []
+        row["evidence"] = []
+        row["answer_rubric"]["required_atoms"] = [
+            {
+                "id": "A1",
+                "role": "conclusion",
+                "statement": "The answer refuses because evidence is missing.",
+                "match_type": "semantic_fact",
+                "evidence_ids": [],
+                "weight": 1.0,
+            }
+        ]
+        row["answer_rubric"]["forbidden_atoms"] = []
+        row["answer_rubric"]["citation_policy"] = {"required": "never"}
+
+        result = validator.evaluate_case(
+            row,
+            {"case_id": "case-missing-eval", "answer": "The answer refuses because evidence is missing."},
+            top_k=10,
+            answer_threshold=0.7,
+        )
+
+        self.assertEqual(result.reference_recall, 1.0)
+        self.assertEqual(result.evidence_recall, 1.0)
+        self.assertEqual(result.verdict, "PASS")
+        self.assertNotIn("evidence_recall below 1.0", result.notes)
 
     def test_v1_1_rejects_answerable_row_with_empty_evidence(self):
         validator = load_module()
@@ -265,6 +301,116 @@ class ValidateBenchmarkV11Test(unittest.TestCase):
         )
 
         self.assertTrue(records[0]["pass"], records)
+
+    def test_v1_1_rejects_missing_claim_sources(self):
+        validator = load_module()
+        row = answerable_row()
+        row["answerability"] = "answerable"
+        row["difficulty"] = {
+            "axis1_layer": "L1",
+            "axis2_retrieval": ["long_tail"],
+            "axis3_reasoning": ["conditional_behavior"],
+        }
+
+        messages = lint_fail_messages(validator, row, schema_version="v1.1")
+
+        self.assertIn("`difficulty.claim_sources` is required in v1.1 mode", messages)
+
+    def test_v1_1_rejects_claim_sources_missing_difficulty_attribute(self):
+        validator = load_module()
+        row = answerable_row()
+        row["answerability"] = "answerable"
+        row["difficulty"] = {
+            "axis1_layer": "L1",
+            "axis2_retrieval": ["long_tail"],
+            "axis3_reasoning": ["conditional_behavior"],
+            "claim_sources": {"long_tail": ["sig:demo:long-tail"]},
+        }
+
+        messages = lint_fail_messages(validator, row, schema_version="v1.1")
+
+        self.assertIn(
+            "`difficulty.claim_sources` must include signals for every difficulty attribute",
+            messages,
+        )
+
+    def test_v1_1_rejects_unknown_claim_source_signal_when_signal_index_is_loaded(self):
+        validator = load_module()
+        row = answerable_row()
+        row["answerability"] = "answerable"
+        row["difficulty"] = {
+            "axis1_layer": "L1",
+            "axis2_retrieval": ["long_tail"],
+            "axis3_reasoning": ["conditional_behavior"],
+            "claim_sources": {
+                "long_tail": ["sig:demo:long-tail"],
+                "conditional_behavior": ["sig:demo:missing"],
+            },
+        }
+        findings = []
+
+        validator.validate_benchmark_rows(
+            [row],
+            findings,
+            ROOT,
+            {},
+            schema_version="v1.1",
+            signals={
+                "sig:demo:long-tail": {
+                    "signal_id": "sig:demo:long-tail",
+                    "project": "demo",
+                    "axis": 2,
+                    "attribute": "long_tail",
+                }
+            },
+        )
+
+        self.assertIn(
+            "`difficulty.claim_sources` references unknown signal_id: sig:demo:missing",
+            [finding.message for finding in findings if finding.severity == "FAIL"],
+        )
+
+    def test_v1_1_rejects_claim_source_signal_axis_or_attribute_mismatch(self):
+        validator = load_module()
+        row = answerable_row()
+        row["answerability"] = "answerable"
+        row["difficulty"] = {
+            "axis1_layer": "L1",
+            "axis2_retrieval": ["long_tail"],
+            "axis3_reasoning": ["conditional_behavior"],
+            "claim_sources": {
+                "long_tail": ["sig:demo:wrong-axis"],
+                "conditional_behavior": ["sig:demo:conditional"],
+            },
+        }
+        findings = []
+
+        validator.validate_benchmark_rows(
+            [row],
+            findings,
+            ROOT,
+            {},
+            schema_version="v1.1",
+            signals={
+                "sig:demo:wrong-axis": {
+                    "signal_id": "sig:demo:wrong-axis",
+                    "project": "demo",
+                    "axis": 3,
+                    "attribute": "long_tail",
+                },
+                "sig:demo:conditional": {
+                    "signal_id": "sig:demo:conditional",
+                    "project": "demo",
+                    "axis": 3,
+                    "attribute": "conditional_behavior",
+                },
+            },
+        )
+
+        self.assertIn(
+            "`difficulty.claim_sources` signal does not match row project, axis, or attribute: sig:demo:wrong-axis",
+            [finding.message for finding in findings if finding.severity == "FAIL"],
+        )
 
     def test_structural_gate_json_is_written_by_cli(self):
         import json

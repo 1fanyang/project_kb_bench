@@ -251,10 +251,23 @@ def normalize_pred_evidence(prediction: dict[str, Any], top_k: int) -> list[dict
     return normalized
 
 
+def missing_evidence_refusal(benchmark_row: dict[str, Any]) -> bool:
+    references = benchmark_row.get("references", [])
+    evidence = benchmark_row.get("evidence", [])
+    return (
+        benchmark_row.get("answerability") == "unanswerable_missing_evidence"
+        and isinstance(references, list)
+        and not references
+        and isinstance(evidence, list)
+        and not evidence
+    )
+
+
 def score_retrieval(
     benchmark_row: dict[str, Any], prediction: dict[str, Any], top_k: int
 ) -> dict[str, Any]:
     pred_evidence = normalize_pred_evidence(prediction, top_k)
+    no_gold_retrieval_required = missing_evidence_refusal(benchmark_row)
     gold_references = [
         item for item in benchmark_row.get("references", []) if isinstance(item, dict)
     ]
@@ -277,14 +290,14 @@ def score_retrieval(
         if any(evidence_matches(item, pred) for item in gold_evidence):
             matched_pred_count += 1
 
-    reference_recall = (
-        matched_references / len(gold_references) if gold_references else 0.0
+    reference_recall = matched_references / len(gold_references) if gold_references else (
+        1.0 if no_gold_retrieval_required else 0.0
     )
-    evidence_recall = (
-        len(matched_evidence_ids) / len(gold_evidence) if gold_evidence else 0.0
+    evidence_recall = len(matched_evidence_ids) / len(gold_evidence) if gold_evidence else (
+        1.0 if no_gold_retrieval_required else 0.0
     )
-    evidence_precision = (
-        matched_pred_count / len(pred_evidence) if pred_evidence else 0.0
+    evidence_precision = matched_pred_count / len(pred_evidence) if pred_evidence else (
+        1.0 if no_gold_retrieval_required else 0.0
     )
     if evidence_recall + evidence_precision:
         evidence_f1 = (
@@ -689,7 +702,7 @@ def evaluate_case(
     notes: list[str] = []
     if "pred_answer" not in prediction:
         notes.append("missing pred_answer")
-    if not normalize_pred_evidence(prediction, top_k):
+    if not normalize_pred_evidence(prediction, top_k) and not missing_evidence_refusal(benchmark_row):
         notes.append("missing evidence")
     if not retrieval_ok:
         notes.append("gold evidence not fully retrieved")
