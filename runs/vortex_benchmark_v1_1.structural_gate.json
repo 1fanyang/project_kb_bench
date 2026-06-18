@@ -1,0 +1,2427 @@
+[
+  {
+    "case_id": "vortex-v1_1-L1-001",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-002",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "non_code_anchor",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-003",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-004",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "distracting_info",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-005",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-006",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-007",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-008",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "non_code_anchor",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-009",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-010",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "distracting_info",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-011",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-012",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-013",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-014",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "non_code_anchor",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-015",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-016",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "distracting_info",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-017",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-018",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-019",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-020",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "non_code_anchor",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-021",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-022",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "distracting_info",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-023",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-024",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-025",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-026",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "non_code_anchor",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-027",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-028",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "distracting_info",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-029",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-030",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "unanswerable_missing_evidence",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-031",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-032",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-033",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-034",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-035",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-036",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-037",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-038",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-039",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-040",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-041",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-042",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-043",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-044",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-045",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-046",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-047",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-048",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-049",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L1-050",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L1",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-051",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-052",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-053",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-054",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-055",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-056",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-057",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-058",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-059",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-060",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-061",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-062",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-063",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-064",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-065",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-066",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-067",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-068",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-069",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-070",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-071",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-072",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-073",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-074",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "non_code_anchor",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-075",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-076",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-077",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-078",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-079",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-080",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-081",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-082",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "distracting_info",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-083",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-084",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-085",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-086",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "non_code_anchor",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-087",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-088",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-089",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-090",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_false_premise",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-091",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_ambiguous",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-092",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_ambiguous",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-093",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_ambiguous",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-094",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_ambiguous",
+    "attributes": [
+      "distracting_info",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-095",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_ambiguous",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-096",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_ambiguous",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-097",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_ambiguous",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-098",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_ambiguous",
+    "attributes": [
+      "non_code_anchor",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-099",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_ambiguous",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-100",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "unanswerable_ambiguous",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-101",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-102",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-103",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-104",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-105",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-106",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-107",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-108",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-109",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-110",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-111",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-112",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-113",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-114",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-115",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-116",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-117",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-118",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-119",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-120",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-121",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-122",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-123",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-124",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-125",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-126",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-127",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-128",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-129",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-130",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-131",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-132",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-133",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-134",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-135",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-136",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-137",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-138",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-139",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L2-140",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L2",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-141",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-142",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-143",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-144",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-145",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-146",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-147",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-148",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-149",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-150",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-151",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-152",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-153",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-154",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-155",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-156",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-157",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-158",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-159",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-160",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-161",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-162",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-163",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-164",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-165",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-166",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-167",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-168",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-169",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-170",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-171",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-172",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-173",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-174",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-175",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-176",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-177",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-178",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-179",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-180",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-181",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-182",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-183",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-184",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-185",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-186",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-187",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-188",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-189",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-190",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-191",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-192",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-193",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-194",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-195",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior",
+      "doc_code_divergence"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-196",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-197",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-198",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "long_tail",
+      "conditional_behavior",
+      "implicit_domain_knowledge"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-199",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "distracting_info",
+      "conditional_behavior"
+    ]
+  },
+  {
+    "case_id": "vortex-v1_1-L3-200",
+    "pass": true,
+    "reason_codes": [],
+    "reasons": [],
+    "layer": "L3",
+    "answerability": "answerable",
+    "attributes": [
+      "non_code_anchor",
+      "conditional_behavior"
+    ]
+  }
+]

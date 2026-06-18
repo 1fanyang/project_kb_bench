@@ -1,0 +1,29 @@
+{
+  "benchmark_id": "nvdla_benchmark_v1_1",
+  "context_bundle": "runs/nvdla_context_bundle",
+  "generator": "scripts/generate_v1_1_release_corpora.py",
+  "profile": "runs/nvdla_generation_profile_v1_1.yaml",
+  "schema_version": "v1.1",
+  "summary": {
+    "answerability": {
+      "answerable": 140,
+      "unanswerable_ambiguous": 10,
+      "unanswerable_false_premise": 20,
+      "unanswerable_missing_evidence": 30
+    },
+    "attributes": {
+      "conditional_behavior": 120,
+      "distracting_info": 62,
+      "doc_code_divergence": 33,
+      "implicit_domain_knowledge": 72,
+      "long_tail": 104,
+      "non_code_anchor": 34
+    },
+    "layers": {
+      "L1": 50,
+      "L2": 90,
+      "L3": 60
+    },
+    "rows": 200
+  }
+}

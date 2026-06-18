@@ -1,0 +1,40 @@
+{
+  "mode": "lint",
+  "rows": 200,
+  "fails": 0,
+  "warnings": 0,
+  "coverage": {
+    "project": {
+      "nvdla": 200
+    },
+    "layer": {
+      "L1": 50,
+      "L2": 90,
+      "L3": 60
+    },
+    "capability": {
+      "repo_structure_location": 34,
+      "doc_code_cross_check": 34,
+      "build_sim_verif_flow": 33,
+      "mechanism_trace": 33,
+      "tests_debug_evidence": 33,
+      "negative_insufficient_evidence": 33
+    },
+    "answer_type": {
+      "negative": 40,
+      "mechanism": 35,
+      "synthesis": 35,
+      "location": 35,
+      "procedure": 35,
+      "fact_check": 20
+    }
+  },
+  "findings": [],
+  "sample_case_ids": [
+    "nvdla-v1_1-L1-001",
+    "nvdla-v1_1-L1-002",
+    "nvdla-v1_1-L1-003",
+    "nvdla-v1_1-L1-004",
+    "nvdla-v1_1-L1-005"
+  ]
+}
