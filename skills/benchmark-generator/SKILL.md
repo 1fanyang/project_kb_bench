@@ -39,6 +39,20 @@ benchmark_metadata.json
 generation_report.md
 ```
 
+## v1.1 generation mode
+
+When the request names v1.1 or the profile contains `attribute_quotas`, use
+attribute-first generation:
+
+1. Read `signal_index.jsonl` from the configured context bundle.
+2. Choose target difficulty attributes from quota deficits.
+3. Select anchors whose signals satisfy the selected attributes.
+4. Write `answerability` and `difficulty` into every row.
+5. Run validator lint with `--schema-version v1.1`.
+6. Write structural gate, adversarial dry-run, rejected rows, and generation report artifacts.
+
+Do not overwrite v1 benchmark files. Use `_v1_1` or `_v1_1_smoke` output names.
+
 ## Codex CLI Invocation
 
 Invoke this skill from Codex CLI as a message, not as a shell command:
