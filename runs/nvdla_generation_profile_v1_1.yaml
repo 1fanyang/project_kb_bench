@@ -1,0 +1,80 @@
+schema_version: generation-profile/v1
+benchmark:
+  id: nvdla_benchmark_v1_1
+  output_name: runs/nvdla_benchmark_v1_1.jsonl
+  target_count: 200
+  case_id_pattern: "{project}-v1_1-{layer}-{seq:03d}"
+input:
+  context_bundle: runs/nvdla_context_bundle
+  signal_index: runs/nvdla_context_bundle/signal_index.jsonl
+projects:
+  - id: nvdla
+    target_count: 200
+layers:
+  - code: L1
+    zh: 单源检索
+    target_count: 50
+  - code: L2
+    zh: 跨源核对
+    target_count: 90
+  - code: L3
+    zh: 多跳机制
+    target_count: 60
+attribute_quotas:
+  rule: every_case_has_at_least_two_signals_across_axes_combined
+  per_attribute_minimum:
+    long_tail: 0.30
+    distracting_info: 0.20
+    version_fork: 0.10
+    non_code_anchor: 0.15
+    false_premise: 0.08
+    doc_code_divergence: 0.15
+    conditional_behavior: 0.20
+    negative_evidence: 0.10
+    implicit_domain_knowledge: 0.15
+    quantitative_aggregation: 0.08
+answerability_mix:
+  answerable: 0.70
+  unanswerable_missing_evidence: 0.15
+  unanswerable_false_premise: 0.10
+  unanswerable_ambiguous: 0.05
+adversarial_gate:
+  enabled: true
+  dry_run_allowed: true
+  judge:
+    provider: deepseek
+    model: deepseek-v4-pro
+    api_key_env: DEEPSEEK_API_KEY
+    threshold: 0.7
+  baselines:
+    closed_book_llm:
+      model: deepseek-v4-flash
+    top_1_dense_only:
+      top_k: 1
+capability_seeds:
+  - code: repo_structure_location
+    zh: 项目结构定位
+  - code: rtl_symbol_location
+    zh: RTL 符号定位
+  - code: software_stack_path
+    zh: 软件栈路径
+  - code: doc_code_cross_check
+    zh: 文档代码核对
+  - code: build_sim_verif_flow
+    zh: 构建仿真验证流程
+  - code: mechanism_trace
+    zh: 机制链路解释
+sampling:
+  query_style_mix:
+    colloquial: 0.34
+    contextual: 0.28
+    fact_check: 0.18
+    followup: 0.10
+    evidence_request: 0.10
+answer_policy:
+  require_direct_answer_first: true
+  citation_format: "`path:line-range`"
+  query_rewrite_policy: visible-query-semantics-only
+known_limits:
+  - CodeGraph was unavailable in the v1 analyzer bundle, so call/callee-heavy signals depend on deterministic sidecar extraction.
+  - v1.1 release generation must preserve v1 source snapshots and never overwrite runs/nvdla_benchmark_v1.jsonl.
