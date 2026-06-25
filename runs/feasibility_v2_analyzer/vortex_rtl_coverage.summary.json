@@ -1,0 +1,45 @@
+{
+  "total_files": 215,
+  "clean": 56,
+  "partial": 150,
+  "error": 9,
+  "files_with_kind": {
+    "text_macro_definition": 31,
+    "always_construct": 101,
+    "package_import_declaration": 107,
+    "module_declaration": 128,
+    "parameter_declaration": 161,
+    "checker_instantiation": 43,
+    "module_instantiation": 92,
+    "udp_instantiation": 25,
+    "case_statement": 26,
+    "conditional_statement": 81,
+    "package_declaration": 6,
+    "function_declaration": 7,
+    "task_declaration": 8,
+    "interface_declaration": 23
+  },
+  "parse_rate_pct": 26.05,
+  "top_error_files": [
+    [
+      "vortex/hw/syn/synopsys/models/memory/cln28hpm/rf2_256x128_wm1/rf2_256x128_wm1.v",
+      24834
+    ],
+    [
+      "vortex/hw/syn/synopsys/models/memory/cln28hpm/rf2_128x128_wm1/rf2_128x128_wm1.v",
+      24672
+    ],
+    [
+      "vortex/hw/syn/synopsys/models/memory/cln28hpm/rf2_32x128_wm1/rf2_32x128_wm1.v",
+      24348
+    ],
+    [
+      "vortex/hw/syn/synopsys/models/memory/cln28hpc/rf2_32x128_wm1/rf2_32x128_wm1.v",
+      13819
+    ],
+    [
+      "vortex/hw/syn/synopsys/models/memory/cln28hpm/rf2_256x19_wm0/rf2_256x19_wm0.v",
+      3994
+    ]
+  ]
+}

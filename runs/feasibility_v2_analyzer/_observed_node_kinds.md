@@ -54,9 +54,36 @@ real-data sweep summary.
 
 ## Parse-rate bucket
 
-Filled after Task 2 runs against `repo_sources/vortex`.
+| project | total RTL files | clean_pct (strict) | usable_pct (clean+partial, excl. foundry models) | bucket | Phase 6 disposition |
+|---|---|---|---|---|---|
+| vortex  | 215 (201 non-foundry) | 26.05% | 95.5% | borderline-needed | recommended |
+| nvdla   | _TBD_           | _TBD_          | _TBD_ | _TBD_ | _TBD_ |
 
-| project | total RTL files | parse_rate_pct | bucket | Phase 6 disposition |
-|---|---|---|---|---|
-| vortex  | _TBD_           | _TBD_          | _TBD_  | _TBD_ |
-| nvdla   | _TBD_           | _TBD_          | _TBD_  | _TBD_ |
+**Reading these numbers:** The "clean_pct" column applies the strict
+zero-ERROR-nodes definition the original plan used. The "usable_pct"
+column counts files where the tree-sitter parse tree is still walkable
+for entity extraction (clean OR partial = ≤5% ERROR nodes), excluding
+the 14 Synopsys foundry memory-cell models that no analyzer should ever
+have to read (`vortex/hw/syn/synopsys/models/`).
+
+For analyzer-v2 purposes, **usable_pct is the load-bearing number**:
+Phase 1's tree-sitter queries walk whatever AST tree-sitter gives back,
+and a sub-tree ERROR doesn't invalidate the surrounding module's entity
+extraction. At 95.5% usable, Phase 6 (Verible secondary parser) is
+**recommended but not blocking** — there are 9 hard-error files (4.5%)
+that need Verible to be reachable at all:
+
+- `vortex/hw/dpi/float_dpi.vh` (171 errors) — DPI-C function imports
+- `vortex/hw/dpi/util_dpi.vh` (25 errors) — DPI-C function imports
+- `vortex/hw/rtl/VX_trace_pkg.sv` (459 errors) — likely heavy parameter/typedef constructs
+- `vortex/hw/rtl/afu/xrt/VX_afu_wrap.sv` (282 errors)
+- `vortex/hw/rtl/afu/xrt/vortex_afu.v` (64 errors)
+- `vortex/hw/rtl/core/VX_uop_sequencer.sv` (33 errors)
+- `vortex/hw/rtl/interfaces/VX_decode_if.sv` (10 errors)
+- `vortex/hw/rtl/interfaces/VX_fetch_if.sv` (10 errors)
+- `vortex/sim/xrtsim/vortex_afu_shim.sv` (62 errors)
+
+This is exactly the 80–95% bucket from the original plan's decision
+table (interpreted via `usable_pct`), so Phase 6 is in scope unless we
+discover at Phase 1 that the 9 hard-error files are non-load-bearing
+for the benchmark.
