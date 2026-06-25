@@ -426,13 +426,13 @@ Update this section as each phase completes. Format: `phase | status | shipped-o
 
 | Phase | Status | Shipped on | Notes |
 |---|---|---|---|
-| 0 — Feasibility | not started | — | — |
-| 1 — Verilog language module | not started | — | depends on Phase 0 |
-| 2 — Bundle exporter | not started | — | depends on Phase 1 |
-| 3 — Signal-emission layer | not started | — | depends on Phase 2 |
+| 0 — Feasibility | complete | 2026-06-25 | usable_pct vortex=95.5% nvdla=100%; pin=4077ed1 (v1.1.1); phase-6=recommended; see `runs/feasibility_v2_analyzer.md` |
+| 1 — Verilog language module | not started | — | depends on Phase 0; PH0 corrections required (node-kind names + integration paths) |
+| 2 — Bundle exporter | not started | — | depends on Phase 1; table names confirmed as nodes/edges (not symbols/relations) |
+| 3 — Signal-emission layer | not started | — | depends on Phase 2; use `conditional_statement` not `if_statement` |
 | 4 — Pipeline integration | not started | — | depends on Phase 3 |
-| 5 — Parity + rollout | not started | — | depends on Phase 4 |
-| 6 — RTL accuracy reinforcement | conditional | — | triggered only by Phase 0 result |
+| 5 — Parity + rollout | not started | — | depends on Phase 4; add npm-audit security review |
+| 6 — RTL accuracy reinforcement | scheduled | — | triggered: 9 hard-error Vortex files (VX_trace_pkg.sv, AFU wrap, DPI headers, ...) |
 
 ---
 
