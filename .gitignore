@@ -18,3 +18,14 @@ runs/*lint_freshrun.json
 runs/*lint_post_fixes.json
 runs/lint_v1_1_with_extensions.json
 predictions/vortex_grep_parts/
+
+# Analyzer-v2 (Phase 0+) — project-local CodeGraph checkout, parse-coverage
+# per-file JSONL, and indexing logs. Summary JSONs and markdown reports
+# are kept tracked.
+tools/codegraph/
+tools/codegraph-bundle/
+runs/feasibility_v2_analyzer/*.jsonl
+runs/feasibility_v2_analyzer/*.log
+
+# uv-managed virtualenv (created by `uv add`).
+.venv/
