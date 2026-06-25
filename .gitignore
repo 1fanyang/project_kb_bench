@@ -5,3 +5,16 @@ dsk
 repo_sources/
 __pycache__/
 *.py[cod]
+.DS_Store
+drafts/
+runs/baseline_tmp/
+runs/v1_2_llm_full/
+runs/smoke50_vortex/
+runs/smoke50_vortex_run50/
+runs/*sample*.jsonl
+runs/*lint_ship*.json
+runs/*lint_fixes.json
+runs/*lint_freshrun.json
+runs/*lint_post_fixes.json
+runs/lint_v1_1_with_extensions.json
+predictions/vortex_grep_parts/

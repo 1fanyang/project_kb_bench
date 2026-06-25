@@ -15,12 +15,23 @@ import json
 import subprocess
 import sys
 import tempfile
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SCHEMA = ROOT / "schemas" / "baseline-prediction.schema.json"
+
+
+def positive_int(value: str) -> int:
+    try:
+        parsed = int(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("must be an integer") from exc
+    if parsed < 1:
+        raise argparse.ArgumentTypeError("must be >= 1")
+    return parsed
 
 
 def parse_args() -> argparse.Namespace:
@@ -37,6 +48,12 @@ def parse_args() -> argparse.Namespace:
     common.add_argument("--resume", action="store_true")
     common.add_argument("--dry-run-prompts-dir", type=Path)
     common.add_argument("--schema", type=Path, default=DEFAULT_SCHEMA)
+    common.add_argument(
+        "--workers",
+        type=positive_int,
+        default=1,
+        help="Number of independent Codex baseline cases to run concurrently.",
+    )
 
     oracle = subparsers.add_parser(
         "oracle",
@@ -426,6 +443,85 @@ def write_dry_run_prompt(directory: Path, benchmark_row: dict[str, Any], prompt:
     (directory / f"{case_id}.prompt.md").write_text(prompt, encoding="utf-8")
 
 
+def build_prompt_for_row(row: dict[str, Any], args: argparse.Namespace) -> tuple[str, str]:
+    if args.baseline == "oracle":
+        evidence = evidence_with_snippets(
+            row, args.repo_root, context=args.snippet_context
+        )
+        return build_oracle_prompt(row, evidence=evidence), "gold"
+    if args.baseline == "grep-agent":
+        return (
+            build_grep_agent_prompt(
+                row,
+                repo_paths=args.repo_path,
+                allow_nl=args.allow_nl,
+            ),
+            "model",
+        )
+    raise AssertionError(f"unknown baseline: {args.baseline}")
+
+
+def run_case_prediction(
+    row: dict[str, Any],
+    args: argparse.Namespace,
+    tmpdir: Path,
+) -> tuple[str, dict[str, Any]]:
+    case_id = str(row.get("case_id"))
+    prompt, evidence_source = build_prompt_for_row(row, args)
+    output_path = tmpdir / f"{case_id}.json"
+    model_json, codex_usage, usage_events_seen = run_codex(
+        prompt, args, output_path
+    )
+    prediction = build_prediction_row(
+        benchmark_row=row,
+        model_json=model_json,
+        evidence_source=evidence_source,
+        repo_root=args.repo_root,
+        snippet_context=getattr(args, "snippet_context", 0),
+        baseline=args.baseline,
+        model=args.model,
+        prompt_chars=len(prompt),
+        codex_usage=codex_usage,
+        usage_events_seen=usage_events_seen,
+    )
+    return case_id, prediction
+
+
+def run_predictions(
+    rows: list[dict[str, Any]],
+    args: argparse.Namespace,
+    tmpdir: Path,
+) -> None:
+    workers = getattr(args, "workers", 1)
+    if workers <= 1:
+        for row in rows:
+            case_id, prediction = run_case_prediction(row, args, tmpdir)
+            append_jsonl(args.output, prediction)
+            print(f"Wrote {case_id}", flush=True)
+        return
+
+    completed: dict[int, tuple[str, dict[str, Any]]] = {}
+    next_to_write = 0
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        future_to_index = {
+            executor.submit(run_case_prediction, row, args, tmpdir): index
+            for index, row in enumerate(rows)
+        }
+        for future in as_completed(future_to_index):
+            index = future_to_index[future]
+            try:
+                completed[index] = future.result()
+            except Exception:
+                for pending in future_to_index:
+                    pending.cancel()
+                raise
+            while next_to_write in completed:
+                case_id, prediction = completed.pop(next_to_write)
+                append_jsonl(args.output, prediction)
+                print(f"Wrote {case_id}", flush=True)
+                next_to_write += 1
+
+
 def run(args: argparse.Namespace) -> int:
     rows = selected_rows(load_jsonl(args.benchmark), args)
     done = existing_case_ids(args.output) if args.resume else set()
@@ -434,49 +530,19 @@ def run(args: argparse.Namespace) -> int:
 
     with tempfile.TemporaryDirectory(prefix="codex-baseline-") as tmp:
         tmpdir = Path(tmp)
+        pending_rows: list[dict[str, Any]] = []
         for row in rows:
             case_id = str(row.get("case_id"))
             if case_id in done:
                 continue
 
-            if args.baseline == "oracle":
-                evidence = evidence_with_snippets(
-                    row, args.repo_root, context=args.snippet_context
-                )
-                prompt = build_oracle_prompt(row, evidence=evidence)
-                evidence_source = "gold"
-            elif args.baseline == "grep-agent":
-                prompt = build_grep_agent_prompt(
-                    row,
-                    repo_paths=args.repo_path,
-                    allow_nl=args.allow_nl,
-                )
-                evidence_source = "model"
-            else:
-                raise AssertionError(f"unknown baseline: {args.baseline}")
-
             if args.dry_run_prompts_dir:
+                prompt, _ = build_prompt_for_row(row, args)
                 write_dry_run_prompt(args.dry_run_prompts_dir, row, prompt)
                 continue
 
-            output_path = tmpdir / f"{case_id}.json"
-            model_json, codex_usage, usage_events_seen = run_codex(
-                prompt, args, output_path
-            )
-            prediction = build_prediction_row(
-                benchmark_row=row,
-                model_json=model_json,
-                evidence_source=evidence_source,
-                repo_root=args.repo_root,
-                snippet_context=getattr(args, "snippet_context", 0),
-                baseline=args.baseline,
-                model=args.model,
-                prompt_chars=len(prompt),
-                codex_usage=codex_usage,
-                usage_events_seen=usage_events_seen,
-            )
-            append_jsonl(args.output, prediction)
-            print(f"Wrote {case_id}", flush=True)
+            pending_rows.append(row)
+        run_predictions(pending_rows, args, tmpdir)
     return 0
 
 

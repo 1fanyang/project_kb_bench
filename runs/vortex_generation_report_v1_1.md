@@ -8,10 +8,16 @@
 
 ## Output Summary
 
-- Rows admitted: 200
-- Layers: `{"L1": 50, "L2": 90, "L3": 60}`
-- Answerability: `{"answerable": 140, "unanswerable_ambiguous": 10, "unanswerable_false_premise": 20, "unanswerable_missing_evidence": 30}`
-- Difficulty attributes: `{"conditional_behavior": 113, "distracting_info": 66, "doc_code_divergence": 34, "implicit_domain_knowledge": 78, "long_tail": 109, "non_code_anchor": 25}`
+- Target rows: 200; admitted: 1; gap: 199 (under target — see drop log below)
+- Layers: `{"L1": 1}`
+- Answerability: `{"unanswerable_missing_evidence": 1}`
+- Difficulty attributes: `{"negative_evidence": 1}`
+
+## Drop log
+
+- M2 (empty selected_evidence) dropped: 0
+- M9 (adversarial gate failed) dropped: 199
+  - gate_dropped: vortex-v1_1-L1-002, vortex-v1_1-L1-003, vortex-v1_1-L1-004, vortex-v1_1-L1-005, vortex-v1_1-L1-006, vortex-v1_1-L1-007, vortex-v1_1-L1-008, vortex-v1_1-L1-009, vortex-v1_1-L1-010, vortex-v1_1-L1-011, ...(+189)
 
 ## Generation Notes
 

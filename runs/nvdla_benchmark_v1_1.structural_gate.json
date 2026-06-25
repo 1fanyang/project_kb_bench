@@ -451,7 +451,7 @@
     "layer": "L1",
     "answerability": "answerable",
     "attributes": [
-      "distracting_info",
+      "long_tail",
       "implicit_domain_knowledge"
     ]
   },
@@ -523,7 +523,7 @@
     "layer": "L1",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "implicit_domain_knowledge"
     ]
   },
@@ -595,7 +595,7 @@
     "layer": "L1",
     "answerability": "answerable",
     "attributes": [
-      "distracting_info",
+      "long_tail",
       "implicit_domain_knowledge"
     ]
   },
@@ -607,8 +607,8 @@
     "layer": "L2",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
-      "doc_code_divergence"
+      "distracting_info",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -679,8 +679,8 @@
     "layer": "L2",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
-      "doc_code_divergence"
+      "distracting_info",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -751,8 +751,8 @@
     "layer": "L2",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
-      "doc_code_divergence"
+      "distracting_info",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -823,8 +823,8 @@
     "layer": "L2",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
-      "doc_code_divergence"
+      "distracting_info",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -895,8 +895,8 @@
     "layer": "L2",
     "answerability": "unanswerable_false_premise",
     "attributes": [
-      "long_tail",
-      "doc_code_divergence"
+      "distracting_info",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -967,8 +967,8 @@
     "layer": "L2",
     "answerability": "unanswerable_false_premise",
     "attributes": [
-      "long_tail",
-      "doc_code_divergence"
+      "distracting_info",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -1039,8 +1039,8 @@
     "layer": "L2",
     "answerability": "unanswerable_false_premise",
     "attributes": [
-      "long_tail",
-      "doc_code_divergence"
+      "distracting_info",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -1111,8 +1111,8 @@
     "layer": "L2",
     "answerability": "unanswerable_ambiguous",
     "attributes": [
-      "long_tail",
-      "doc_code_divergence"
+      "distracting_info",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -1183,8 +1183,8 @@
     "layer": "L2",
     "answerability": "unanswerable_ambiguous",
     "attributes": [
-      "long_tail",
-      "doc_code_divergence"
+      "distracting_info",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -1255,8 +1255,8 @@
     "layer": "L2",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
-      "doc_code_divergence"
+      "distracting_info",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -1327,8 +1327,8 @@
     "layer": "L2",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
-      "doc_code_divergence"
+      "distracting_info",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -1399,8 +1399,8 @@
     "layer": "L2",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
-      "doc_code_divergence"
+      "distracting_info",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -1471,8 +1471,8 @@
     "layer": "L2",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
-      "doc_code_divergence"
+      "distracting_info",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -1543,8 +1543,8 @@
     "layer": "L2",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
-      "doc_code_divergence"
+      "distracting_info",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -1615,8 +1615,8 @@
     "layer": "L2",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
-      "doc_code_divergence"
+      "distracting_info",
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -1687,9 +1687,9 @@
     "layer": "L3",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "conditional_behavior",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -1762,9 +1762,9 @@
     "layer": "L3",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "conditional_behavior",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -1836,9 +1836,9 @@
     "layer": "L3",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "conditional_behavior",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -1911,9 +1911,9 @@
     "layer": "L3",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "conditional_behavior",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -1985,9 +1985,9 @@
     "layer": "L3",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "conditional_behavior",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -2060,9 +2060,9 @@
     "layer": "L3",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "conditional_behavior",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -2134,9 +2134,9 @@
     "layer": "L3",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "conditional_behavior",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -2209,9 +2209,9 @@
     "layer": "L3",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "conditional_behavior",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -2283,9 +2283,9 @@
     "layer": "L3",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "conditional_behavior",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {
@@ -2358,9 +2358,9 @@
     "layer": "L3",
     "answerability": "answerable",
     "attributes": [
-      "long_tail",
+      "distracting_info",
       "conditional_behavior",
-      "doc_code_divergence"
+      "implicit_domain_knowledge"
     ]
   },
   {

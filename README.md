@@ -199,6 +199,14 @@ Run deterministic baseline evaluation after the matching v1.1 prediction JSONL
 has been generated:
 
 ```bash
+python3 scripts/run_codex_baselines.py grep-agent \
+  runs/nvdla_benchmark_v1_1.jsonl \
+  --repo-root . \
+  --repo-path repo_sources/nvdla \
+  --output predictions/nvdla_baseline_grep_agent_predictions_v1_1.jsonl \
+  --workers 4 \
+  --resume
+
 python3 scripts/evaluate_methods.py \
   runs/nvdla_benchmark_v1_1.jsonl \
   predictions/nvdla_baseline_grep_agent_predictions_v1_1.jsonl \

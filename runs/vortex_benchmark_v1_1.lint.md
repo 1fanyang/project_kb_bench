@@ -40,35 +40,35 @@
 
 ### vortex-v1_1-L1-001
 
-- Query: vortex 里能确认runtime API 的返回码是否区分队列已满和参数非法吗？我现在没找到对应证据。
-- Rewrite: 判断 vortex 中“runtime API 的返回码是否区分队列已满和参数非法”是否有可核验证据。
+- Query: Vortex 中能确认 runtime API 的返回码是否区分队列已满和参数非法吗？我没有看到可核验证据。
+- Rewrite: 判断 Vortex 中是否有证据支持“runtime API 的返回码是否区分队列已满和参数非法”。
 - References:
 - Evidence:
 
 ### vortex-v1_1-L1-002
 
-- Query: vortex 里能确认DMA 配置项缺省值在仿真和硬件路径是否一致吗？我现在没找到对应证据。
-- Rewrite: 判断 vortex 中“DMA 配置项缺省值在仿真和硬件路径是否一致”是否有可核验证据。
+- Query: Vortex 中能确认 DMA 配置项缺省值在仿真和硬件路径是否一致吗？我没有看到可核验证据。
+- Rewrite: 判断 Vortex 中是否有证据支持“DMA 配置项缺省值在仿真和硬件路径是否一致”。
 - References:
 - Evidence:
 
 ### vortex-v1_1-L1-003
 
-- Query: vortex 里能确认某个 debug 开关是否会改变 trace 输出格式吗？我现在没找到对应证据。
-- Rewrite: 判断 vortex 中“某个 debug 开关是否会改变 trace 输出格式”是否有可核验证据。
+- Query: Vortex 中能确认 某个 debug 开关是否会改变 trace 输出格式吗？我没有看到可核验证据。
+- Rewrite: 判断 Vortex 中是否有证据支持“某个 debug 开关是否会改变 trace 输出格式”。
 - References:
 - Evidence:
 
 ### vortex-v1_1-L1-004
 
-- Query: vortex 里能确认构建脚本是否支持增量清理单个 backend吗？我现在没找到对应证据。
-- Rewrite: 判断 vortex 中“构建脚本是否支持增量清理单个 backend”是否有可核验证据。
+- Query: Vortex 中能确认 构建脚本是否支持增量清理单个 backend吗？我没有看到可核验证据。
+- Rewrite: 判断 Vortex 中是否有证据支持“构建脚本是否支持增量清理单个 backend”。
 - References:
 - Evidence:
 
 ### vortex-v1_1-L1-005
 
-- Query: vortex 里能确认寄存器字段写 0 后是否会自动恢复默认值吗？我现在没找到对应证据。
-- Rewrite: 判断 vortex 中“寄存器字段写 0 后是否会自动恢复默认值”是否有可核验证据。
+- Query: Vortex 中能确认 寄存器字段写 0 后是否会自动恢复默认值吗？我没有看到可核验证据。
+- Rewrite: 判断 Vortex 中是否有证据支持“寄存器字段写 0 后是否会自动恢复默认值”。
 - References:
 - Evidence:

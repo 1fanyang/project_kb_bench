@@ -8,10 +8,10 @@
 
 ## Output Summary
 
-- Rows admitted: 200
-- Layers: `{"L1": 50, "L2": 90, "L3": 60}`
-- Answerability: `{"answerable": 140, "unanswerable_ambiguous": 10, "unanswerable_false_premise": 20, "unanswerable_missing_evidence": 30}`
-- Difficulty attributes: `{"conditional_behavior": 113, "distracting_info": 60, "doc_code_divergence": 25, "implicit_domain_knowledge": 87, "long_tail": 115, "non_code_anchor": 25}`
+- Rows admitted: 30
+- Layers: `{"L1": 30}`
+- Answerability: `{"unanswerable_missing_evidence": 30}`
+- Difficulty attributes: `{"distracting_info": 5, "implicit_domain_knowledge": 30, "long_tail": 25}`
 
 ## Generation Notes
 

@@ -2,6 +2,8 @@ import importlib.util
 import json
 import sys
 import tempfile
+import threading
+import time
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -284,6 +286,67 @@ class RunCodexBaselinesTest(unittest.TestCase):
         self.assertEqual(model_json["case_id"], "case-5")
         self.assertEqual(usage_events_seen, 1)
         self.assertEqual(usage["total_token_usage"]["total_tokens"], 14)
+
+    def test_run_parallel_workers_write_predictions_in_benchmark_order(self):
+        runner = load_module()
+        with tempfile.TemporaryDirectory() as tmp:
+            tmpdir = Path(tmp)
+            benchmark = tmpdir / "benchmark.jsonl"
+            output = tmpdir / "predictions.jsonl"
+            rows = [
+                {"case_id": "case-1", "query": "first", "evidence": []},
+                {"case_id": "case-2", "query": "second", "evidence": []},
+            ]
+            benchmark.write_text(
+                "\n".join(json.dumps(row) for row in rows) + "\n",
+                encoding="utf-8",
+            )
+            args = type(
+                "Args",
+                (),
+                {
+                    "baseline": "grep-agent",
+                    "benchmark": benchmark,
+                    "output": output,
+                    "repo_root": ROOT,
+                    "model": "gpt-5.4-mini",
+                    "limit": None,
+                    "case_ids": None,
+                    "resume": False,
+                    "dry_run_prompts_dir": None,
+                    "schema": ROOT / "schemas" / "baseline-prediction.schema.json",
+                    "repo_path": ["repo_sources/demo"],
+                    "allow_nl": True,
+                    "workers": 2,
+                },
+            )()
+            lock = threading.Lock()
+            active = 0
+            max_active = 0
+
+            def fake_run_codex(prompt, _args, output_path):
+                nonlocal active, max_active
+                case_id = output_path.stem
+                with lock:
+                    active += 1
+                    max_active = max(max_active, active)
+                time.sleep(0.05 if case_id == "case-1" else 0.01)
+                with lock:
+                    active -= 1
+                return (
+                    {"case_id": case_id, "pred_answer": f"answer {case_id}", "evidence": []},
+                    {"total_token_usage": {"total_tokens": 1}, "last_token_usage": {"total_tokens": 1}},
+                    1,
+                )
+
+            with mock.patch.object(runner, "run_codex", side_effect=fake_run_codex):
+                result = runner.run(args)
+
+            written = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
+
+        self.assertEqual(result, 0)
+        self.assertGreaterEqual(max_active, 2)
+        self.assertEqual([row["case_id"] for row in written], ["case-1", "case-2"])
 
 
 if __name__ == "__main__":

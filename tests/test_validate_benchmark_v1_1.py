@@ -412,6 +412,37 @@ class ValidateBenchmarkV11Test(unittest.TestCase):
             [finding.message for finding in findings if finding.severity == "FAIL"],
         )
 
+    def test_v1_1_rejects_corpus_with_too_many_file_anchored_queries(self):
+        validator = load_module()
+        rows = []
+        for index in range(3):
+            row = answerable_row()
+            row["case_id"] = f"case-file-anchor-{index}"
+            row["answerability"] = "answerable"
+            row["difficulty"] = {
+                "axis1_layer": "L1",
+                "axis2_retrieval": ["long_tail"],
+                "axis3_reasoning": ["conditional_behavior"],
+                "claim_sources": {"long_tail": ["sig:demo:a"], "conditional_behavior": ["sig:demo:b"]},
+            }
+            row["tags"] = ["file_anchor_required"]
+            row["query"] = "请直接查看 repo/a.c 这几行并告诉我结论。"
+            rows.append(row)
+
+        findings = []
+        validator.validate_benchmark_rows(
+            rows,
+            findings,
+            ROOT,
+            {},
+            schema_version="v1.1",
+        )
+
+        self.assertIn(
+            "file-anchored query ratio exceeds v1.1 limit",
+            [finding.message for finding in findings if finding.severity == "FAIL"],
+        )
+
     def test_structural_gate_json_is_written_by_cli(self):
         import json
         import tempfile

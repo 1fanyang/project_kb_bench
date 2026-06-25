@@ -1,0 +1,3113 @@
+{
+  "mode": "method_evaluation",
+  "config": {
+    "benchmark": "runs/v1_2/vortex_benchmark_v1_2.jsonl",
+    "predictions": "predictions/vortex_baseline_oracle_codex_predictions_v1_2.jsonl",
+    "top_k": 10,
+    "judge_threshold": 0.8,
+    "llm_judge_provider": null,
+    "llm_judge_command": null,
+    "llm_judge_api_key_env": "DEEPSEEK_API_KEY",
+    "llm_judge_base_url": "https://api.deepseek.com",
+    "llm_judge_model": null,
+    "llm_judge_thinking": null,
+    "llm_judge_reasoning_effort": null
+  },
+  "summary": {
+    "cases": 100,
+    "missing_predictions": 0,
+    "retrieval_pass_rate": 1.0,
+    "strict_e2e_pass_rate": 0.0,
+    "answer_pass_rate": 0.0,
+    "citation_pass_rate": 0.58,
+    "mean_reference_recall_at_k": 1.0,
+    "mean_evidence_recall_at_k": 1.0,
+    "mean_evidence_precision_at_k": 1.0,
+    "mean_evidence_f1_at_k": 1.0,
+    "llm_judge_coverage": 0.0,
+    "mean_llm_judge_score": 0.0,
+    "llm_judge_verdict_counts": {
+      "not_run": 100
+    },
+    "llm_judge_error_counts": {},
+    "token_usage_coverage": 1.0,
+    "sum_total_tokens": 3415143,
+    "mean_total_tokens": 34151.43,
+    "mean_input_tokens": 33791.94,
+    "mean_cached_input_tokens": 14049.28,
+    "mean_output_tokens": 359.49,
+    "mean_reasoning_output_tokens": 231.87,
+    "mean_prompt_chars": 1235.82,
+    "by_slice": {
+      "layer": {
+        "L1": {
+          "cases": 20,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0,
+          "mean_total_tokens": 33983.1,
+          "token_usage_coverage": 1.0
+        },
+        "L2": {
+          "cases": 40,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0,
+          "mean_total_tokens": 34256.15,
+          "token_usage_coverage": 1.0
+        },
+        "L3": {
+          "cases": 40,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0,
+          "mean_total_tokens": 34130.875,
+          "token_usage_coverage": 1.0
+        }
+      },
+      "capability": {
+        "build_simulation_flow": {
+          "cases": 10,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0,
+          "mean_total_tokens": 34150.1,
+          "token_usage_coverage": 1.0
+        },
+        "doc_code_cross_check": {
+          "cases": 18,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0,
+          "mean_total_tokens": 34180.833333333336,
+          "token_usage_coverage": 1.0
+        },
+        "mechanism_trace": {
+          "cases": 19,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0,
+          "mean_total_tokens": 34179.52631578947,
+          "token_usage_coverage": 1.0
+        },
+        "negative_insufficient_evidence": {
+          "cases": 17,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0,
+          "mean_total_tokens": 34084.705882352944,
+          "token_usage_coverage": 1.0
+        },
+        "repo_structure_location": {
+          "cases": 18,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0,
+          "mean_total_tokens": 34090.77777777778,
+          "token_usage_coverage": 1.0
+        },
+        "tests_debug_evidence": {
+          "cases": 18,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0,
+          "mean_total_tokens": 34216.77777777778,
+          "token_usage_coverage": 1.0
+        }
+      },
+      "answer_type": {
+        "fact_check": {
+          "cases": 18,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0,
+          "mean_total_tokens": 34315.77777777778,
+          "token_usage_coverage": 1.0
+        },
+        "location": {
+          "cases": 19,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0,
+          "mean_total_tokens": 34056.84210526316,
+          "token_usage_coverage": 1.0
+        },
+        "mechanism": {
+          "cases": 17,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0,
+          "mean_total_tokens": 34184.64705882353,
+          "token_usage_coverage": 1.0
+        },
+        "negative": {
+          "cases": 4,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0,
+          "mean_total_tokens": 34261.5,
+          "token_usage_coverage": 1.0
+        },
+        "procedure": {
+          "cases": 21,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0,
+          "mean_total_tokens": 34173.90476190476,
+          "token_usage_coverage": 1.0
+        },
+        "synthesis": {
+          "cases": 21,
+          "strict_e2e_pass_rate": 0.0,
+          "retrieval_pass_rate": 1.0,
+          "mean_evidence_recall_at_k": 1.0,
+          "mean_llm_judge_score": 0.0,
+          "mean_total_tokens": 34025.80952380953,
+          "token_usage_coverage": 1.0
+        }
+      }
+    }
+  },
+  "prediction_warnings": {
+    "duplicate_case_ids": [],
+    "unknown_case_ids": []
+  },
+  "cases": [
+    {
+      "case_id": "vortex-v1_2-L1-031",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 916,
+      "total_tokens": 34400,
+      "input_tokens": 34150,
+      "cached_input_tokens": 2432,
+      "output_tokens": 250,
+      "reasoning_output_tokens": 165,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-032",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 921,
+      "total_tokens": 33902,
+      "input_tokens": 33637,
+      "cached_input_tokens": 2432,
+      "output_tokens": 265,
+      "reasoning_output_tokens": 160,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-033",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 865,
+      "total_tokens": 34316,
+      "input_tokens": 34142,
+      "cached_input_tokens": 2432,
+      "output_tokens": 174,
+      "reasoning_output_tokens": 98,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-034",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 937,
+      "total_tokens": 33963,
+      "input_tokens": 33638,
+      "cached_input_tokens": 2432,
+      "output_tokens": 325,
+      "reasoning_output_tokens": 219,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-035",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 888,
+      "total_tokens": 34262,
+      "input_tokens": 33925,
+      "cached_input_tokens": 2432,
+      "output_tokens": 337,
+      "reasoning_output_tokens": 230,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-036",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 884,
+      "total_tokens": 33797,
+      "input_tokens": 33614,
+      "cached_input_tokens": 2432,
+      "output_tokens": 183,
+      "reasoning_output_tokens": 84,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-037",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 910,
+      "total_tokens": 33924,
+      "input_tokens": 33621,
+      "cached_input_tokens": 33152,
+      "output_tokens": 303,
+      "reasoning_output_tokens": 209,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-038",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 897,
+      "total_tokens": 33911,
+      "input_tokens": 33615,
+      "cached_input_tokens": 2432,
+      "output_tokens": 296,
+      "reasoning_output_tokens": 198,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-039",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 875,
+      "total_tokens": 34022,
+      "input_tokens": 33614,
+      "cached_input_tokens": 2432,
+      "output_tokens": 408,
+      "reasoning_output_tokens": 313,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-040",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 884,
+      "total_tokens": 33911,
+      "input_tokens": 33613,
+      "cached_input_tokens": 18816,
+      "output_tokens": 298,
+      "reasoning_output_tokens": 191,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-041",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 914,
+      "total_tokens": 33985,
+      "input_tokens": 33747,
+      "cached_input_tokens": 18816,
+      "output_tokens": 238,
+      "reasoning_output_tokens": 142,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-042",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 880,
+      "total_tokens": 33954,
+      "input_tokens": 33666,
+      "cached_input_tokens": 2432,
+      "output_tokens": 288,
+      "reasoning_output_tokens": 188,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-043",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 936,
+      "total_tokens": 34047,
+      "input_tokens": 33677,
+      "cached_input_tokens": 2432,
+      "output_tokens": 370,
+      "reasoning_output_tokens": 270,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-044",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 894,
+      "total_tokens": 33798,
+      "input_tokens": 33667,
+      "cached_input_tokens": 25472,
+      "output_tokens": 131,
+      "reasoning_output_tokens": 46,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-045",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 924,
+      "total_tokens": 33870,
+      "input_tokens": 33674,
+      "cached_input_tokens": 2432,
+      "output_tokens": 196,
+      "reasoning_output_tokens": 116,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-046",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 874,
+      "total_tokens": 33897,
+      "input_tokens": 33666,
+      "cached_input_tokens": 2432,
+      "output_tokens": 231,
+      "reasoning_output_tokens": 138,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-047",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 875,
+      "total_tokens": 34021,
+      "input_tokens": 33738,
+      "cached_input_tokens": 18816,
+      "output_tokens": 283,
+      "reasoning_output_tokens": 189,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-048",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 867,
+      "total_tokens": 33832,
+      "input_tokens": 33702,
+      "cached_input_tokens": 2432,
+      "output_tokens": 130,
+      "reasoning_output_tokens": 52,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-049",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 886,
+      "total_tokens": 33842,
+      "input_tokens": 33707,
+      "cached_input_tokens": 18816,
+      "output_tokens": 135,
+      "reasoning_output_tokens": 65,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L1-050",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 856,
+      "total_tokens": 34008,
+      "input_tokens": 33739,
+      "cached_input_tokens": 25984,
+      "output_tokens": 269,
+      "reasoning_output_tokens": 173,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-052",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1316,
+      "total_tokens": 34140,
+      "input_tokens": 33857,
+      "cached_input_tokens": 2432,
+      "output_tokens": 283,
+      "reasoning_output_tokens": 156,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-053",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1359,
+      "total_tokens": 34308,
+      "input_tokens": 33885,
+      "cached_input_tokens": 2432,
+      "output_tokens": 423,
+      "reasoning_output_tokens": 283,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-054",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1283,
+      "total_tokens": 34383,
+      "input_tokens": 33863,
+      "cached_input_tokens": 18816,
+      "output_tokens": 520,
+      "reasoning_output_tokens": 363,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-055",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1301,
+      "total_tokens": 34133,
+      "input_tokens": 33860,
+      "cached_input_tokens": 2432,
+      "output_tokens": 273,
+      "reasoning_output_tokens": 137,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-056",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1220,
+      "total_tokens": 34118,
+      "input_tokens": 33836,
+      "cached_input_tokens": 2432,
+      "output_tokens": 282,
+      "reasoning_output_tokens": 199,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-058",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1297,
+      "total_tokens": 34272,
+      "input_tokens": 33855,
+      "cached_input_tokens": 2432,
+      "output_tokens": 417,
+      "reasoning_output_tokens": 259,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-059",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1245,
+      "total_tokens": 34408,
+      "input_tokens": 33783,
+      "cached_input_tokens": 18816,
+      "output_tokens": 625,
+      "reasoning_output_tokens": 516,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-060",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1244,
+      "total_tokens": 33984,
+      "input_tokens": 33794,
+      "cached_input_tokens": 2432,
+      "output_tokens": 190,
+      "reasoning_output_tokens": 96,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-061",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1247,
+      "total_tokens": 34177,
+      "input_tokens": 33794,
+      "cached_input_tokens": 18816,
+      "output_tokens": 383,
+      "reasoning_output_tokens": 244,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-062",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1165,
+      "total_tokens": 34636,
+      "input_tokens": 34223,
+      "cached_input_tokens": 2432,
+      "output_tokens": 413,
+      "reasoning_output_tokens": 254,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-063",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1480,
+      "total_tokens": 34239,
+      "input_tokens": 33905,
+      "cached_input_tokens": 25984,
+      "output_tokens": 334,
+      "reasoning_output_tokens": 169,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-064",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1243,
+      "total_tokens": 34139,
+      "input_tokens": 33811,
+      "cached_input_tokens": 2432,
+      "output_tokens": 328,
+      "reasoning_output_tokens": 184,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-065",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1294,
+      "total_tokens": 33720,
+      "input_tokens": 33399,
+      "cached_input_tokens": 18816,
+      "output_tokens": 321,
+      "reasoning_output_tokens": 203,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-066",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1137,
+      "total_tokens": 33876,
+      "input_tokens": 33385,
+      "cached_input_tokens": 25472,
+      "output_tokens": 491,
+      "reasoning_output_tokens": 337,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-067",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1261,
+      "total_tokens": 33810,
+      "input_tokens": 33395,
+      "cached_input_tokens": 2432,
+      "output_tokens": 415,
+      "reasoning_output_tokens": 277,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-068",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1896,
+      "total_tokens": 34521,
+      "input_tokens": 34210,
+      "cached_input_tokens": 18816,
+      "output_tokens": 311,
+      "reasoning_output_tokens": 125,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-069",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1534,
+      "total_tokens": 34121,
+      "input_tokens": 33832,
+      "cached_input_tokens": 2432,
+      "output_tokens": 289,
+      "reasoning_output_tokens": 159,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-070",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1174,
+      "total_tokens": 34531,
+      "input_tokens": 33837,
+      "cached_input_tokens": 25984,
+      "output_tokens": 694,
+      "reasoning_output_tokens": 516,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-071",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1384,
+      "total_tokens": 34287,
+      "input_tokens": 33890,
+      "cached_input_tokens": 2432,
+      "output_tokens": 397,
+      "reasoning_output_tokens": 240,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-072",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1337,
+      "total_tokens": 34287,
+      "input_tokens": 33856,
+      "cached_input_tokens": 18816,
+      "output_tokens": 431,
+      "reasoning_output_tokens": 319,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-073",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1334,
+      "total_tokens": 34399,
+      "input_tokens": 33869,
+      "cached_input_tokens": 18816,
+      "output_tokens": 530,
+      "reasoning_output_tokens": 405,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-074",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1251,
+      "total_tokens": 34344,
+      "input_tokens": 33852,
+      "cached_input_tokens": 25984,
+      "output_tokens": 492,
+      "reasoning_output_tokens": 332,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-076",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1262,
+      "total_tokens": 34297,
+      "input_tokens": 33848,
+      "cached_input_tokens": 25984,
+      "output_tokens": 449,
+      "reasoning_output_tokens": 273,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-077",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1333,
+      "total_tokens": 34203,
+      "input_tokens": 33859,
+      "cached_input_tokens": 18816,
+      "output_tokens": 344,
+      "reasoning_output_tokens": 173,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-078",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1243,
+      "total_tokens": 34083,
+      "input_tokens": 33848,
+      "cached_input_tokens": 2432,
+      "output_tokens": 235,
+      "reasoning_output_tokens": 120,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-079",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1267,
+      "total_tokens": 34454,
+      "input_tokens": 33846,
+      "cached_input_tokens": 25984,
+      "output_tokens": 608,
+      "reasoning_output_tokens": 466,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-080",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1250,
+      "total_tokens": 34516,
+      "input_tokens": 33854,
+      "cached_input_tokens": 2432,
+      "output_tokens": 662,
+      "reasoning_output_tokens": 516,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-081",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1399,
+      "total_tokens": 34157,
+      "input_tokens": 33865,
+      "cached_input_tokens": 25984,
+      "output_tokens": 292,
+      "reasoning_output_tokens": 186,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-082",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1333,
+      "total_tokens": 34508,
+      "input_tokens": 33810,
+      "cached_input_tokens": 18816,
+      "output_tokens": 698,
+      "reasoning_output_tokens": 516,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-083",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1226,
+      "total_tokens": 34368,
+      "input_tokens": 33843,
+      "cached_input_tokens": 18816,
+      "output_tokens": 525,
+      "reasoning_output_tokens": 383,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-084",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1286,
+      "total_tokens": 34228,
+      "input_tokens": 33857,
+      "cached_input_tokens": 2432,
+      "output_tokens": 371,
+      "reasoning_output_tokens": 199,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-085",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1373,
+      "total_tokens": 34233,
+      "input_tokens": 33887,
+      "cached_input_tokens": 18816,
+      "output_tokens": 346,
+      "reasoning_output_tokens": 231,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-086",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1255,
+      "total_tokens": 34318,
+      "input_tokens": 33826,
+      "cached_input_tokens": 2432,
+      "output_tokens": 492,
+      "reasoning_output_tokens": 356,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-088",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1307,
+      "total_tokens": 34568,
+      "input_tokens": 33888,
+      "cached_input_tokens": 18816,
+      "output_tokens": 680,
+      "reasoning_output_tokens": 516,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-089",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1395,
+      "total_tokens": 34205,
+      "input_tokens": 33893,
+      "cached_input_tokens": 25984,
+      "output_tokens": 312,
+      "reasoning_output_tokens": 162,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-090",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1363,
+      "total_tokens": 34229,
+      "input_tokens": 33843,
+      "cached_input_tokens": 2432,
+      "output_tokens": 386,
+      "reasoning_output_tokens": 270,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-091",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1322,
+      "total_tokens": 34231,
+      "input_tokens": 33863,
+      "cached_input_tokens": 25984,
+      "output_tokens": 368,
+      "reasoning_output_tokens": 197,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-092",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1215,
+      "total_tokens": 34278,
+      "input_tokens": 33838,
+      "cached_input_tokens": 2432,
+      "output_tokens": 440,
+      "reasoning_output_tokens": 240,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-094",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1341,
+      "total_tokens": 34256,
+      "input_tokens": 33802,
+      "cached_input_tokens": 2432,
+      "output_tokens": 454,
+      "reasoning_output_tokens": 257,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L2-095",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1443,
+      "total_tokens": 34281,
+      "input_tokens": 33895,
+      "cached_input_tokens": 25984,
+      "output_tokens": 386,
+      "reasoning_output_tokens": 167,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-141",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1540,
+      "total_tokens": 34282,
+      "input_tokens": 33900,
+      "cached_input_tokens": 25984,
+      "output_tokens": 382,
+      "reasoning_output_tokens": 267,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-142",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1219,
+      "total_tokens": 34396,
+      "input_tokens": 33835,
+      "cached_input_tokens": 25984,
+      "output_tokens": 561,
+      "reasoning_output_tokens": 447,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-143",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1387,
+      "total_tokens": 34314,
+      "input_tokens": 33883,
+      "cached_input_tokens": 2432,
+      "output_tokens": 431,
+      "reasoning_output_tokens": 296,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-144",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1269,
+      "total_tokens": 34118,
+      "input_tokens": 33833,
+      "cached_input_tokens": 25984,
+      "output_tokens": 285,
+      "reasoning_output_tokens": 177,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-145",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1249,
+      "total_tokens": 33998,
+      "input_tokens": 33799,
+      "cached_input_tokens": 2432,
+      "output_tokens": 199,
+      "reasoning_output_tokens": 105,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-146",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1225,
+      "total_tokens": 34396,
+      "input_tokens": 33788,
+      "cached_input_tokens": 18816,
+      "output_tokens": 608,
+      "reasoning_output_tokens": 516,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-148",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1306,
+      "total_tokens": 34090,
+      "input_tokens": 33807,
+      "cached_input_tokens": 25472,
+      "output_tokens": 283,
+      "reasoning_output_tokens": 165,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-149",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1323,
+      "total_tokens": 34060,
+      "input_tokens": 33830,
+      "cached_input_tokens": 18816,
+      "output_tokens": 230,
+      "reasoning_output_tokens": 137,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-150",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1241,
+      "total_tokens": 34156,
+      "input_tokens": 33784,
+      "cached_input_tokens": 2432,
+      "output_tokens": 372,
+      "reasoning_output_tokens": 232,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-151",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1356,
+      "total_tokens": 34225,
+      "input_tokens": 33860,
+      "cached_input_tokens": 25984,
+      "output_tokens": 365,
+      "reasoning_output_tokens": 259,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-152",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1337,
+      "total_tokens": 34184,
+      "input_tokens": 33862,
+      "cached_input_tokens": 25984,
+      "output_tokens": 322,
+      "reasoning_output_tokens": 221,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-153",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1331,
+      "total_tokens": 34225,
+      "input_tokens": 33845,
+      "cached_input_tokens": 25984,
+      "output_tokens": 380,
+      "reasoning_output_tokens": 248,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-154",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1276,
+      "total_tokens": 34305,
+      "input_tokens": 33847,
+      "cached_input_tokens": 2432,
+      "output_tokens": 458,
+      "reasoning_output_tokens": 306,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-155",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1328,
+      "total_tokens": 34153,
+      "input_tokens": 33856,
+      "cached_input_tokens": 18816,
+      "output_tokens": 297,
+      "reasoning_output_tokens": 157,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-156",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1329,
+      "total_tokens": 34166,
+      "input_tokens": 33810,
+      "cached_input_tokens": 2432,
+      "output_tokens": 356,
+      "reasoning_output_tokens": 243,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-157",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1242,
+      "total_tokens": 34074,
+      "input_tokens": 33838,
+      "cached_input_tokens": 25984,
+      "output_tokens": 236,
+      "reasoning_output_tokens": 144,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-158",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1284,
+      "total_tokens": 34230,
+      "input_tokens": 33847,
+      "cached_input_tokens": 25984,
+      "output_tokens": 383,
+      "reasoning_output_tokens": 200,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-159",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1419,
+      "total_tokens": 34164,
+      "input_tokens": 33863,
+      "cached_input_tokens": 2432,
+      "output_tokens": 301,
+      "reasoning_output_tokens": 174,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-160",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1308,
+      "total_tokens": 34093,
+      "input_tokens": 33863,
+      "cached_input_tokens": 2432,
+      "output_tokens": 230,
+      "reasoning_output_tokens": 112,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-161",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1323,
+      "total_tokens": 34277,
+      "input_tokens": 34038,
+      "cached_input_tokens": 18816,
+      "output_tokens": 239,
+      "reasoning_output_tokens": 113,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-162",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1234,
+      "total_tokens": 33969,
+      "input_tokens": 33394,
+      "cached_input_tokens": 18816,
+      "output_tokens": 575,
+      "reasoning_output_tokens": 416,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-163",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1351,
+      "total_tokens": 33820,
+      "input_tokens": 33412,
+      "cached_input_tokens": 18816,
+      "output_tokens": 408,
+      "reasoning_output_tokens": 295,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-164",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1441,
+      "total_tokens": 33728,
+      "input_tokens": 33449,
+      "cached_input_tokens": 2432,
+      "output_tokens": 279,
+      "reasoning_output_tokens": 145,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-166",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1293,
+      "total_tokens": 34080,
+      "input_tokens": 33406,
+      "cached_input_tokens": 18816,
+      "output_tokens": 674,
+      "reasoning_output_tokens": 516,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-167",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1404,
+      "total_tokens": 34682,
+      "input_tokens": 34266,
+      "cached_input_tokens": 2432,
+      "output_tokens": 416,
+      "reasoning_output_tokens": 262,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-168",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1486,
+      "total_tokens": 33856,
+      "input_tokens": 33488,
+      "cached_input_tokens": 18816,
+      "output_tokens": 368,
+      "reasoning_output_tokens": 201,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-169",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1434,
+      "total_tokens": 33625,
+      "input_tokens": 33430,
+      "cached_input_tokens": 18816,
+      "output_tokens": 195,
+      "reasoning_output_tokens": 79,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-170",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1328,
+      "total_tokens": 34084,
+      "input_tokens": 33418,
+      "cached_input_tokens": 18816,
+      "output_tokens": 666,
+      "reasoning_output_tokens": 478,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-172",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1387,
+      "total_tokens": 33576,
+      "input_tokens": 33420,
+      "cached_input_tokens": 2432,
+      "output_tokens": 156,
+      "reasoning_output_tokens": 44,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-173",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1320,
+      "total_tokens": 34121,
+      "input_tokens": 33869,
+      "cached_input_tokens": 2432,
+      "output_tokens": 252,
+      "reasoning_output_tokens": 153,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-174",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1302,
+      "total_tokens": 34244,
+      "input_tokens": 34058,
+      "cached_input_tokens": 25984,
+      "output_tokens": 186,
+      "reasoning_output_tokens": 186,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-175",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1333,
+      "total_tokens": 34192,
+      "input_tokens": 33858,
+      "cached_input_tokens": 25984,
+      "output_tokens": 334,
+      "reasoning_output_tokens": 196,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-176",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1292,
+      "total_tokens": 34096,
+      "input_tokens": 33845,
+      "cached_input_tokens": 25984,
+      "output_tokens": 251,
+      "reasoning_output_tokens": 148,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-177",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1253,
+      "total_tokens": 34105,
+      "input_tokens": 33844,
+      "cached_input_tokens": 25984,
+      "output_tokens": 261,
+      "reasoning_output_tokens": 138,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-178",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1266,
+      "total_tokens": 34174,
+      "input_tokens": 33843,
+      "cached_input_tokens": 25984,
+      "output_tokens": 331,
+      "reasoning_output_tokens": 179,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-179",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1310,
+      "total_tokens": 34247,
+      "input_tokens": 33847,
+      "cached_input_tokens": 25984,
+      "output_tokens": 400,
+      "reasoning_output_tokens": 253,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-180",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1324,
+      "total_tokens": 34278,
+      "input_tokens": 33849,
+      "cached_input_tokens": 25984,
+      "output_tokens": 429,
+      "reasoning_output_tokens": 268,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-181",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1358,
+      "total_tokens": 34050,
+      "input_tokens": 33887,
+      "cached_input_tokens": 25984,
+      "output_tokens": 163,
+      "reasoning_output_tokens": 66,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-182",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": true,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1336,
+      "total_tokens": 34187,
+      "input_tokens": 33848,
+      "cached_input_tokens": 25984,
+      "output_tokens": 339,
+      "reasoning_output_tokens": 185,
+      "notes": [
+        "llm judge not available"
+      ]
+    },
+    {
+      "case_id": "vortex-v1_2-L3-184",
+      "reference_recall_at_k": 1.0,
+      "evidence_recall_at_k": 1.0,
+      "evidence_precision_at_k": 1.0,
+      "evidence_f1_at_k": 1.0,
+      "matched_evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "citation_pass": false,
+      "llm_judge_score": null,
+      "llm_judge_verdict": "not_run",
+      "llm_judge_rationale": "No LLM judge provider was configured.",
+      "llm_judge_error": null,
+      "answer_pass": false,
+      "retrieval_pass": true,
+      "strict_e2e_pass": false,
+      "missing_prediction": false,
+      "prompt_chars": 1340,
+      "total_tokens": 34215,
+      "input_tokens": 33867,
+      "cached_input_tokens": 2432,
+      "output_tokens": 348,
+      "reasoning_output_tokens": 213,
+      "notes": [
+        "citation policy not satisfied",
+        "llm judge not available"
+      ]
+    }
+  ]
+}

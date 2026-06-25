@@ -7,6 +7,7 @@ import argparse
 import json
 import re
 import sys
+from collections import Counter
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Any
@@ -54,10 +55,17 @@ STRUCTURAL_REASON_MESSAGES = {
     "L3_SINGLE_SOURCE": "L3 rows need evidence from at least two source_id values",
     "L3_NO_ATOM_CHAIN": "L3 rows need at least one required atom with depends_on",
     "CONDITIONAL_BEHAVIOR_WITHOUT_ROLE": "`conditional_behavior` needs guard/branch/predicate/state evidence",
-    "FORBIDDEN_ATOMS_REQUIRED": "yes_no, fact_check, and false_premise rows need forbidden_atoms",
+    "FORBIDDEN_ATOMS_REQUIRED": "yes_no, fact_check, false_premise, and unanswerable rows need forbidden_atoms",
     "FILE_ANCHOR_LEAK": "query names an evidence file without file_anchor_required tag",
     "MISSING_CLAIM_SOURCES": "`difficulty.claim_sources` is required in v1.1 mode",
     "MISSING_CLAIM_SOURCE_ATTRIBUTE": "`difficulty.claim_sources` must include signals for every difficulty attribute",
+    "UNANSWERABLE_REFUSAL_LEAK": "unanswerable query telegraphs the refusal trigger; the agent should infer the gap from the corpus",
+    "BOILERPLATE_EVIDENCE": "evidence span is license/copyright/heading/macro-fence boilerplate without semantic content",
+    "POINTER_STYLE_ATOM": "rubric atom is a `path:lines 显示：snippet` pointer instead of a propositional claim",
+    "IMPLICIT_DK_VERBATIM_REASONING": "implicit_domain_knowledge rows must contain at least one reasoning atom that is not a verbatim quote of evidence",
+}
+STRUCTURAL_WARN_MESSAGES = {
+    "CONDITIONAL_BEHAVIOR_NO_GUARD_TOKENS": "`conditional_behavior` evidence span lacks guard/branch/predicate tokens (if/else/case/assert/posedge/...) — role label may be decorative",
 }
 
 ATOM_ROLES = {
@@ -124,10 +132,51 @@ CITATION_TRIGGER_PATTERNS = (
     "line",
     "proof",
 )
+REFUSAL_LEAK_PATTERNS = (
+    "我没有看到可核验证据",
+    "没有提供任何可用信息",
+    "请说明能确认什么、不能确认什么",
+    "没有给出可核验",
+)
+BOILERPLATE_EVIDENCE_PHRASES = (
+    "this distribution for more information",
+    "Unless required by applicable law",
+    "NVDLA Open Source Project documentation",
+    "If extensions (or modules to document with autodoc)",
+    "Invoke manually from the Actions tab",
+    "`define FORCE_CONTENTION_ASSERTION_RESET_ACTIVE",
+    "`define ASSERT_RESET nvdla_core_rstn",
+    "`define SYNC_PL_NOSYNTHESIS_NOSYNTH_GCS",
+    "ASSERT_OFF_RESET_IS_X",
+    "1. DEFINITIONS",
+)
+GUARD_TOKEN_PATTERNS = (
+    r"\bif\s*\(",
+    r"\belse\b",
+    r"\bcase\b",
+    r"\bwhen\b",
+    r"\bassert\b",
+    r"\bposedge\b",
+    r"\bnegedge\b",
+    r"@\s*\(",
+    r"`ifdef\b",
+    r"`ifndef\b",
+    r"\brequire\b",
+    r"\bassume\b",
+    r"\bwait\b",
+)
+ATTRIBUTES_REQUIRING_GUARD_EVIDENCE = {"conditional_behavior"}
+CORPUS_PATH_LINES_REUSE_CAP = 3
+CORPUS_QUERY_DIVERSITY_FLOOR = 0.15
 
 LINES_RE = re.compile(r"^(\d+)(?:-(\d+))?$")
 CITATION_RE = re.compile(r"[\w./@+-]+:\d+(?:-\d+)?")
 CODE_TOKEN_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_:.>\\/-]*")
+GUARD_TOKEN_RE = re.compile("|".join(GUARD_TOKEN_PATTERNS))
+POINTER_ATOM_RE = re.compile(r"^[\w./@+\-]+:\d+(?:-\d+)?\s*显示：")
+QUERY_SURFACE_LATIN_RE = re.compile(r"[A-Za-z][A-Za-z0-9_]*")
+QUERY_SURFACE_CJK_RUN_RE = re.compile(r"[一-鿿]{2,}")
+QUERY_TOKEN_RE = re.compile(r"[\W_]+")
 
 
 @dataclass
@@ -252,19 +301,113 @@ def has_conditional_evidence_role(row: dict[str, Any]) -> bool:
 
 def query_mentions_evidence_file(row: dict[str, Any]) -> bool:
     query = str(row.get("query", ""))
+    if not query:
+        return False
     evidence = row.get("evidence", [])
     if not isinstance(evidence, list):
         return False
+    query_tokens = {token.lower() for token in QUERY_TOKEN_RE.split(query) if len(token) >= 3}
     for item in evidence:
         if not isinstance(item, dict):
             continue
         path = str(item.get("path", ""))
-        if path and path in query:
+        if not path:
+            continue
+        if path in query:
             return True
         filename = Path(path).name
         if filename and "." in filename and filename in query:
             return True
+        base_tokens = {
+            token.lower()
+            for token in QUERY_TOKEN_RE.split(Path(path).stem)
+            if len(token) >= 3
+        }
+        if base_tokens and len(base_tokens & query_tokens) >= 2:
+            return True
     return False
+
+
+def query_contains_refusal_cue(row: dict[str, Any]) -> bool:
+    if not str(row.get("answerability", "")).startswith("unanswerable"):
+        return False
+    query = str(row.get("query", ""))
+    return any(pattern in query for pattern in REFUSAL_LEAK_PATTERNS)
+
+
+def is_boilerplate_statement(statement: str) -> bool:
+    body = statement.removeprefix("这些行显示：").strip()
+    if not body or body == "(blank lines)":
+        return True
+    for phrase in BOILERPLATE_EVIDENCE_PHRASES:
+        if phrase in body:
+            return True
+    parts = [piece.strip() for piece in body.split(" / ") if piece.strip()]
+    if parts:
+        underline_only = sum(1 for piece in parts if set(piece) <= {"=", "-"})
+        if underline_only and underline_only >= len(parts) - 1 and sum(len(piece) for piece in parts) < 80:
+            return True
+    return False
+
+
+def evidence_has_boilerplate(row: dict[str, Any]) -> bool:
+    for item in row.get("evidence", []) or []:
+        if isinstance(item, dict) and is_boilerplate_statement(str(item.get("statement", ""))):
+            return True
+    return False
+
+
+def rubric_has_pointer_atom(row: dict[str, Any]) -> bool:
+    rubric = row.get("answer_rubric", {})
+    atoms = rubric.get("required_atoms", []) if isinstance(rubric, dict) else []
+    if not isinstance(atoms, list):
+        return False
+    for atom in atoms:
+        if not isinstance(atom, dict):
+            continue
+        statement = str(atom.get("statement", "")).strip()
+        if POINTER_ATOM_RE.match(statement):
+            return True
+    return False
+
+
+def evidence_has_guard_tokens(row: dict[str, Any]) -> bool:
+    for item in row.get("evidence", []) or []:
+        if isinstance(item, dict) and GUARD_TOKEN_RE.search(str(item.get("statement", ""))):
+            return True
+    return False
+
+
+def implicit_dk_missing_nonverbatim_reasoning(row: dict[str, Any]) -> bool:
+    difficulty = row.get("difficulty")
+    if not isinstance(difficulty, dict):
+        return False
+    axis3 = difficulty.get("axis3_reasoning") or []
+    if "implicit_domain_knowledge" not in axis3:
+        return False
+    evidence_bodies: list[str] = []
+    for item in row.get("evidence", []) or []:
+        if not isinstance(item, dict):
+            continue
+        body = str(item.get("statement", "")).removeprefix("这些行显示：").strip()
+        if body:
+            evidence_bodies.append(body)
+    if not evidence_bodies:
+        return False
+    rubric = row.get("answer_rubric", {})
+    atoms = rubric.get("required_atoms", []) if isinstance(rubric, dict) else []
+    if not isinstance(atoms, list):
+        return True
+    for atom in atoms:
+        if not isinstance(atom, dict) or atom.get("role") != "reasoning":
+            continue
+        statement = str(atom.get("statement", "")).strip()
+        stripped = POINTER_ATOM_RE.sub("", statement).strip()
+        if not stripped:
+            continue
+        if not any(stripped in body for body in evidence_bodies):
+            return False
+    return True
 
 
 def load_rows(path: Path, findings: list[Finding]) -> list[dict[str, Any]]:
@@ -525,6 +668,7 @@ def structural_gate_record(row: dict[str, Any]) -> dict[str, Any]:
     answerability = str(row.get("answerability", "answerable"))
     difficulty = row.get("difficulty")
     reason_codes: list[str] = []
+    warn_codes: list[str] = []
 
     if not isinstance(difficulty, dict):
         reason_codes.append("MISSING_DIFFICULTY")
@@ -537,7 +681,16 @@ def structural_gate_record(row: dict[str, Any]) -> dict[str, Any]:
         if not isinstance(claim_sources, dict):
             reason_codes.append("MISSING_CLAIM_SOURCES")
         else:
+            row_answerability = str(row.get("answerability", "answerable"))
             for _, attribute in difficulty_axis_attributes(row):
+                # `negative_evidence` on missing-evidence rows is the one
+                # attribute whose claim_sources entry is intentionally empty
+                # (there is no per-signal anchor — the gap IS the claim).
+                if (
+                    attribute == "negative_evidence"
+                    and row_answerability == "unanswerable_missing_evidence"
+                ):
+                    continue
                 signal_ids = claim_sources.get(attribute)
                 if (
                     not isinstance(signal_ids, list)
@@ -546,7 +699,15 @@ def structural_gate_record(row: dict[str, Any]) -> dict[str, Any]:
                 ):
                     reason_codes.append("MISSING_CLAIM_SOURCE_ATTRIBUTE")
 
-    if len(set(attrs + ([layer] if layer == "L3" else []))) < 2:
+    # Missing-evidence rows are a single-axis case by design: they claim
+    # negative_evidence and run only the closed_book baseline. Exempt
+    # them from the two-signal floor that normal answerable rows must meet.
+    is_missing_evidence = answerability == "unanswerable_missing_evidence"
+    if not is_missing_evidence:
+        if len(set(attrs + ([layer] if layer == "L3" else []))) < 2:
+            reason_codes.append("INSUFFICIENT_DIFFICULTY_SIGNALS")
+    elif attrs != ["negative_evidence"]:
+        # Missing-evidence rows MUST carry exactly the negative_evidence axis.
         reason_codes.append("INSUFFICIENT_DIFFICULTY_SIGNALS")
 
     source_ids = evidence_source_ids(row)
@@ -558,14 +719,17 @@ def structural_gate_record(row: dict[str, Any]) -> dict[str, Any]:
         if not has_atom_dependency(row):
             reason_codes.append("L3_NO_ATOM_CHAIN")
 
-    if "conditional_behavior" in attrs and not has_conditional_evidence_role(row):
-        reason_codes.append("CONDITIONAL_BEHAVIOR_WITHOUT_ROLE")
+    if "conditional_behavior" in attrs:
+        if not has_conditional_evidence_role(row):
+            reason_codes.append("CONDITIONAL_BEHAVIOR_WITHOUT_ROLE")
+        elif not evidence_has_guard_tokens(row):
+            warn_codes.append("CONDITIONAL_BEHAVIOR_NO_GUARD_TOKENS")
 
     rubric = row.get("answer_rubric", {})
     forbidden_atoms = rubric.get("forbidden_atoms", []) if isinstance(rubric, dict) else []
     if (
         answer_type in {"yes_no", "fact_check"}
-        or answerability == "unanswerable_false_premise"
+        or answerability.startswith("unanswerable")
         or "false_premise" in attrs
     ) and not forbidden_atoms:
         reason_codes.append("FORBIDDEN_ATOMS_REQUIRED")
@@ -573,11 +737,25 @@ def structural_gate_record(row: dict[str, Any]) -> dict[str, Any]:
     if "file_anchor_required" not in row_tags(row) and query_mentions_evidence_file(row):
         reason_codes.append("FILE_ANCHOR_LEAK")
 
+    if query_contains_refusal_cue(row):
+        reason_codes.append("UNANSWERABLE_REFUSAL_LEAK")
+
+    if evidence_has_boilerplate(row):
+        reason_codes.append("BOILERPLATE_EVIDENCE")
+
+    if rubric_has_pointer_atom(row):
+        reason_codes.append("POINTER_STYLE_ATOM")
+
+    if implicit_dk_missing_nonverbatim_reasoning(row):
+        reason_codes.append("IMPLICIT_DK_VERBATIM_REASONING")
+
     return {
         "case_id": case_id,
         "pass": not reason_codes,
         "reason_codes": reason_codes,
         "reasons": [STRUCTURAL_REASON_MESSAGES[code] for code in reason_codes],
+        "warn_codes": warn_codes,
+        "warns": [STRUCTURAL_WARN_MESSAGES[code] for code in warn_codes],
         "layer": layer,
         "answerability": answerability,
         "attributes": attrs,
@@ -620,6 +798,75 @@ def validate_row(
         record = structural_gate_record(row)
         for code in record["reason_codes"]:
             add(findings, "FAIL", row["_file"], row["_line"], case_id, STRUCTURAL_REASON_MESSAGES[code])
+        for code in record.get("warn_codes", []):
+            add(findings, "WARN", row["_file"], row["_line"], case_id, STRUCTURAL_WARN_MESSAGES[code])
+
+
+def corpus_query_surface(query: str) -> str:
+    stripped = QUERY_SURFACE_LATIN_RE.sub("X", query)
+    stripped = QUERY_SURFACE_CJK_RUN_RE.sub("C", stripped)
+    return re.sub(r"\s+", " ", stripped).strip()
+
+
+def corpus_level_findings(rows: list[dict[str, Any]]) -> list[Finding]:
+    """Corpus-level checks: filler-path overuse and query-template diversity floor."""
+    findings: list[Finding] = []
+    combo_counts: Counter[tuple[str, str]] = Counter()
+    sample_locations: dict[tuple[str, str], tuple[str, int | None, str | None]] = {}
+    for row in rows:
+        for item in row.get("evidence", []) or []:
+            if not isinstance(item, dict):
+                continue
+            key = (str(item.get("path", "")), str(item.get("lines", "")))
+            if not key[0]:
+                continue
+            combo_counts[key] += 1
+            sample_locations.setdefault(
+                key,
+                (
+                    str(row.get("_file", "<corpus>")),
+                    row.get("_line"),
+                    str(row.get("case_id", "<unknown>")),
+                ),
+            )
+    for combo, count in combo_counts.items():
+        if count > CORPUS_PATH_LINES_REUSE_CAP:
+            file_, line_, case_id = sample_locations[combo]
+            findings.append(
+                Finding(
+                    severity="FAIL",
+                    file=file_,
+                    line=line_,
+                    case_id=case_id,
+                    message=(
+                        f"corpus filler: evidence span `{combo[0]}:{combo[1]}` reused {count} times "
+                        f"across the corpus (cap={CORPUS_PATH_LINES_REUSE_CAP})"
+                    ),
+                )
+            )
+
+    if len(rows) >= 50:
+        surfaces: Counter[str] = Counter()
+        for row in rows:
+            query = str(row.get("query", ""))
+            if query:
+                surfaces[corpus_query_surface(query)] += 1
+        if surfaces:
+            diversity = len(surfaces) / len(rows)
+            if diversity < CORPUS_QUERY_DIVERSITY_FLOOR:
+                findings.append(
+                    Finding(
+                        severity="WARN",
+                        file="<corpus>",
+                        line=None,
+                        case_id=None,
+                        message=(
+                            f"low query template diversity: {len(surfaces)} distinct surface forms "
+                            f"over {len(rows)} rows (ratio {diversity:.3f} < {CORPUS_QUERY_DIVERSITY_FLOOR})"
+                        ),
+                    )
+                )
+    return findings
 
 
 def main() -> int:
@@ -627,11 +874,15 @@ def main() -> int:
     findings: list[Finding] = []
     seen_case_ids: set[str] = set()
     row_count = 0
+    all_rows: list[dict[str, Any]] = []
     for path in args.jsonl:
         rows = load_rows(path, findings)
         row_count += len(rows)
         for row in rows:
             validate_row(row, findings, args.repo_root, seen_case_ids, schema_version=args.schema_version)
+        all_rows.extend(rows)
+    if args.schema_version == "v1.1" and all_rows:
+        findings.extend(corpus_level_findings(all_rows))
 
     fail_count = sum(1 for finding in findings if finding.severity == "FAIL")
     warn_count = sum(1 for finding in findings if finding.severity == "WARN")

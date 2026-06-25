@@ -45,6 +45,8 @@ ANSWERABILITY_VALUES = {
     "unanswerable_false_premise",
     "unanswerable_ambiguous",
 }
+MAX_FILE_ANCHORED_QUERY_RATIO = 0.35
+FILE_ANCHOR_RATIO_MIN_ROWS = 3
 CONDITIONAL_EVIDENCE_ROLES = {"trigger_condition", "branch", "guard", "predicate", "state"}
 STRUCTURAL_REASON_MESSAGES = {
     "MISSING_DIFFICULTY": "`difficulty` is required in v1.1 mode",
@@ -377,6 +379,27 @@ def query_mentions_evidence_file(row: dict[str, Any]) -> bool:
         if filename and "." in filename and filename in query:
             return True
     return False
+
+
+def is_file_anchored_query(row: dict[str, Any]) -> bool:
+    return "file_anchor_required" in row_tags(row) or query_mentions_evidence_file(row)
+
+
+def validate_file_anchor_ratio(rows: list[dict[str, Any]], findings: list[Finding]) -> None:
+    if len(rows) < FILE_ANCHOR_RATIO_MIN_ROWS:
+        return
+    anchored = [row for row in rows if is_file_anchored_query(row)]
+    ratio = len(anchored) / len(rows)
+    if ratio <= MAX_FILE_ANCHORED_QUERY_RATIO:
+        return
+    add(
+        findings,
+        "FAIL",
+        str(rows[0].get("_file", "benchmark corpus")),
+        None,
+        None,
+        "file-anchored query ratio exceeds v1.1 limit",
+    )
 
 
 def citation_required(row: dict[str, Any]) -> tuple[bool, list[str], str]:
@@ -788,6 +811,8 @@ def validate_benchmark_rows(
             structural_records.append(record)
             for message in record["reasons"]:
                 add(findings, "FAIL", row["_file"], row["_line"], case_id, message)
+    if schema_version == "v1.1":
+        validate_file_anchor_ratio(rows, findings)
     return structural_records
 
 
