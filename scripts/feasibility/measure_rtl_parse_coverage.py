@@ -54,9 +54,14 @@ EXPECTED_KINDS = {
 
 
 def walk(node):
-    yield node
-    for c in node.children:
-        yield from walk(c)
+    """Iterative pre-order walk. Iterative because some NVDLA DesignWare
+    files have AST depth >1000 and blow Python's recursion limit."""
+    stack = [node]
+    while stack:
+        n = stack.pop()
+        yield n
+        # Push children right-to-left so we visit them left-to-right.
+        stack.extend(reversed(n.children))
 
 
 def classify(root) -> tuple[str, int, int]:

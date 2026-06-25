@@ -57,7 +57,17 @@ real-data sweep summary.
 | project | total RTL files | clean_pct (strict) | usable_pct (clean+partial, excl. foundry models) | bucket | Phase 6 disposition |
 |---|---|---|---|---|---|
 | vortex  | 215 (201 non-foundry) | 26.05% | 95.5% | borderline-needed | recommended |
-| nvdla   | _TBD_           | _TBD_          | _TBD_ | _TBD_ | _TBD_ |
+| nvdla   | 427 (321 non-generated) | 26.0% | 100.0% | safe-skip | optional |
+
+NVDLA's "non-generated" exclusion drops 106 files under
+`hw/vmod/rams/synth/` (RAM macro models) and `hw/vmod/vlibs/`
+(DesignWare leaf cells). Both groups are auto-generated standard-cell
+libraries with deep nesting that hits Python's recursion limit when
+walked recursively (Task 2 was patched to use an iterative stack).
+
+On the 321 hand-written NVDLA files, tree-sitter-verilog has zero hard
+errors — Phase 6 (Verible secondary parser) is genuinely optional for
+NVDLA, and only a "nice to have" for the 9 Vortex hard-error files.
 
 **Reading these numbers:** The "clean_pct" column applies the strict
 zero-ERROR-nodes definition the original plan used. The "usable_pct"

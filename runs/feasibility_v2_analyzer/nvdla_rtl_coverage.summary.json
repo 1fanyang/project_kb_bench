@@ -1,0 +1,42 @@
+{
+  "total_files": 427,
+  "clean": 111,
+  "partial": 315,
+  "error": 1,
+  "files_with_kind": {
+    "conditional_statement": 361,
+    "always_construct": 335,
+    "checker_instantiation": 200,
+    "module_instantiation": 355,
+    "parameter_declaration": 128,
+    "module_declaration": 389,
+    "text_macro_definition": 257,
+    "case_statement": 152,
+    "function_declaration": 141,
+    "task_declaration": 65,
+    "udp_instantiation": 21
+  },
+  "parse_rate_pct": 26.0,
+  "top_error_files": [
+    [
+      "hw/vmod/rams/synth/nv_ram_rws_32x768.v",
+      2350
+    ],
+    [
+      "hw/vmod/rams/synth/nv_ram_rws_32x544.v",
+      1633
+    ],
+    [
+      "hw/vmod/rams/synth/nv_ram_rwsp_160x514.v",
+      1536
+    ],
+    [
+      "hw/vmod/rams/synth/nv_ram_rwsp_245x514.v",
+      1536
+    ],
+    [
+      "hw/vmod/rams/synth/nv_ram_rwsp_61x514.v",
+      1530
+    ]
+  ]
+}
