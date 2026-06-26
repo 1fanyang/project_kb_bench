@@ -90,3 +90,11 @@ so RTL files are silently skipped. No explicit exclude flag is needed.
 - **Phase 0 plan vs reality:** the original plan assumed CodeGraph's bin
   was at `tools/codegraph/bin/codegraph`; actual path is
   `tools/codegraph/dist/bin/codegraph.js` requiring `node@22`.
+
+## Fork (Phase 1+)
+
+- Remote: `local-only` (D1 decision recorded 2026-06-26; promote to a
+  project-owned remote before Phase 5 sign-off, per Phase 0 R5).
+- Upstream: `https://github.com/colbymchenry/codegraph` (renamed from `origin`)
+- Branch: `feat/verilog-language-module`
+- Branch base sha: `4077ed1` (matches `_codegraph_commit.txt`)
