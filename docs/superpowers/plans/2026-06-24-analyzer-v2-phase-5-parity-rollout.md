@@ -2,7 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-> **Sketched plan — Phase 4 must ship first.** This phase makes irreversible changes (bundle directory promotion, archive moves). Every directory rename must be guarded by a `git mv` so the operation shows up reviewably in diff. Do not run rollout steps before the smoke50 comparison (Tasks 3–4) shows L3 survival ≥ 15/60 — that's the gate.
+> **Sketched plan — Phase 4 must ship first.** Revised 2026-06-26: added Task 5a (npm-audit security review of the CodeGraph 1.1.1 dependency tree) as a hard gate on Task 6 promotion, per Phase 0 risk R5 (`npm audit` reported 8 vulnerabilities: 4 moderate, 3 high, 1 critical).
+>
+> This phase makes irreversible changes (bundle directory promotion, archive moves). Every directory rename must be guarded by a `git mv` so the operation shows up reviewably in diff. Do not run rollout steps before (a) the smoke50 comparison shows L3 survival ≥ 15/60 AND (b) the npm-audit gate is green.
 
 **Goal:** Prove end-to-end that v2 improves benchmark quality (Vortex L3 row survival after the strict adversarial gate ≥ 15/60, up from the prior smoke50 baseline of 2/60), then promote `runs/{vortex,nvdla}_context_bundle_v2/` to canonical and archive v1.
 
@@ -408,6 +410,83 @@ uv run python skills/benchmark-repo-analyzer/scripts/signal_emitter.py \
 ```bash
 git add skills/benchmark-repo-analyzer/SKILL.md
 git commit -m "docs(analyzer-v2/phase-5): first-class SKILL.md for the analyzer"
+```
+
+---
+
+### Task 5a: npm-audit security review of the CodeGraph fork (added 2026-06-26)
+
+**Files:**
+- Create: `runs/feasibility_v2_analyzer/phase5_npm_audit.md`
+
+**Interfaces:**
+- Consumes: `tools/codegraph/` on `feat/verilog-language-module`.
+- Produces: a markdown record of `npm audit --production` output, a per-CVE disposition, and a `gate: pass | fail` line. Task 6 reads `gate:` and refuses to promote on `fail`.
+
+Phase 0 R5 found 8 vulnerabilities in the CodeGraph 1.1.1 dependency tree
+(4 moderate, 3 high, 1 critical). Until those are triaged we are NOT
+allowed to promote v2 to canonical. The triage may resolve via `npm audit
+fix`, by upgrading an indirect dep, by ignoring with explicit
+justification (e.g. dev-only CVE that never reaches production), or by
+pinning to a patched version.
+
+- [ ] **Step 1: Capture the current state**
+
+```bash
+cd tools/codegraph
+npm audit --production --json > /tmp/_npm_audit.json
+npm audit --production 2>&1 | tee /tmp/_npm_audit.txt
+```
+
+- [ ] **Step 2: Try the safe automatic fix**
+
+```bash
+npm audit fix --production         # no --force; force is opt-in below
+npm audit --production --json > /tmp/_npm_audit_after.json
+```
+
+- [ ] **Step 3: Per-CVE triage**
+
+For each remaining advisory, pick exactly one disposition: `fixed`,
+`upgraded`, `ignored-with-justification`, or `accepted-risk-needs-review`.
+Anything left in `accepted-risk-needs-review` means the gate fails.
+
+- [ ] **Step 4: Write the report**
+
+`runs/feasibility_v2_analyzer/phase5_npm_audit.md`:
+
+```markdown
+# Phase 5 — npm audit security review
+
+Date: <date>
+Fork branch: feat/verilog-language-module @ <sha>
+CodeGraph upstream: 1.1.1
+
+## Phase 0 baseline (R5)
+
+8 vulnerabilities: 4 moderate, 3 high, 1 critical.
+
+## After `npm audit fix --production`
+
+| advisory id | severity | package | disposition | notes |
+|---|---|---|---|---|
+| <…> | <…> | <…> | fixed/upgraded/ignored/accepted | <…> |
+
+## Gate
+
+gate: pass | fail
+```
+
+- [ ] **Step 5: Commit + push back to the fork**
+
+```bash
+cd tools/codegraph
+git add package.json package-lock.json
+git commit -m "chore(security): npm audit fix (phase-5 prereq)" || true
+git push  # if remote configured
+cd -
+git add runs/feasibility_v2_analyzer/phase5_npm_audit.md
+git commit -m "docs(analyzer-v2/phase-5): npm-audit security review"
 ```
 
 ---
