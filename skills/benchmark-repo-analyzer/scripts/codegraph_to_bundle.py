@@ -49,16 +49,34 @@ import _codegraph_queries as q
 # source_inventory.jsonl
 # ---------------------------------------------------------------------------
 
+def _strip_prefix(cg_path: str, prefix: str) -> str:
+    """CodeGraph stores paths relative to the dir it was indexed in. The v1
+    bundle's `relative_path` is relative to one level deeper (the actual
+    git checkout under `repo_sources/<project>/<inner>/`). --strip-prefix
+    drops that leading inner dir so the two bundle layouts align.
+
+    Example: cg path `vortex/hw/rtl/foo.sv` + `--strip-prefix vortex` ->
+             relative_path `hw/rtl/foo.sv`.
+    """
+    if not prefix:
+        return cg_path
+    p = prefix.rstrip("/") + "/"
+    return cg_path[len(p):] if cg_path.startswith(p) else cg_path
+
+
 def emit_source_inventory(conn, args, out_dir: Path) -> dict:
-    """Returns the per-emitter context map subsequent emitters need:
-       {'path_to_source_id': {file_path: source_id},
-        'source_inventory_count': int}.
+    """Returns {'path_to_source_id': {cg_path: source_id},
+                'path_to_relative': {cg_path: stripped_relative_path},
+                'source_inventory_count': int}.
     """
     path_to_source_id: dict[str, str] = {}
+    path_to_relative: dict[str, str] = {}
     records = []
     for ordinal, row in enumerate(conn.execute(q.FILES_QUERY), start=1):
         sid = bw.source_id(args.project, ordinal)
         path_to_source_id[row["path"]] = sid
+        relative = _strip_prefix(row["path"], args.strip_prefix)
+        path_to_relative[row["path"]] = relative
         modality = bw.derive_modality(row["language"])
         records.append({
             "authority": "primary_source",
@@ -66,9 +84,9 @@ def emit_source_inventory(conn, args, out_dir: Path) -> dict:
             "line_count": _line_count(row["size"], row["node_count"]),
             "modality": modality,
             "parse_status": "parsed" if row["errors"] in (None, "[]") else "errors",
-            "path": _full_path(args.repo_name, row["path"]),
+            "path": _full_path(args.repo_name, relative),
             "project": args.project,
-            "relative_path": row["path"],
+            "relative_path": relative,
             "repo_name": args.repo_name,
             "sha256": f"sha256:{row['content_hash']}",
             "size_bytes": row["size"] or 0,
@@ -78,6 +96,7 @@ def emit_source_inventory(conn, args, out_dir: Path) -> dict:
         })
     count = bw.write_jsonl(out_dir / "source_inventory.jsonl", records)
     return {"path_to_source_id": path_to_source_id,
+            "path_to_relative": path_to_relative,
             "source_inventory_count": count}
 
 
@@ -111,18 +130,24 @@ def emit_entity_index(conn, args, out_dir: Path, ctx: dict) -> dict:
     records = []
 
     for row in conn.execute(q.ENTITIES_QUERY):
-        v1_kind = bw.remap_kind(row["kind"], row["language"])
-        if v1_kind is None:
-            continue  # SKIP_CG_KINDS (file, import)
         sid = path_to_source_id.get(row["file_path"])
         if not sid:
             continue  # node references a file CodeGraph didn't track (shouldn't happen)
+        # Always thread the source_id for ANY node (so relations whose
+        # source/target is a SKIPped node — file:, import: — can still
+        # locate their evidence path). Only emit an entity_index ROW for
+        # non-skipped kinds.
+        node_id_to_source_id[row["id"]] = sid
+        node_id_to_name[row["id"]] = row["name"]
+
+        v1_kind = bw.remap_kind(row["kind"], row["language"])
+        if v1_kind is None:
+            continue  # SKIP_CG_KINDS (file, import)
         eid = bw.entity_id(args.project, row["name"], v1_kind, sid,
                            row["start_line"] or 1)
         node_id_to_entity_id[row["id"]] = eid
-        node_id_to_source_id[row["id"]] = sid
-        node_id_to_name[row["id"]] = row["name"]
         node_id_to_kind[row["id"]] = v1_kind
+        relative = ctx["path_to_relative"].get(row["file_path"], row["file_path"])
         records.append({
             "confidence": 0.95,
             "entity_id": eid,
@@ -131,7 +156,7 @@ def emit_entity_index(conn, args, out_dir: Path, ctx: dict) -> dict:
             "line_end": row["end_line"] or row["start_line"] or 1,
             "line_start": row["start_line"] or 1,
             "name": row["name"],
-            "path": _full_path(args.repo_name, row["file_path"]),
+            "path": _full_path(args.repo_name, relative),
             "project": args.project,
             "source_id": sid,
             **({"qualified_name": row["qualified_name"]}
@@ -175,12 +200,16 @@ def emit_relation_graph(conn, args, out_dir: Path, ctx: dict,
             if sid:
                 file_node_to_source[row["id"]] = sid
 
-    # path lookup for first-substantive-line enrichment
-    source_to_path: dict[str, str] = {}
+    # path lookup for evidence — use stripped relative paths so the
+    # bundle's evidence.path matches source_inventory.path conventions.
+    source_to_relative: dict[str, str] = {}
     for row in conn.execute(q.FILES_QUERY):
         sid = ctx["path_to_source_id"].get(row["path"])
         if sid:
-            source_to_path[sid] = row["path"]
+            source_to_relative[sid] = ctx["path_to_relative"].get(
+                row["path"], row["path"]
+            )
+    source_to_path = source_to_relative  # alias for the helpers below
 
     records = []
     predicate_counts: Counter = Counter()
@@ -296,8 +325,36 @@ def emit_project_manifest(conn, args, out_dir: Path, ctx: dict,
         "relations_by_predicate": rel_ctx["predicate_counts"],
         "dropped_relations_by_predicate": rel_ctx["dropped_predicate_counts"],
     }
+    now = (datetime.datetime.now(datetime.UTC)
+                   .replace(microsecond=0)
+                   .isoformat()
+                   .replace("+00:00", "Z"))
     manifest = {
+        # schema-required top-level
+        "schema_version": "project-manifest/v1",
         "analyzer_version": "benchmark-repo-analyzer/v2-tree-sitter-codegraph",
+        "created_at": now,
+        "project": {
+            "id": args.project,
+            "display_name": args.display_name or args.project.title(),
+        },
+        # one source_set entry (the indexed root); add multiple if a later
+        # exporter version handles cross-set indexing.
+        "source_sets": [{
+            "id": args.source_set_id,
+            "repo_name": args.repo_name,
+            "local_root": str(args.source_set_local_root or
+                              f"repo_sources/{args.repo_name}"),
+            "source_role": args.source_set_role,
+            "authority": "primary_source",
+            "available": True,
+        }],
+        "analysis_backends": {
+            "code": {
+                "requested_primary": "code_graph",
+                "used_primary": True,
+            },
+        },
         "analyzer_pin": {
             "codegraph_commit": cg_pin,
             "codegraph_indexed_with_version":
@@ -305,20 +362,8 @@ def emit_project_manifest(conn, args, out_dir: Path, ctx: dict,
             "codegraph_extraction_version":
                 cg_meta.get("indexed_with_extraction_version"),
         },
-        "analysis_backends": {
-            "code": {
-                "requested_primary": "code_graph",
-                "used_primary": True,
-            },
-        },
         "counts": counts,
-        "generated_at": datetime.datetime.now(datetime.UTC)
-                                          .replace(microsecond=0)
-                                          .isoformat()
-                                          .replace("+00:00", "Z"),
-        "project": args.project,
-        "source_set_id": args.source_set_id,
-        "repo_name": args.repo_name,
+        "generated_at": now,
     }
     (out_dir / "project_manifest.json").write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n"
@@ -391,6 +436,32 @@ def main() -> int:
         "--codegraph-pin",
         default="4077ed19b7d8a88eba93601c0c308e59c8640f8c",
         help="CodeGraph commit sha recorded in project_manifest.json.",
+    )
+    ap.add_argument(
+        "--strip-prefix",
+        default="",
+        help="Leading path component to strip from CodeGraph's stored paths "
+             "before treating them as relative_path. Use when codegraph "
+             "index was run one level above the actual git checkout "
+             "(e.g. --strip-prefix vortex for repo_sources/vortex/vortex/).",
+    )
+    ap.add_argument(
+        "--source-set-local-root",
+        default=None,
+        help="Filesystem path of the source-set's local root (used in "
+             "project_manifest.source_sets[].local_root). Defaults to "
+             "repo_sources/<repo-name>.",
+    )
+    ap.add_argument(
+        "--source-set-role",
+        default="primary_source",
+        help="source_role for the source_set entry in project_manifest.",
+    )
+    ap.add_argument(
+        "--display-name",
+        default=None,
+        help="Human-readable project display name for project_manifest. "
+             "Defaults to title-cased --project.",
     )
     ap.add_argument(
         "--diff-against",
