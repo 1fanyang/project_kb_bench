@@ -1,0 +1,47 @@
+{
+  "analysis_backends": {
+    "code": {
+      "requested_primary": "code_graph",
+      "used_primary": true
+    }
+  },
+  "analyzer_pin": {
+    "codegraph_commit": "4077ed19b7d8a88eba93601c0c308e59c8640f8c",
+    "codegraph_extraction_version": "24",
+    "codegraph_indexed_with_version": "1.1.1"
+  },
+  "analyzer_version": "benchmark-repo-analyzer/v2-tree-sitter-codegraph",
+  "counts": {
+    "dropped_relations_by_predicate": {},
+    "entities": 52729,
+    "relations": 166458,
+    "relations_by_predicate": {
+      "calls": 72302,
+      "contains": 67724,
+      "decorates": 265,
+      "extends": 3743,
+      "implements": 31,
+      "imports_or_includes": 3307,
+      "instantiates": 15242,
+      "references": 3844
+    },
+    "sources": 1440
+  },
+  "created_at": "2026-06-29T07:56:36Z",
+  "generated_at": "2026-06-29T07:56:36Z",
+  "project": {
+    "display_name": "NVDLA",
+    "id": "nvdla"
+  },
+  "schema_version": "project-manifest/v1",
+  "source_sets": [
+    {
+      "authority": "primary_source",
+      "available": true,
+      "id": "nvdla_main",
+      "local_root": "repo_sources/nvdla",
+      "repo_name": "nvdla",
+      "source_role": "primary_source"
+    }
+  ]
+}
