@@ -1385,6 +1385,18 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--bundle-path",
+        type=Path,
+        default=None,
+        help=(
+            "Directory holding source_inventory.jsonl / entity_index.jsonl "
+            "/ relation_graph.jsonl / signal_index.jsonl. Defaults to "
+            "`runs/<project>_context_bundle/`. Pass "
+            "`runs/<project>_context_bundle_v2/` to assemble from the v2 "
+            "analyzer-produced bundle (matches prepare_module_inputs.py)."
+        ),
+    )
+    parser.add_argument(
         "--strict-m8",
         action="store_true",
         help=(
@@ -1411,7 +1423,14 @@ def main() -> int:
         return 2
     stage_check_failures: list[str] = []
     for project in projects:
-        bundle = Path("runs") / f"{project}_context_bundle"
+        if args.bundle_path is not None:
+            if args.project == "all":
+                print("ERROR: --bundle-path requires a specific --project; "
+                      "the bundle path is project-specific.", flush=True)
+                return 2
+            bundle = args.bundle_path
+        else:
+            bundle = Path("runs") / f"{project}_context_bundle"
         profile = Path("runs") / f"{project}_generation_profile_v1_1.yaml"
         drop_log: dict[str, list[str]] = {}
         stages_used: dict[str, dict[str, Any]] = {}

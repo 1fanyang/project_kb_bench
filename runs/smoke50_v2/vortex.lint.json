@@ -1,0 +1,972 @@
+{
+  "mode": "lint",
+  "rows": 198,
+  "fails": 133,
+  "warnings": 0,
+  "coverage": {
+    "project": {
+      "vortex": 198
+    },
+    "layer": {
+      "L1": 50,
+      "L2": 88,
+      "L3": 60
+    },
+    "capability": {
+      "repo_structure_location": 34,
+      "doc_code_cross_check": 34,
+      "build_simulation_flow": 32,
+      "mechanism_trace": 32,
+      "tests_debug_evidence": 33,
+      "negative_insufficient_evidence": 33
+    },
+    "answer_type": {
+      "negative": 40,
+      "mechanism": 35,
+      "synthesis": 35,
+      "location": 34,
+      "procedure": 34,
+      "fact_check": 20
+    }
+  },
+  "findings": [
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 1,
+      "case_id": "vortex-v1_1-L1-001",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 1,
+      "case_id": "vortex-v1_1-L1-001",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 2,
+      "case_id": "vortex-v1_1-L1-002",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 2,
+      "case_id": "vortex-v1_1-L1-002",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 3,
+      "case_id": "vortex-v1_1-L1-003",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 3,
+      "case_id": "vortex-v1_1-L1-003",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 4,
+      "case_id": "vortex-v1_1-L1-004",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 4,
+      "case_id": "vortex-v1_1-L1-004",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 5,
+      "case_id": "vortex-v1_1-L1-005",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 5,
+      "case_id": "vortex-v1_1-L1-005",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 6,
+      "case_id": "vortex-v1_1-L1-006",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 6,
+      "case_id": "vortex-v1_1-L1-006",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 7,
+      "case_id": "vortex-v1_1-L1-007",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 7,
+      "case_id": "vortex-v1_1-L1-007",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 8,
+      "case_id": "vortex-v1_1-L1-008",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 8,
+      "case_id": "vortex-v1_1-L1-008",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 9,
+      "case_id": "vortex-v1_1-L1-009",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 9,
+      "case_id": "vortex-v1_1-L1-009",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 10,
+      "case_id": "vortex-v1_1-L1-010",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 10,
+      "case_id": "vortex-v1_1-L1-010",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 11,
+      "case_id": "vortex-v1_1-L1-011",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 11,
+      "case_id": "vortex-v1_1-L1-011",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 12,
+      "case_id": "vortex-v1_1-L1-012",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 12,
+      "case_id": "vortex-v1_1-L1-012",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 13,
+      "case_id": "vortex-v1_1-L1-013",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 13,
+      "case_id": "vortex-v1_1-L1-013",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 14,
+      "case_id": "vortex-v1_1-L1-014",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 14,
+      "case_id": "vortex-v1_1-L1-014",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 15,
+      "case_id": "vortex-v1_1-L1-015",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 15,
+      "case_id": "vortex-v1_1-L1-015",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 16,
+      "case_id": "vortex-v1_1-L1-016",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 16,
+      "case_id": "vortex-v1_1-L1-016",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 17,
+      "case_id": "vortex-v1_1-L1-017",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 17,
+      "case_id": "vortex-v1_1-L1-017",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 18,
+      "case_id": "vortex-v1_1-L1-018",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 18,
+      "case_id": "vortex-v1_1-L1-018",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 19,
+      "case_id": "vortex-v1_1-L1-019",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 19,
+      "case_id": "vortex-v1_1-L1-019",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 20,
+      "case_id": "vortex-v1_1-L1-020",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 20,
+      "case_id": "vortex-v1_1-L1-020",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 21,
+      "case_id": "vortex-v1_1-L1-021",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 21,
+      "case_id": "vortex-v1_1-L1-021",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 22,
+      "case_id": "vortex-v1_1-L1-022",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 22,
+      "case_id": "vortex-v1_1-L1-022",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 23,
+      "case_id": "vortex-v1_1-L1-023",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 23,
+      "case_id": "vortex-v1_1-L1-023",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 24,
+      "case_id": "vortex-v1_1-L1-024",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 24,
+      "case_id": "vortex-v1_1-L1-024",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 25,
+      "case_id": "vortex-v1_1-L1-025",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 25,
+      "case_id": "vortex-v1_1-L1-025",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 26,
+      "case_id": "vortex-v1_1-L1-026",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 26,
+      "case_id": "vortex-v1_1-L1-026",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 27,
+      "case_id": "vortex-v1_1-L1-027",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 27,
+      "case_id": "vortex-v1_1-L1-027",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 28,
+      "case_id": "vortex-v1_1-L1-028",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 28,
+      "case_id": "vortex-v1_1-L1-028",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 29,
+      "case_id": "vortex-v1_1-L1-029",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 29,
+      "case_id": "vortex-v1_1-L1-029",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 30,
+      "case_id": "vortex-v1_1-L1-030",
+      "message": "`difficulty.claim_sources` must include signals for every difficulty attribute"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 30,
+      "case_id": "vortex-v1_1-L1-030",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 51,
+      "case_id": "vortex-v1_1-L2-051",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 52,
+      "case_id": "vortex-v1_1-L2-052",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 52,
+      "case_id": "vortex-v1_1-L2-052",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 53,
+      "case_id": "vortex-v1_1-L2-053",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 55,
+      "case_id": "vortex-v1_1-L2-055",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 56,
+      "case_id": "vortex-v1_1-L2-056",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 57,
+      "case_id": "vortex-v1_1-L2-057",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 58,
+      "case_id": "vortex-v1_1-L2-058",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 59,
+      "case_id": "vortex-v1_1-L2-059",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 60,
+      "case_id": "vortex-v1_1-L2-060",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 61,
+      "case_id": "vortex-v1_1-L2-061",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 62,
+      "case_id": "vortex-v1_1-L2-062",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 63,
+      "case_id": "vortex-v1_1-L2-063",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 64,
+      "case_id": "vortex-v1_1-L2-064",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 67,
+      "case_id": "vortex-v1_1-L2-067",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 68,
+      "case_id": "vortex-v1_1-L2-068",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 69,
+      "case_id": "vortex-v1_1-L2-069",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 70,
+      "case_id": "vortex-v1_1-L2-070",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 73,
+      "case_id": "vortex-v1_1-L2-073",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 74,
+      "case_id": "vortex-v1_1-L2-074",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 75,
+      "case_id": "vortex-v1_1-L2-075",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 76,
+      "case_id": "vortex-v1_1-L2-076",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 79,
+      "case_id": "vortex-v1_1-L2-079",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 80,
+      "case_id": "vortex-v1_1-L2-080",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 81,
+      "case_id": "vortex-v1_1-L2-081",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 82,
+      "case_id": "vortex-v1_1-L2-082",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 84,
+      "case_id": "vortex-v1_1-L2-084",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 85,
+      "case_id": "vortex-v1_1-L2-085",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 86,
+      "case_id": "vortex-v1_1-L2-086",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 87,
+      "case_id": "vortex-v1_1-L2-087",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 88,
+      "case_id": "vortex-v1_1-L2-088",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 89,
+      "case_id": "vortex-v1_1-L2-089",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 91,
+      "case_id": "vortex-v1_1-L2-091",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 92,
+      "case_id": "vortex-v1_1-L2-092",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 93,
+      "case_id": "vortex-v1_1-L2-093",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 94,
+      "case_id": "vortex-v1_1-L2-094",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 95,
+      "case_id": "vortex-v1_1-L2-095",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 96,
+      "case_id": "vortex-v1_1-L2-096",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 97,
+      "case_id": "vortex-v1_1-L2-097",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 98,
+      "case_id": "vortex-v1_1-L2-098",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 99,
+      "case_id": "vortex-v1_1-L2-099",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 100,
+      "case_id": "vortex-v1_1-L2-100",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 101,
+      "case_id": "vortex-v1_1-L2-101",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 103,
+      "case_id": "vortex-v1_1-L2-103",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 104,
+      "case_id": "vortex-v1_1-L2-104",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 105,
+      "case_id": "vortex-v1_1-L2-105",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 106,
+      "case_id": "vortex-v1_1-L2-106",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 107,
+      "case_id": "vortex-v1_1-L2-107",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 108,
+      "case_id": "vortex-v1_1-L2-108",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 109,
+      "case_id": "vortex-v1_1-L2-109",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 110,
+      "case_id": "vortex-v1_1-L2-110",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 111,
+      "case_id": "vortex-v1_1-L2-111",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 112,
+      "case_id": "vortex-v1_1-L2-112",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 113,
+      "case_id": "vortex-v1_1-L2-113",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 115,
+      "case_id": "vortex-v1_1-L2-115",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 116,
+      "case_id": "vortex-v1_1-L2-116",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 117,
+      "case_id": "vortex-v1_1-L2-118",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 118,
+      "case_id": "vortex-v1_1-L2-119",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 119,
+      "case_id": "vortex-v1_1-L2-120",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 120,
+      "case_id": "vortex-v1_1-L2-121",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 122,
+      "case_id": "vortex-v1_1-L2-123",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 123,
+      "case_id": "vortex-v1_1-L2-124",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 124,
+      "case_id": "vortex-v1_1-L2-125",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 126,
+      "case_id": "vortex-v1_1-L2-127",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 127,
+      "case_id": "vortex-v1_1-L2-128",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 128,
+      "case_id": "vortex-v1_1-L2-129",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 129,
+      "case_id": "vortex-v1_1-L2-131",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 130,
+      "case_id": "vortex-v1_1-L2-132",
+      "message": "`conditional_behavior` needs guard/branch/predicate/state evidence"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 131,
+      "case_id": "vortex-v1_1-L2-133",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 132,
+      "case_id": "vortex-v1_1-L2-134",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 136,
+      "case_id": "vortex-v1_1-L2-138",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 137,
+      "case_id": "vortex-v1_1-L2-139",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    },
+    {
+      "severity": "FAIL",
+      "file": "runs/smoke50_v2/vortex_benchmark_v1_1.jsonl",
+      "line": 138,
+      "case_id": "vortex-v1_1-L2-140",
+      "message": "v1.1 rows need at least two difficulty signals across axes"
+    }
+  ],
+  "sample_case_ids": [
+    "vortex-v1_1-L1-001",
+    "vortex-v1_1-L1-002",
+    "vortex-v1_1-L1-003",
+    "vortex-v1_1-L1-004",
+    "vortex-v1_1-L1-005"
+  ]
+}
