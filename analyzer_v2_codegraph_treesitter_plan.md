@@ -427,7 +427,7 @@ Update this section as each phase completes. Format: `phase | status | shipped-o
 | Phase | Status | Shipped on | Notes |
 |---|---|---|---|
 | 0 — Feasibility | complete | 2026-06-25 | usable_pct vortex=95.5% nvdla=100%; pin=4077ed1 (v1.1.1); phase-6=recommended; see `runs/feasibility_v2_analyzer.md` |
-| 1 — Verilog language module | not started | — | depends on Phase 0; PH0 corrections required (node-kind names + integration paths) |
+| 1 — Verilog language module | complete | 2026-06-29 | branch=tools/codegraph@feat/verilog-language-module (local-only); 211 verilog files indexed, 145 modules, 373 instantiates edges; D5=defer Phase 1.5; see `runs/feasibility_v2_analyzer/phase1_acceptance.md` |
 | 2 — Bundle exporter | not started | — | depends on Phase 1; table names confirmed as nodes/edges (not symbols/relations) |
 | 3 — Signal-emission layer | not started | — | depends on Phase 2; use `conditional_statement` not `if_statement` |
 | 4 — Pipeline integration | not started | — | depends on Phase 3 |
