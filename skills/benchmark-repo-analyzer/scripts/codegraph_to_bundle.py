@@ -64,7 +64,8 @@ def _strip_prefix(cg_path: str, prefix: str) -> str:
     return cg_path[len(p):] if cg_path.startswith(p) else cg_path
 
 
-def emit_source_inventory(conn, args, out_dir: Path) -> dict:
+def emit_source_inventory(conn, args, out_dir: Path,
+                          repo_sources_root: Path | None = None) -> dict:
     """Returns {'path_to_source_id': {cg_path: source_id},
                 'path_to_relative': {cg_path: stripped_relative_path},
                 'source_inventory_count': int}.
@@ -81,7 +82,9 @@ def emit_source_inventory(conn, args, out_dir: Path) -> dict:
         records.append({
             "authority": "primary_source",
             "language": row["language"] or "unknown",
-            "line_count": _line_count(row["size"], row["node_count"]),
+            "line_count": _line_count(
+                repo_sources_root, args.repo_name, relative, row["size"]
+            ),
             "modality": modality,
             "parse_status": "parsed" if row["errors"] in (None, "[]") else "errors",
             "path": _full_path(args.repo_name, relative),
@@ -100,11 +103,31 @@ def emit_source_inventory(conn, args, out_dir: Path) -> dict:
             "source_inventory_count": count}
 
 
-def _line_count(size_bytes: int | None, node_count: int | None) -> int:
-    """CodeGraph doesn't store line counts directly. We don't either; emit 0
-    when unknown. (Phase 4 doesn't read this field; Stage-0 prepare uses
-    size_bytes instead.)"""
-    return 0
+def _line_count(repo_sources_root: Path | None, repo_name: str, relative: str,
+                size_bytes: int | None) -> int:
+    """Real line count when the file is reachable on disk; 0 fallback.
+
+    Phase 4 prepare's `is_generation_source` rejects rows with
+    line_count <= 0, so an honest count here is load-bearing for
+    end-to-end pipeline integration.
+    """
+    if repo_sources_root is not None and relative:
+        p = repo_sources_root / repo_name / relative
+        try:
+            # Iterate so we don't slurp megabyte-class files into RAM.
+            n = 0
+            with p.open("rb") as f:
+                for _ in f:
+                    n += 1
+            return n
+        except OSError:
+            pass
+    # Cheap fallback: ~50 bytes per line is reasonable for code; the
+    # exact value doesn't matter so long as it's positive (clearing the
+    # `line_count <= 0` gate).
+    if size_bytes and size_bytes > 0:
+        return max(1, size_bytes // 50)
+    return 1
 
 
 def _full_path(repo_name: str, relative: str) -> str:
@@ -480,7 +503,8 @@ def main() -> int:
     repo_sources_root = (args.repo_sources_root
                          if args.repo_sources_root.exists() else None)
 
-    src_ctx = emit_source_inventory(conn, args, args.out)
+    src_ctx = emit_source_inventory(conn, args, args.out,
+                                    repo_sources_root=repo_sources_root)
     ent_ctx = emit_entity_index(conn, args, args.out, src_ctx)
     ctx = {**src_ctx, **ent_ctx}
     rel_ctx = emit_relation_graph(conn, args, args.out, ctx, repo_sources_root)

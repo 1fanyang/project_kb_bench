@@ -434,7 +434,31 @@ def load_sources(bundle: Path, project: str, repo_root: Path) -> dict[str, Sourc
     return sources
 
 
-def load_signals(bundle: Path, project: str, sources: dict[str, Source]) -> dict[str, list[Signal]]:
+# Whitelist of signal attributes the L1-L3 selection logic knows how to
+# rank. Unknown axis-2/axis-3 attributes (e.g. Phase 3's new
+# `signal_dataflow` from verilog re-parse) are dropped at load time so
+# they don't accidentally enter PREFERRED_ATTRIBUTE_GROUPS fallback
+# selection. Phase 4 "ignore and ship" path: tolerate without wiring.
+# To promote a new attribute to selection, add it here AND to
+# PREFERRED_ATTRIBUTE_GROUPS in a single change.
+KNOWN_AXIS_ATTRIBUTES: frozenset[str] = frozenset({
+    "long_tail",
+    "distracting_info",
+    "non_code_anchor",
+    "conditional_behavior",
+    "implicit_domain_knowledge",
+    "doc_code_divergence",
+    "version_fork_diff",  # NVDLA-specific; emitted by future Phase 7 work
+})
+
+
+def load_signals(
+    bundle: Path,
+    project: str,
+    sources: dict[str, Source],
+    *,
+    dropped_unknown_attributes: dict[str, int] | None = None,
+) -> dict[str, list[Signal]]:
     by_attribute: dict[str, list[Signal]] = defaultdict(list)
     seen: set[tuple[str, str]] = set()
     for row in read_jsonl(bundle / "signal_index.jsonl"):
@@ -455,6 +479,18 @@ def load_signals(bundle: Path, project: str, sources: dict[str, Source]) -> dict
             or not isinstance(attribute, str)
             or axis not in (2, 3)
         ):
+            continue
+        if attribute not in KNOWN_AXIS_ATTRIBUTES:
+            # Phase 4 "ignore and ship": new attributes (signal_dataflow
+            # in Phase 3) are tolerated but don't enter the selection
+            # pool. The drop counter exposes the count so the Stage-0
+            # audit can record what was bypassed; Phase 5 measurement
+            # tells us whether wiring any of them as a new axis would
+            # improve L3 row survival.
+            if dropped_unknown_attributes is not None:
+                dropped_unknown_attributes[attribute] = (
+                    dropped_unknown_attributes.get(attribute, 0) + 1
+                )
             continue
         key = (attribute, source_id)
         if key in seen:
