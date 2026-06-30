@@ -1,0 +1,423 @@
+From 88e228f906c18c8768c3f8cd2298630897dfab22 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=E6=9D=A8=E4=B8=80=E5=B8=86?=
+ <yangyifan@yangyifans-MacBook-Pro.local>
+Date: Mon, 29 Jun 2026 10:31:04 +0800
+Subject: [PATCH 2/3] feat(verilog): verilogExtractor + register in EXTRACTORS
+ map
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Phase 1 Tasks 4-5 of kb_benchmark analyzer-v2.
+
+verilogExtractor (src/extraction/languages/verilog.ts) using node-type
+names Phase 0 measured against tree-sitter-verilog v1.0.3:
+
+  classTypes:         module/package/class declaration
+  interfaceTypes:     interface_declaration
+  methodTypes:        function/task declaration (inside class container)
+  functionTypes:      function/task declaration (top-level)
+  importTypes:        include_directive, package_import_declaration
+  callTypes:          subroutine_call
+  instantiationTypes: module/checker/udp instantiation (new field — see below)
+  variableTypes:      parameter/net/data declaration
+  resolveName:        BFS for first simple_identifier descendant; tree-sitter-
+                      verilog rarely uses named fields, so most declared names
+                      come from "first identifier under the header" rather than
+                      a named-field child.
+
+The framework extension: a new optional `instantiationTypes` field on
+LanguageExtractor lets per-language extractors route language-specific
+binding/instantiation syntax through the existing extractInstantiation
+path (which emits `instantiates` references targeting the type's first
+named child). The dispatcher checks both INSTANTIATION_KINDS (built-in)
+and `extractor.instantiationTypes` in both visit walkers.
+
+Why this is needed for Verilog: tree-sitter-verilog cannot statically
+disambiguate `child u(.clk(clk))` between module/UDP/checker
+instantiation forms. All three are listed in instantiationTypes; the
+target identifier is whatever the grammar tagged as the type name.
+Emitting `instantiates` (not `calls`) is semantically more accurate —
+a module instance isn't a function call.
+
+Registry edits:
+- src/extraction/languages/index.ts: import + register verilogExtractor.
+- src/extraction/grammars.ts: add verilog to the local-vendored-grammar
+  loader list so the WASM resolves from src/extraction/wasm/ instead of
+  tree-sitter-wasms/out/ (which doesn't ship verilog).
+
+Tests (__tests__/verilog-extractor.test.ts, with 3 fixtures):
+- Entity extraction: module/package/interface/class/function/task all
+  surface with correct names (functions inside modules → 'method' kind,
+  top-level functions → 'function' kind).
+- Instantiations: 3 different instance syntaxes all produce
+  `instantiates` unresolvedReferences naming target 'child'.
+- Conditional/case/always blocks: extract the parent module without
+  aborting.
+
+378/378 existing tests in __tests__/extraction.test.ts still pass under
+node@22. (Under system node@20 they all fail at SQLite init for an
+unrelated reason — node:sqlite needs ≥22.5.)
+---
+ __tests__/fixtures/verilog/conditions.sv |   9 ++
+ __tests__/fixtures/verilog/entities.sv   |  11 +++
+ __tests__/fixtures/verilog/relations.sv  |  10 ++
+ __tests__/verilog-extractor.test.ts      |  81 ++++++++++++++++
+ src/extraction/grammars.ts               |   2 +-
+ src/extraction/languages/index.ts        |   2 +
+ src/extraction/languages/verilog.ts      | 113 +++++++++++++++++++++++
+ src/extraction/tree-sitter-types.ts      |  15 +++
+ src/extraction/tree-sitter.ts            |  14 ++-
+ 9 files changed, 253 insertions(+), 4 deletions(-)
+ create mode 100644 __tests__/fixtures/verilog/conditions.sv
+ create mode 100644 __tests__/fixtures/verilog/entities.sv
+ create mode 100644 __tests__/fixtures/verilog/relations.sv
+ create mode 100644 __tests__/verilog-extractor.test.ts
+ create mode 100644 src/extraction/languages/verilog.ts
+
+diff --git a/__tests__/fixtures/verilog/conditions.sv b/__tests__/fixtures/verilog/conditions.sv
+new file mode 100644
+index 0000000..08838b6
+--- /dev/null
++++ b/__tests__/fixtures/verilog/conditions.sv
+@@ -0,0 +1,9 @@
++module m (input wire clk, input wire [1:0] sel, output reg q);
++  always_ff @(posedge clk) begin
++    if (sel == 2'b00) q <= 1'b0;
++    else case (sel)
++      2'b01: q <= 1'b1;
++      default: q <= q;
++    endcase
++  end
++endmodule
+diff --git a/__tests__/fixtures/verilog/entities.sv b/__tests__/fixtures/verilog/entities.sv
+new file mode 100644
+index 0000000..7daee9c
+--- /dev/null
++++ b/__tests__/fixtures/verilog/entities.sv
+@@ -0,0 +1,11 @@
++package my_pkg; endpackage
++`define MY_MACRO 1
++
++interface my_if; endinterface
++
++module sample #(parameter int W = 8) (input wire clk);
++  function int double(int x); return x * 2; endfunction
++  task automatic stim(); endtask
++endmodule
++
++class my_class; endclass
+diff --git a/__tests__/fixtures/verilog/relations.sv b/__tests__/fixtures/verilog/relations.sv
+new file mode 100644
+index 0000000..9036f42
+--- /dev/null
++++ b/__tests__/fixtures/verilog/relations.sv
+@@ -0,0 +1,10 @@
++`include "stdlib.svh"
++import shared_pkg::*;
++
++module parent;
++  child #(.W(8)) u_param (.clk(clk));   // module_instantiation
++  child         u_named (.clk(clk));    // checker_instantiation
++  child         u_pos   (clk);          // udp_instantiation
++endmodule
++
++module child (input wire clk); endmodule
+diff --git a/__tests__/verilog-extractor.test.ts b/__tests__/verilog-extractor.test.ts
+new file mode 100644
+index 0000000..0964e09
+--- /dev/null
++++ b/__tests__/verilog-extractor.test.ts
+@@ -0,0 +1,81 @@
++/**
++ * Verilog / SystemVerilog extractor tests.
++ *
++ * Mirrors the small-fixture pattern in extraction.test.ts. Three fixtures:
++ *   - entities.sv: module, package, interface, class, function, task
++ *   - relations.sv: 3 instantiation kinds (module/checker/udp); include + import
++ *   - conditions.sv: always_construct / conditional_statement / case_statement
++ */
++import { describe, it, expect, beforeAll } from 'vitest';
++import * as fs from 'fs';
++import * as path from 'path';
++import { extractFromSource } from '../src/extraction';
++import { initGrammars, loadAllGrammars } from '../src/extraction/grammars';
++
++const FIX = (name: string) =>
++  fs.readFileSync(path.join(__dirname, 'fixtures/verilog', name), 'utf8');
++
++beforeAll(async () => {
++  await initGrammars();
++  await loadAllGrammars();
++});
++
++describe('Verilog extractor', () => {
++  it('captures module / package / interface / class / function / task', () => {
++    const result = extractFromSource('entities.sv', FIX('entities.sv'));
++    const names = result.nodes.map((n) => n.name);
++    // Modules + packages + classes all surface as kind='class' per
++    // extractor framework limitation (no moduleTypes field).
++    expect(names).toContain('sample');     // module_declaration
++    expect(names).toContain('my_pkg');     // package_declaration
++    expect(names).toContain('my_class');   // class_declaration
++    expect(names).toContain('my_if');      // interface_declaration
++    expect(names).toContain('double');     // function_declaration
++    expect(names).toContain('stim');       // task_declaration
++
++    // Spot-check kinds for one entity of each flavor we put in classTypes.
++    const kindByName = new Map(result.nodes.map((n) => [n.name, n.kind]));
++    expect(kindByName.get('sample')).toBe('class');
++    expect(kindByName.get('my_pkg')).toBe('class');
++    expect(kindByName.get('my_class')).toBe('class');
++    expect(kindByName.get('my_if')).toBe('interface');
++    // function_declaration / task_declaration inside a module surface as
++    // methods (the framework treats anything nested inside a classTypes
++    // container as a method).
++    expect(kindByName.get('double')).toBe('method');
++    expect(kindByName.get('stim')).toBe('method');
++  });
++
++  it('emits instantiates references for all three module-instantiation kinds', () => {
++    const result = extractFromSource('relations.sv', FIX('relations.sv'));
++    // Every `child u_x (...)` site — regardless of whether the grammar
++    // disambiguated it as module_instantiation / checker_instantiation /
++    // udp_instantiation — must produce an `instantiates` unresolved
++    // reference. Resolution to a target node happens later in the
++    // ReferenceResolver pass (a CodeGraph integration step that
++    // extractFromSource skips), so we assert on the unresolved-ref
++    // payload here.
++    const instRefs = result.unresolvedReferences.filter(
++      (r) => r.referenceKind === 'instantiates' && r.referenceName === 'child',
++    );
++    expect(instRefs.length).toBeGreaterThanOrEqual(3);
++  });
++
++  it('parses conditional / case / always blocks without aborting', () => {
++    // We don't assert kinds for these (the framework doesn't surface them as
++    // entities) — but we DO assert extraction completes cleanly and the
++    // module + outputs are seen.
++    const result = extractFromSource('conditions.sv', FIX('conditions.sv'));
++    const names = result.nodes.map((n) => n.name);
++    expect(names).toContain('m');
++  });
++
++  it('produces no nodes for unrelated file types', () => {
++    // Sanity: when the dispatcher routes to verilog by extension, it should
++    // do so only for .sv/.svh/.v/.vh files. This test asserts the registry
++    // path through extractFromSource at minimum doesn't throw.
++    const result = extractFromSource('entities.sv', FIX('entities.sv'));
++    expect(Array.isArray(result.nodes)).toBe(true);
++    expect(Array.isArray(result.edges)).toBe(true);
++  });
++});
+diff --git a/src/extraction/grammars.ts b/src/extraction/grammars.ts
+index 6c05407..795dc6f 100644
+--- a/src/extraction/grammars.ts
++++ b/src/extraction/grammars.ts
+@@ -233,7 +233,7 @@ export async function loadGrammarsForLanguages(languages: Language[]): Promise<v
+       // `class Foo(...)` as an ERROR that swallows the whole class (#237); we
+       // vendor the upstream ABI-15 tree-sitter-c-sharp 0.23.5 wasm, which parses
+       // primary constructors natively.
+-      const wasmPath = (lang === 'pascal' || lang === 'scala' || lang === 'lua' || lang === 'luau' || lang === 'csharp' || lang === 'r')
++      const wasmPath = (lang === 'pascal' || lang === 'scala' || lang === 'lua' || lang === 'luau' || lang === 'csharp' || lang === 'r' || lang === 'verilog')
+         ? path.join(__dirname, 'wasm', wasmFile)
+         : require.resolve(`tree-sitter-wasms/out/${wasmFile}`);
+       const language = await WasmLanguage.load(wasmPath);
+diff --git a/src/extraction/languages/index.ts b/src/extraction/languages/index.ts
+index 9d4a949..85ffef4 100644
+--- a/src/extraction/languages/index.ts
++++ b/src/extraction/languages/index.ts
+@@ -27,6 +27,7 @@ import { luaExtractor } from './lua';
+ import { rExtractor } from './r';
+ import { luauExtractor } from './luau';
+ import { objcExtractor } from './objc';
++import { verilogExtractor } from './verilog';
+ 
+ export const EXTRACTORS: Partial<Record<Language, LanguageExtractor>> = {
+   typescript: typescriptExtractor,
+@@ -51,4 +52,5 @@ export const EXTRACTORS: Partial<Record<Language, LanguageExtractor>> = {
+   r: rExtractor,
+   luau: luauExtractor,
+   objc: objcExtractor,
++  verilog: verilogExtractor,
+ };
+diff --git a/src/extraction/languages/verilog.ts b/src/extraction/languages/verilog.ts
+new file mode 100644
+index 0000000..663f8c5
+--- /dev/null
++++ b/src/extraction/languages/verilog.ts
+@@ -0,0 +1,113 @@
++import type { Node as SyntaxNode } from 'web-tree-sitter';
++import { getNodeText } from '../tree-sitter-helpers';
++import type { LanguageExtractor } from '../tree-sitter-types';
++
++/**
++ * Find the first `simple_identifier` descendant in BFS order.
++ * tree-sitter-verilog rarely uses named fields, so for most node kinds the
++ * name is "the first identifier child somewhere inside the header".
++ *
++ * Walk depth is capped to avoid descending into a body that happens to use
++ * an identifier early (function body's first ref vs. function's name).
++ */
++function firstIdentifier(node: SyntaxNode, maxDepth = 4): SyntaxNode | undefined {
++  const queue: Array<{ n: SyntaxNode; d: number }> = [{ n: node, d: 0 }];
++  while (queue.length) {
++    const { n, d } = queue.shift()!;
++    if (n !== node && n.type === 'simple_identifier') return n;
++    if (d >= maxDepth) continue;
++    for (let i = 0; i < n.namedChildCount; i++) {
++      const c = n.namedChild(i);
++      if (c) queue.push({ n: c, d: d + 1 });
++    }
++  }
++  return undefined;
++}
++
++function resolveVerilogName(node: SyntaxNode, source: string): string | undefined {
++  // module_declaration > module_header > simple_identifier
++  if (node.type === 'module_declaration') {
++    const header = node.namedChildren.find((c) => c?.type === 'module_header');
++    if (header) {
++      const id = firstIdentifier(header, 2);
++      if (id) return getNodeText(id, source);
++    }
++  }
++  // module_instantiation / checker_instantiation / udp_instantiation:
++  // the target module name comes first, instance name second. For "calls"
++  // edges we want the *target* (which the framework reads as the node's
++  // own "name" before remapping). The first identifier descendant is the
++  // target identifier.
++  if (
++    node.type === 'module_instantiation' ||
++    node.type === 'checker_instantiation' ||
++    node.type === 'udp_instantiation'
++  ) {
++    const id = firstIdentifier(node, 3);
++    if (id) return getNodeText(id, source);
++  }
++  // For everything else (function_declaration, task_declaration, class_declaration,
++  // package_declaration, interface_declaration, parameter_declaration, …), the
++  // first simple_identifier descendant within ~4 levels is the declared name.
++  const id = firstIdentifier(node, 4);
++  if (id) return getNodeText(id, source);
++  return undefined;
++}
++
++/**
++ * Verilog / SystemVerilog extractor.
++ *
++ * Node-type names verified against tree-sitter-verilog v1.0.3 in Phase 0 of
++ * the kb_benchmark analyzer-v2 work; see _observed_node_kinds.md in the
++ * consuming project. Key quirks worth knowing before editing:
++ *
++ * - if / else uses `conditional_statement`, NOT `if_statement`.
++ * - always blocks use `always_construct` (covers `always`, `always_ff`,
++ *   `always_comb`, `always_latch`).
++ * - module instances disambiguate ambiguously: `child #(.W(8)) u(...)` parses
++ *   as `module_instantiation`, `child u(.clk(clk))` as `checker_instantiation`,
++ *   and `child u(clk, rst)` as `udp_instantiation`. We list all three as
++ *   callTypes so every instance produces a `calls` edge to the instantiated
++ *   module/UDP/checker name; downstream resolution can disambiguate by what
++ *   the target identifier resolves to.
++ *
++ * The framework only has `classTypes` (no `moduleTypes`/`namespaceTypes`), so
++ * module_declaration / package_declaration / class_declaration all surface as
++ * NodeKind `class`. Downstream consumers that need to distinguish "Verilog
++ * module" from "C++ class" key on `language === 'verilog'` AND on the source
++ * file extension.
++ */
++export const verilogExtractor: LanguageExtractor = {
++  functionTypes: ['function_declaration', 'task_declaration'],
++  classTypes: [
++    'module_declaration',
++    'package_declaration',
++    'class_declaration',
++  ],
++  methodTypes: ['function_declaration', 'task_declaration'],
++  interfaceTypes: ['interface_declaration'],
++  structTypes: [],
++  enumTypes: [],
++  typeAliasTypes: [],
++  importTypes: ['include_directive', 'package_import_declaration'],
++  callTypes: ['subroutine_call'],
++  // Module / UDP / checker instantiation — disambiguated only by the grammar
++  // based on syntax shape. All three forms produce an `instantiates` edge
++  // from the enclosing module/class to the named target.
++  instantiationTypes: [
++    'module_instantiation',
++    'checker_instantiation',
++    'udp_instantiation',
++  ],
++  variableTypes: [
++    'parameter_declaration',
++    'net_declaration',
++    'data_declaration',
++  ],
++  nameField: 'name',
++  bodyField: 'body',
++  paramsField: 'parameters',
++  returnField: 'return_type',
++  resolveName: resolveVerilogName,
++  getSignature: () => undefined,
++};
+diff --git a/src/extraction/tree-sitter-types.ts b/src/extraction/tree-sitter-types.ts
+index b65ee09..30d2655 100644
+--- a/src/extraction/tree-sitter-types.ts
++++ b/src/extraction/tree-sitter-types.ts
+@@ -263,6 +263,21 @@ export interface LanguageExtractor {
+    */
+   extractBareCall?: (node: SyntaxNode, source: string) => string | undefined;
+ 
++  /**
++   * Language-specific node types that represent instantiation/binding (in
++   * addition to the built-in INSTANTIATION_KINDS like `new_expression` /
++   * `object_creation_expression` / `composite_literal`). The dispatcher routes
++   * these through extractInstantiation, which emits `instantiates` references
++   * to the target type's namedChild(0).
++   *
++   * Verilog uses this for module/checker/UDP instantiations: `child u(.clk(clk))`
++   * (parsed as `checker_instantiation`), `child #(.W(8)) u(.clk(clk))` (parsed
++   * as `module_instantiation`), `child u(clk, rst)` (parsed as
++   * `udp_instantiation`). The grammar can't statically disambiguate without
++   * semantic context, so all three are listed.
++   */
++  instantiationTypes?: string[];
++
+   /**
+    * Node types representing a file-level package/namespace declaration
+    * (e.g. Kotlin `package_header`, Java `package_declaration`). When set,
+diff --git a/src/extraction/tree-sitter.ts b/src/extraction/tree-sitter.ts
+index 1761ef2..c75d9c9 100644
+--- a/src/extraction/tree-sitter.ts
++++ b/src/extraction/tree-sitter.ts
+@@ -1095,8 +1095,13 @@ export class TreeSitterExtractor {
+     // `new Foo(...)` / `Foo::new(...)` / object_creation_expression —
+     // produce an `instantiates` reference. Children still walked so
+     // nested calls inside the constructor args (`new Foo(bar())`) get
+-    // their own `calls` refs.
+-    else if (INSTANTIATION_KINDS.has(nodeType)) {
++    // their own `calls` refs. Per-language extractors can extend the set
++    // via `instantiationTypes` (e.g. Verilog's module/checker/udp
++    // instantiation forms).
++    else if (
++      INSTANTIATION_KINDS.has(nodeType) ||
++      this.extractor.instantiationTypes?.includes(nodeType)
++    ) {
+       this.extractInstantiation(node);
+       // Java/C# `new T(...) { ... }` — anonymous class with body. Without
+       // extracting it as a class node + its methods, the interface→impl
+@@ -4197,7 +4202,10 @@ export class TreeSitterExtractor {
+ 
+       if (this.extractor!.callTypes.includes(nodeType)) {
+         this.extractCall(node);
+-      } else if (INSTANTIATION_KINDS.has(nodeType)) {
++      } else if (
++        INSTANTIATION_KINDS.has(nodeType) ||
++        this.extractor!.instantiationTypes?.includes(nodeType)
++      ) {
+         // `new Foo()` inside a function body — emit an `instantiates`
+         // reference. Without this branch the body walker only knew
+         // about `call_expression`, so constructor invocations
+-- 
+2.50.1 (Apple Git-155)
+

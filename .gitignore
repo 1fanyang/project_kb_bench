@@ -29,10 +29,15 @@ runs/*lint_post_fixes.json
 runs/lint_v1_1_with_extensions.json
 predictions/vortex_grep_parts/
 
-# Analyzer-v2 (Phase 0+) — project-local CodeGraph checkout, parse-coverage
-# per-file JSONL, and indexing logs. Summary JSONs and markdown reports
-# are kept tracked.
-tools/codegraph/
+# Analyzer-v2 (Phase 0+) — parse-coverage per-file JSONL and indexing logs.
+# Summary JSONs and markdown reports are kept tracked.
+#
+# Note: tools/codegraph/ USED to be gitignored entirely while the fork was
+# local-only. It is now vendored into kb_benchmark (2026-06-30); see
+# tools/codegraph/NOTES_kb_benchmark.md. Its own .gitignore handles
+# node_modules / dist / tsbuildinfo etc. We keep tools/codegraph-bundle/
+# ignored because that was the alternate "standalone installer bundle"
+# location that we never used.
 tools/codegraph-bundle/
 runs/feasibility_v2_analyzer/*.jsonl
 runs/feasibility_v2_analyzer/*.log

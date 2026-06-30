@@ -1,0 +1,43 @@
+From f1f8ebc115c26b5b8be050b0ca3ef0becf638cb9 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=E6=9D=A8=E4=B8=80=E5=B8=86?=
+ <yangyifan@yangyifans-MacBook-Pro.local>
+Date: Mon, 29 Jun 2026 17:25:28 +0800
+Subject: [PATCH 3/3] =?UTF-8?q?chore(security):=20npm=20audit=20fix=20--om?=
+ =?UTF-8?q?it=3Ddev=20=E2=80=94=20picomatch=204.0.4+?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Phase 5.5 prerequisite for v2 promotion. The fork's production tree
+had 1 high-severity advisory (picomatch ReDoS via extglob
+quantifiers, transitively pulled via ignore@7.0.5 used in the gitignore
+walker). npm audit fix --omit=dev bumps picomatch to a patched
+version in package-lock.json. No package.json edits, no breaking
+changes. Production-scope npm audit now reports 0 vulnerabilities.
+
+See runs/feasibility_v2_analyzer/phase5_npm_audit.md in the consuming
+project for the full review.
+---
+ package-lock.json | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/package-lock.json b/package-lock.json
+index b1454f6..53a7388 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1229,9 +1229,9 @@
+       "license": "ISC"
+     },
+     "node_modules/picomatch": {
+-      "version": "4.0.3",
+-      "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-4.0.3.tgz",
+-      "integrity": "sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==",
++      "version": "4.0.4",
++      "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-4.0.4.tgz",
++      "integrity": "sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==",
+       "license": "MIT",
+       "engines": {
+         "node": ">=12"
+-- 
+2.50.1 (Apple Git-155)
+
