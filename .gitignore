@@ -8,6 +8,11 @@ archive/
 examples/
 dsk
 repo_sources/
+# Phase 3 signal_emitter integration test ships a small Verilog fixture
+# under tests/fixtures/signal_emitter/repo_sources/. Keep the fixture
+# tracked even though the path name matches the ignore rule above.
+!tests/fixtures/signal_emitter/repo_sources/
+!tests/fixtures/signal_emitter/repo_sources/**
 __pycache__/
 *.py[cod]
 .DS_Store
