@@ -40,6 +40,17 @@ STYLE_ROTATION = (
 PATH_LINES_REUSE_CAP = 3       # per-(path, lines) tuple across the corpus
 ANCHOR_REUSE_CAP = 5            # per-source_id appearances as anchor
 
+# Phase 6A: anchor-position rotation cap. Phase 5 smoke50 surfaced
+# VX_cluster.sv:48-50 being picked as the row anchor 61 times — the
+# `_edge_degree`-based sort always lifted the same hub-module candidate
+# to position 0 because it had the highest outgoing-edge count.
+# The cap here is a SOFT cap: in the anchor sort, candidates whose
+# (path, lines) has already been picked >= ANCHOR_ROTATION_CAP times
+# are pushed to a second tier behind unused candidates. If every
+# candidate on a row is over-capped, the original highest-edge-degree
+# wins — the row still gets a real anchor, never empty.
+ANCHOR_ROTATION_CAP = PATH_LINES_REUSE_CAP  # matches the diversity-warning threshold
+
 
 def diversity_report(rows: list[dict[str, Any]]) -> dict[str, Any]:
     """Summarize per-(path,lines) reuse and per-anchor reuse.
@@ -672,6 +683,11 @@ def prepare_project(
     by_subject, by_object = _index_relations(relations)
     name_index = _build_source_name_index(sources)
     rows: list[dict[str, Any]] = []
+    # Phase 6A — track per-(path, lines) anchor reuse across the row
+    # loop. The anchor sort below demotes candidates whose tally hits
+    # the cap, so popular hub modules (e.g. VX_cluster.sv:48-50) stop
+    # winning every row.
+    anchor_pl_tally: Counter[tuple[str, str]] = Counter()
     for index, (layer, answerability) in enumerate(zip(gen.LAYER_PLAN, gen.ANSWERABILITY_PLAN), 1):
         case_id = f"{project}-v1_1-{layer}-{index:03d}"
         cap = gen.capability(index - 1, project)
@@ -734,10 +750,28 @@ def prepare_project(
                     if rel.get("predicate") in _WALK_PREDICATES
                 )
 
+            def _over_cap(cand: dict[str, Any]) -> int:
+                """Phase 6A soft cap: 1 if this (path, lines) has been
+                picked as anchor >= ANCHOR_ROTATION_CAP times; else 0.
+                A capped candidate sorts BEHIND uncapped ones but
+                otherwise preserves edge-degree ordering, so a row whose
+                only candidates are over the cap still gets a real
+                anchor (graceful fallback to the original
+                highest-degree pick)."""
+                key = (cand["path"], cand["lines"])
+                return 1 if anchor_pl_tally.get(key, 0) >= ANCHOR_ROTATION_CAP else 0
+
             raw_candidates.sort(
-                # Highest edge-degree first; ties broken deterministically by
-                # path:lines so the order is reproducible across runs.
-                key=lambda c: (-_edge_degree(c["source_id"]), c["path"], c["lines"]),
+                # Three-tier key:
+                # 1. _over_cap=0 (uncapped) before _over_cap=1 (capped)
+                # 2. Highest edge-degree first
+                # 3. Deterministic tiebreak on path:lines for reproducibility
+                key=lambda c: (
+                    _over_cap(c),
+                    -_edge_degree(c["source_id"]),
+                    c["path"],
+                    c["lines"],
+                ),
             )
             for ordinal, cand in enumerate(raw_candidates, 1):
                 cand["candidate_id"] = f"C{ordinal}"
@@ -759,6 +793,9 @@ def prepare_project(
 
             if candidates:
                 first = candidates[0]
+                # Phase 6A — record this (path, lines) usage so the next
+                # row's anchor sort can demote it once the cap is reached.
+                anchor_pl_tally[(first["path"], first["lines"])] += 1
                 anchor = {
                     "source_id": first["source_id"],
                     "path": first["path"],
@@ -824,6 +861,20 @@ def prepare_project(
             f"{project}: diversity warnings — {overuse_pl} path:lines exceed cap "
             f"{PATH_LINES_REUSE_CAP}, {overuse_anchor} anchors exceed cap {ANCHOR_REUSE_CAP} "
             f"(details in {report_path})"
+        )
+    # Phase 6A audit: show the top concentrations of anchor (path, lines)
+    # reuse — the values the new rotation cap is supposed to keep flat.
+    # The cap is soft (over-cap candidates are demoted, not excluded), so
+    # any count > ANCHOR_ROTATION_CAP here means a row had no uncapped
+    # alternative — worth flagging if it keeps growing.
+    top_anchors = anchor_pl_tally.most_common(5)
+    if top_anchors:
+        anchors_summary = ", ".join(
+            f"{p}:{l}={n}" for ((p, l), n) in top_anchors
+        )
+        print(
+            f"{project}: top anchor (path,lines) reuse (cap {ANCHOR_ROTATION_CAP}): "
+            f"{anchors_summary}"
         )
     return rows
 
