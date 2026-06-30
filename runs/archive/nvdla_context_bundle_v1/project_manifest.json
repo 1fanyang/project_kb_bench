@@ -1,0 +1,44 @@
+{
+  "schema_version": "project-manifest/v1",
+  "project": {
+    "id": "nvdla",
+    "display_name": "NVDLA"
+  },
+  "source_sets": [
+    {
+      "id": "nvdla_hw",
+      "repo_name": "nvdla/hw",
+      "local_root": "repo_sources/nvdla/hw",
+      "source_role": "main_hw_repo",
+      "authority": "primary_source",
+      "available": true,
+      "branch": "nvdlav1",
+      "commit": "8e06b1b9d85aab65b40d43d08eec5ea4681ff715"
+    },
+    {
+      "id": "nvdla_sw",
+      "repo_name": "nvdla/sw",
+      "local_root": "repo_sources/nvdla/sw",
+      "source_role": "main_sw_repo",
+      "authority": "primary_source",
+      "available": true,
+      "branch": "master",
+      "commit": "79538ba1b52b040a4a4645f630e457fa01839e90"
+    },
+    {
+      "id": "nvdla_doc",
+      "repo_name": "nvdla/doc",
+      "local_root": "repo_sources/nvdla/doc",
+      "source_role": "doc_source_repo",
+      "authority": "documentation",
+      "available": true,
+      "branch": "master",
+      "commit": "31f5740eaca197f73aae12eb0645014d2d9a9df5"
+    }
+  ],
+  "created_at": "2026-06-15T09:55:48.227254+00:00",
+  "analyzer_version": "1.0.0-agent-regex-fallback",
+  "warnings": [
+    "CodeGraph was requested but not initialized for this project; used filesystem inventory and regex/parser fallback extractors."
+  ]
+}

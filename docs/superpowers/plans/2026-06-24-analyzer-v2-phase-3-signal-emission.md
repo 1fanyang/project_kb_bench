@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-> **Sketched plan — Phase 2 must ship first.** This phase reads the v2 bundle JSONL files; the exact field names depend on Phase 2's emitters. Lines marked **PH2** must be reconciled against the actual emitted records before this plan runs.
+> **Sketched plan — Phase 2 must ship first.** Revised 2026-06-26 with the Phase 0 node-kind corrections: control-flow AST kinds are `conditional_statement` (NOT `if_statement`), `case_statement`, and `always_construct`. Lines marked **PH2** must still be reconciled against the actual record shape Phase 2 emits.
 
 **Goal:** Compute the axis-2 / axis-3 attribute signals (`signal_index.jsonl`) from the v2 bundle so that downstream consumers (`prepare_module_inputs.py`, M5/M9) get cleaner anchors — especially `conditional_behavior` must never anchor at license / file-header lines (the v1 regression that motivated the entire v2 migration).
 
@@ -395,12 +395,12 @@ def emit(b: Bundle):
 
 **Files:**
 - Create: `skills/benchmark-repo-analyzer/scripts/_signals/conditional_behavior.py`
-- Modify: `tests/fixtures/signal_emitter/v2_bundle/relation_graph.jsonl` — add relations whose `evidence` carries an `ast_kind` field for `if_statement`, `case_statement`, `always_construct` (PH1/PH2 — confirm this is how Phase 2 propagated the AST kind; if Phase 1 went down the `conditions.scm` route instead, the signal reads `Bundle.entities` filtered by `kind.startswith("condition.")`).
+- Modify: `tests/fixtures/signal_emitter/v2_bundle/relation_graph.jsonl` — add relations whose `evidence` carries an `ast_kind` field for `conditional_statement`, `case_statement`, `always_construct` (PH1/PH2 — confirm this is how Phase 2 propagated the AST kind; if Phase 1 went down the `conditions.scm` route instead, the signal reads `Bundle.entities` filtered by `kind.startswith("condition.")`).
 - Modify: `_signals/__init__.py`
 - Modify: `tests/test_signal_emitter.py` — assert the zero-first-10-lines invariant.
 
 **Interfaces:**
-- Consumes: relations or entities tagged with one of three AST node kinds: `if_statement`, `case_statement`, `always_construct`. Phase 2's exporter is responsible for surfacing the AST kind — verify the exact field name before implementing.
+- Consumes: relations or entities tagged with one of three AST node kinds: `conditional_statement`, `case_statement`, `always_construct`. Phase 2's exporter is responsible for surfacing the AST kind — verify the exact field name before implementing.
 - Produces: signals whose `anchor.lines` is the real AST node start line, never a license-block line.
 
 This is the signal whose v1 misbehaviour motivated the entire v2 migration. **The acceptance test is the load-bearing assertion of this whole phase.**
@@ -435,7 +435,7 @@ from ._common import Bundle, build_record
 
 ATTRIBUTE = "conditional_behavior"
 AXIS = 3
-TARGET_AST_KINDS = {"if_statement", "case_statement", "always_construct"}
+TARGET_AST_KINDS = {"conditional_statement", "case_statement", "always_construct"}
 
 
 def emit(b: Bundle):

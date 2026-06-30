@@ -1,6 +1,9 @@
 # Analyzer v2 — CodeGraph + tree-sitter-Verilog plan
 
-Status: planning
+Status: implemented (2026-06-30) — Phases 0-5 shipped; Phase 6 (Verible
+fallback for 9 hard-error Vortex files + VX_cluster.sv anchor-rotation cap)
+remains scheduled. See `runs/feasibility_v2_analyzer/phase5_acceptance.md`
+for the final sign-off summary.
 Owner: TBD
 Date authored: 2026-06-24
 Supersedes when implemented: `benchmark-repo-analyzer/v1-regex-fallback`
@@ -426,13 +429,13 @@ Update this section as each phase completes. Format: `phase | status | shipped-o
 
 | Phase | Status | Shipped on | Notes |
 |---|---|---|---|
-| 0 — Feasibility | not started | — | — |
-| 1 — Verilog language module | not started | — | depends on Phase 0 |
-| 2 — Bundle exporter | not started | — | depends on Phase 1 |
-| 3 — Signal-emission layer | not started | — | depends on Phase 2 |
-| 4 — Pipeline integration | not started | — | depends on Phase 3 |
-| 5 — Parity + rollout | not started | — | depends on Phase 4 |
-| 6 — RTL accuracy reinforcement | conditional | — | triggered only by Phase 0 result |
+| 0 — Feasibility | complete | 2026-06-25 | usable_pct vortex=95.5% nvdla=100%; pin=4077ed1 (v1.1.1); phase-6=recommended; see `runs/feasibility_v2_analyzer.md` |
+| 1 — Verilog language module | complete | 2026-06-29 | branch=tools/codegraph@feat/verilog-language-module (local-only); 211 verilog files indexed, 145 modules, 373 instantiates edges; D5=defer Phase 1.5; see `runs/feasibility_v2_analyzer/phase1_acceptance.md` |
+| 2 — Bundle exporter | complete | 2026-06-29 | runs/vortex_context_bundle_v2/ built (577 sources, 5745 entities, 14925 relations); 441 instantiates, 7847 calls, 158 extends, 97 references; validator: 0 FAIL / 0 WARN; see `runs/feasibility_v2_analyzer/phase2_acceptance.md` |
+| 3 — Signal-emission layer | complete | 2026-06-29 | 13,259 signals on Vortex; 0 license-zone conditional_behavior anchors (bug fixed); 1530 conditional_behavior + 3781 signal_dataflow via re-parse path; all 13259 records validate; see `runs/feasibility_v2_analyzer/phase3_acceptance.md` |
+| 4 — Pipeline integration | complete | 2026-06-29 | --bundle-path flag; signal_dataflow tolerated (3781 dropped silently); Stage-0 cb_rescued: 61→0, cb_dropped: 87→0; L2 sources +17%, L3 sources +37%; see `runs/feasibility_v2_analyzer/phase4_acceptance.md` |
+| 5 — Parity + rollout | complete | 2026-06-30 | L3 60/60 vs ≥15/60 bar; 0 L3 axis-coverage failures; npm-audit prod gate: pass; Decision B confirmed (signal_dataflow stays ignored). Promotion shipped: runs/<project>_context_bundle/ now serves v2; v1 archived under runs/archive/. SKILL.md + generator SKILL note updated. See `runs/feasibility_v2_analyzer/phase5_acceptance.md` |
+| 6 — RTL accuracy reinforcement | scheduled | — | triggered: 9 hard-error Vortex files (VX_trace_pkg.sv, AFU wrap, DPI headers, ...) |
 
 ---
 

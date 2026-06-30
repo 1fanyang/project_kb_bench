@@ -2,7 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-> **Sketched plan — Phase 1 must ship first.** Fields marked **PH0** read from `runs/feasibility_v2_analyzer/codegraph_schema.md` (table/column names). Fields marked **PH1** read from the Phase 1 acceptance report (resolved-target shape). Do not start Task 1 until both Phase 0 § 6 GO and Phase 1 acceptance § "Phase 2 GO" are filled.
+> **Sketched plan — Phase 1 must ship first.** Revised 2026-06-26 with the real CodeGraph 1.1.1 schema names — tables are `nodes` / `edges` / `files` / `unresolved_refs`, NOT the placeholder `symbols` / `relations` from the earlier draft. Column shapes and DDL are frozen in `runs/feasibility_v2_analyzer/codegraph_schema.md` and reproduced in `skills/benchmark-repo-analyzer/references/codegraph_schema.md` at Task 1.
+>
+> Fields marked **PH1** read from the Phase 1 acceptance report (any extractor-list adjustments + the D5 resolution decision). Do not start Task 1 until both Phase 0 § 6 GO and Phase 1 acceptance § "Phase 2 GO" are filled.
 
 **Goal:** Read CodeGraph's SQLite database and write the four canonical bundle artifacts (`source_inventory.jsonl`, `entity_index.jsonl`, `relation_graph.jsonl`, plus `project_manifest.json` and `analyzer_report.md`) into `runs/<project>_context_bundle/`, in a shape that the existing prepare/M2-M9/lint pipeline consumes without modification.
 
@@ -85,28 +87,32 @@ names if the schema dump revealed multiple tables (e.g. `symbols` and
 """
 from __future__ import annotations
 
-# PH0 — table names below must match references/codegraph_schema.md exactly.
-# The strings below are templates; fill in the real column names after Phase 0.
+# Schema confirmed via Phase 0 dump (runs/feasibility_v2_analyzer/codegraph_schema.md).
+# Tables: nodes, edges, files, unresolved_refs (NOT symbols / relations).
 
 FILES_QUERY = """
-SELECT file_id, path, language, byte_size, line_count, sha256
+SELECT path, content_hash, language, size, modified_at,
+       indexed_at, node_count, errors
 FROM files
-ORDER BY file_id
+ORDER BY path
 """
 
 ENTITIES_QUERY = """
-SELECT s.symbol_id, s.name, s.kind, s.file_id, s.start_line, s.end_line,
-       s.start_byte, s.end_byte
-FROM symbols s
-ORDER BY s.symbol_id
+SELECT id, kind, name, qualified_name, file_path, language,
+       start_line, end_line, start_column, end_column,
+       docstring, signature, visibility, is_exported,
+       is_async, is_static, is_abstract,
+       decorators, type_parameters, return_type, updated_at
+FROM nodes
+ORDER BY id
 """
 
+# edges.source / edges.target are text node ids (e.g. "class:abc...");
+# resolution to file paths uses a join via nodes.id.
 RELATIONS_QUERY = """
-SELECT r.relation_id, r.predicate, r.source_symbol_id, r.source_file_id,
-       r.target_symbol_id, r.target_file_id, r.target_name,
-       r.evidence_start_line, r.evidence_end_line, r.metadata_json
-FROM relations r
-ORDER BY r.relation_id
+SELECT id, kind, source, target, metadata, line, col, provenance
+FROM edges
+ORDER BY id
 """
 ```
 
@@ -158,25 +164,38 @@ from pathlib import Path
 DB = Path(__file__).parent / "tiny.db"
 DB.unlink(missing_ok=True)
 conn = sqlite3.connect(DB)
-# PH0 — schema below mirrors references/codegraph_schema.md.
+# Schema below mirrors the real CodeGraph 1.1.1 DDL — see
+# runs/feasibility_v2_analyzer/codegraph_schema.md and
+# tools/codegraph/src/db/schema.sql for the source of truth.
 conn.executescript('''
-  CREATE TABLE files(file_id INTEGER PRIMARY KEY, path TEXT, language TEXT,
-                     byte_size INTEGER, line_count INTEGER, sha256 TEXT);
-  CREATE TABLE symbols(symbol_id INTEGER PRIMARY KEY, file_id INTEGER,
-                       name TEXT, kind TEXT, start_line INTEGER, end_line INTEGER,
-                       start_byte INTEGER, end_byte INTEGER);
-  CREATE TABLE relations(relation_id INTEGER PRIMARY KEY, predicate TEXT,
-                         source_symbol_id INTEGER, source_file_id INTEGER,
-                         target_symbol_id INTEGER, target_file_id INTEGER,
-                         target_name TEXT, evidence_start_line INTEGER,
-                         evidence_end_line INTEGER, metadata_json TEXT);
+  CREATE TABLE files(path TEXT PRIMARY KEY, content_hash TEXT NOT NULL,
+                     language TEXT NOT NULL, size INTEGER NOT NULL,
+                     modified_at INTEGER NOT NULL, indexed_at INTEGER NOT NULL,
+                     node_count INTEGER DEFAULT 0, errors TEXT);
+  CREATE TABLE nodes(id TEXT PRIMARY KEY, kind TEXT NOT NULL, name TEXT NOT NULL,
+                     qualified_name TEXT NOT NULL, file_path TEXT NOT NULL,
+                     language TEXT NOT NULL, start_line INTEGER NOT NULL,
+                     end_line INTEGER NOT NULL, start_column INTEGER NOT NULL,
+                     end_column INTEGER NOT NULL, docstring TEXT, signature TEXT,
+                     visibility TEXT, is_exported INTEGER DEFAULT 0,
+                     is_async INTEGER DEFAULT 0, is_static INTEGER DEFAULT 0,
+                     is_abstract INTEGER DEFAULT 0, decorators TEXT,
+                     type_parameters TEXT, return_type TEXT,
+                     updated_at INTEGER NOT NULL);
+  CREATE TABLE edges(id INTEGER PRIMARY KEY AUTOINCREMENT, source TEXT NOT NULL,
+                     target TEXT NOT NULL, kind TEXT NOT NULL, metadata TEXT,
+                     line INTEGER, col INTEGER, provenance TEXT,
+                     FOREIGN KEY (source) REFERENCES nodes(id) ON DELETE CASCADE,
+                     FOREIGN KEY (target) REFERENCES nodes(id) ON DELETE CASCADE);
 ''')
 files = [
-  (1, "repo_sources/tiny/main.cpp", "cpp", 200, 12, "sha256:aaa..."),
-  (2, "repo_sources/tiny/helper.py", "python", 80, 6, "sha256:bbb..."),
-  (3, "repo_sources/tiny/README.rst", "rst", 120, 8, "sha256:ccc..."),
+  ("repo_sources/tiny/main.cpp",   "sha256:aaa...", "cpp",    200, 0, 0, 2, None),
+  ("repo_sources/tiny/helper.py",  "sha256:bbb...", "python",  80, 0, 0, 1, None),
+  ("repo_sources/tiny/README.rst", "sha256:ccc...", "rst",    120, 0, 0, 0, None),
 ]
-conn.executemany("INSERT INTO files VALUES (?,?,?,?,?,?)", files)
+conn.executemany(
+    "INSERT INTO files VALUES (?,?,?,?,?,?,?,?)", files,
+)
 conn.commit()
 ```
 

@@ -1,44 +1,47 @@
 {
-  "schema_version": "project-manifest/v1",
-  "project": {
-    "id": "nvdla",
-    "display_name": "NVDLA"
+  "analysis_backends": {
+    "code": {
+      "requested_primary": "code_graph",
+      "used_primary": true
+    }
   },
+  "analyzer_pin": {
+    "codegraph_commit": "4077ed19b7d8a88eba93601c0c308e59c8640f8c",
+    "codegraph_extraction_version": "24",
+    "codegraph_indexed_with_version": "1.1.1"
+  },
+  "analyzer_version": "benchmark-repo-analyzer/v2-tree-sitter-codegraph",
+  "counts": {
+    "dropped_relations_by_predicate": {},
+    "entities": 52729,
+    "relations": 166458,
+    "relations_by_predicate": {
+      "calls": 72302,
+      "contains": 67724,
+      "decorates": 265,
+      "extends": 3743,
+      "implements": 31,
+      "imports_or_includes": 3307,
+      "instantiates": 15242,
+      "references": 3844
+    },
+    "sources": 1440
+  },
+  "created_at": "2026-06-29T07:56:36Z",
+  "generated_at": "2026-06-29T07:56:36Z",
+  "project": {
+    "display_name": "NVDLA",
+    "id": "nvdla"
+  },
+  "schema_version": "project-manifest/v1",
   "source_sets": [
     {
-      "id": "nvdla_hw",
-      "repo_name": "nvdla/hw",
-      "local_root": "repo_sources/nvdla/hw",
-      "source_role": "main_hw_repo",
       "authority": "primary_source",
       "available": true,
-      "branch": "nvdlav1",
-      "commit": "8e06b1b9d85aab65b40d43d08eec5ea4681ff715"
-    },
-    {
-      "id": "nvdla_sw",
-      "repo_name": "nvdla/sw",
-      "local_root": "repo_sources/nvdla/sw",
-      "source_role": "main_sw_repo",
-      "authority": "primary_source",
-      "available": true,
-      "branch": "master",
-      "commit": "79538ba1b52b040a4a4645f630e457fa01839e90"
-    },
-    {
-      "id": "nvdla_doc",
-      "repo_name": "nvdla/doc",
-      "local_root": "repo_sources/nvdla/doc",
-      "source_role": "doc_source_repo",
-      "authority": "documentation",
-      "available": true,
-      "branch": "master",
-      "commit": "31f5740eaca197f73aae12eb0645014d2d9a9df5"
+      "id": "nvdla_main",
+      "local_root": "repo_sources/nvdla",
+      "repo_name": "nvdla",
+      "source_role": "primary_source"
     }
-  ],
-  "created_at": "2026-06-15T09:55:48.227254+00:00",
-  "analyzer_version": "1.0.0-agent-regex-fallback",
-  "warnings": [
-    "CodeGraph was requested but not initialized for this project; used filesystem inventory and regex/parser fallback extractors."
   ]
 }

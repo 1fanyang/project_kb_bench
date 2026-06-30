@@ -653,7 +653,21 @@ def prepare_project(
 ) -> list[dict[str, Any]]:
     gen.validate_profile(project, profile)
     sources = gen.load_sources(bundle, project, repo_root)
-    signals_by_attribute = gen.load_signals(bundle, project, sources)
+    # Phase 4: thread a drop counter so the Stage-0 audit records which
+    # unknown axis attributes were dropped (signal_dataflow under "ignore
+    # and ship"). The dict is mutated in load_signals.
+    dropped_unknown: dict[str, int] = {}
+    signals_by_attribute = gen.load_signals(
+        bundle, project, sources,
+        dropped_unknown_attributes=dropped_unknown,
+    )
+    if dropped_unknown:
+        msg = ", ".join(f"{k}={v}" for k, v in sorted(dropped_unknown.items()))
+        print(
+            f"{project}: prepare dropped signal records for unknown axis "
+            f"attributes (Phase 4 ignore-and-ship): {msg}",
+            flush=True,
+        )
     relations = _read_relation_graph(bundle)
     by_subject, by_object = _index_relations(relations)
     name_index = _build_source_name_index(sources)
@@ -820,6 +834,18 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", type=Path, default=Path("drafts"))
     parser.add_argument("--project", choices=["nvdla", "vortex", "all"], default="all")
     parser.add_argument(
+        "--bundle-path",
+        type=Path,
+        default=None,
+        help=(
+            "Directory holding source_inventory.jsonl / entity_index.jsonl "
+            "/ relation_graph.jsonl / signal_index.jsonl. Defaults to "
+            "`runs/<project>_context_bundle/` (the v1 path). Pass "
+            "`runs/<project>_context_bundle_v2/` to opt into the v2 "
+            "analyzer-produced bundle."
+        ),
+    )
+    parser.add_argument(
         "--strict-diversity",
         action="store_true",
         help=(
@@ -839,7 +865,19 @@ def main() -> int:
     projects = ["nvdla", "vortex"] if args.project == "all" else [args.project]
     strict_failures: list[str] = []
     for project in projects:
-        bundle = Path("runs") / f"{project}_context_bundle"
+        if args.bundle_path is not None:
+            # Single explicit bundle path; only valid when one project is
+            # selected (mixing projects + a single bundle is ambiguous).
+            if args.project == "all":
+                print(
+                    "ERROR: --bundle-path requires a specific --project "
+                    "(not 'all'); the bundle path is project-specific.",
+                    flush=True,
+                )
+                return 2
+            bundle = args.bundle_path
+        else:
+            bundle = Path("runs") / f"{project}_context_bundle"
         profile = Path("runs") / f"{project}_generation_profile_v1_1.yaml"
         rows = prepare_project(project, bundle, profile, args.repo_root, args.output_dir, gen)
         if args.strict_diversity:

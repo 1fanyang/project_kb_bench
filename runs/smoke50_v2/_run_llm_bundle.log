@@ -1,0 +1,9 @@
+vortex: 200 candidates, 170 host-LLM rows
+vortex: running LLM batch 1 (34 rows)
+vortex: running LLM batch 2 (34 rows)
+vortex: running LLM batch 3 (34 rows)
+vortex: running LLM batch 4 (34 rows)
+vortex: running LLM batch 5 (34 rows)
+vortex: wrote 395 baseline tasks to drafts/v1_2_smoke50_v2_llm/vortex.baseline_tasks.jsonl
+vortex: gate verdicts written — 200 pass, 0 fail (200 rows assessed)
+vortex: wrote module outputs to drafts/v1_2_smoke50_v2_llm

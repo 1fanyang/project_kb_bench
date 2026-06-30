@@ -1,0 +1,37 @@
+{
+  "analysis_backends": {
+    "code": {
+      "fallbacks_used": [
+        "filesystem",
+        "regex_parser"
+      ],
+      "reason": "CodeGraph was not initialized in /Users/yangyifan/projects/work/kb_benchmark/repo_sources/vortex/vortex; fallback extraction used.",
+      "requested_primary": "code_graph",
+      "used_primary": false
+    }
+  },
+  "analyzer_version": "benchmark-repo-analyzer/v1-regex-fallback",
+  "created_at": "2026-06-15T10:07:22Z",
+  "project": {
+    "display_name": "Vortex",
+    "id": "vortex"
+  },
+  "schema_version": "project-manifest/v1",
+  "source_sets": [
+    {
+      "authority": "primary_source",
+      "available": true,
+      "branch": "master",
+      "commit": "fe8168b9213fa16ce49ba48f6e92686df1dad504",
+      "exclude": [
+        ".git",
+        ".omx",
+        "hw/syn/synopsys/models"
+      ],
+      "id": "vortex_main",
+      "local_root": "repo_sources/vortex/vortex",
+      "repo_name": "vortex/vortex",
+      "source_role": "main_code_doc_repo"
+    }
+  ]
+}
