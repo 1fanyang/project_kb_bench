@@ -39,6 +39,48 @@ benchmark_metadata.json
 generation_report.md
 ```
 
+## Bundle source (v2 canonical as of 2026-06-30)
+
+`runs/<project>_context_bundle/` is the v2 analyzer bundle (CodeGraph
++ tree-sitter-verilog + re-parse-derived signals). The legacy v1
+regex-fallback bundle is archived at
+`runs/archive/<project>_context_bundle_v1/` for reproducing historical
+v1 benchmarks.
+
+Default invocation reads from the canonical (v2) path:
+
+```bash
+uv run python skills/benchmark-generator/scripts/prepare_module_inputs.py \
+    --project vortex \
+    --repo-root /path/to/checkout
+```
+
+To explicitly target a non-default bundle (e.g. to compare against the
+archived v1):
+
+```bash
+uv run python skills/benchmark-generator/scripts/prepare_module_inputs.py \
+    --project vortex \
+    --bundle-path runs/archive/vortex_context_bundle_v1/ \
+    --repo-root /path/to/checkout
+```
+
+When prepare reads a v2 bundle, the `signal_dataflow` attribute
+(produced by the analyzer's verilog re-parse) is dropped silently and
+counted to stdout. Existing axis filters and `PREFERRED_ATTRIBUTE_GROUPS`
+are unchanged. To wire `signal_dataflow` as a selectable axis
+attribute, add it to both `KNOWN_AXIS_ATTRIBUTES` and the relevant
+`PREFERRED_ATTRIBUTE_GROUPS` entry in
+`scripts/generate_v1_1_release_corpora.py` — a coordinated change, not
+a silent default flip. (Phase 5 smoke50 confirmed signal_dataflow is
+not currently needed: 21/21 Verilog L3 rows already have
+`conditional_behavior` axis-3 coverage.)
+
+The release-corpora assembler (`scripts/generate_v1_1_release_corpora.py`)
+mirrors the same `--bundle-path` flag — pass it through when reading
+non-default bundles so M2/M5/M6/M7/M9 stages load signals from the same
+bundle the candidates came from.
+
 ## v1.1 generation mode
 
 When the request names v1.1 or the profile contains `attribute_quotas`, use

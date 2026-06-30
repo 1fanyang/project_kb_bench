@@ -161,7 +161,12 @@ class PreferredAttributeGroupsStableTest(unittest.TestCase):
 # ---------------------------------------------------------------------------
 
 class CliBundlePathSmokeTest(unittest.TestCase):
-    V2_BUNDLE = ROOT / "runs" / "vortex_context_bundle_v2"
+    # Phase 5 promoted the v2 bundle to the canonical path
+    # `runs/<project>_context_bundle/` (2026-06-30). The CliBundlePathSmokeTest
+    # still exercises the --bundle-path code path explicitly by pointing at
+    # the canonical path, which is functionally the same as the historical
+    # `..._v2` location.
+    V2_BUNDLE = ROOT / "runs" / "vortex_context_bundle"
     MAIN_CHECKOUT = Path("/Users/yangyifan/projects/work/kb_benchmark")
     REPO_SOURCES = MAIN_CHECKOUT / "repo_sources"
 

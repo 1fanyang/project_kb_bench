@@ -1,5 +1,10 @@
 .omx/
 archive/
+# Whitelist: Phase 5 promotion put the historical v1 analyzer bundles
+# under runs/archive/ — those should stay tracked so the v1 benchmark
+# JSONLs can still lint against them.
+!runs/archive/
+!runs/archive/**
 examples/
 dsk
 repo_sources/

@@ -85,14 +85,20 @@ def lint_fail_messages(validator, row, schema_version="v1", sources=None):
 
 class ValidateBenchmarkV11Test(unittest.TestCase):
     def test_current_nvdla_and_vortex_v1_benchmarks_still_lint(self):
+        # After Phase 5 v2 promotion the canonical bundle is the v2
+        # analyzer output; the v1 benchmark JSONL files still live at
+        # their historical paths and lint against the *archived* v1
+        # bundle (source_ids and schemas were locked together at
+        # release time). The v1 bundles moved to runs/archive/ in
+        # 2026-06-30; this test follows the move.
         cases = [
             (
                 ROOT / "runs" / "nvdla_benchmark_v1.jsonl",
-                ROOT / "runs" / "nvdla_context_bundle",
+                ROOT / "runs" / "archive" / "nvdla_context_bundle_v1",
             ),
             (
                 ROOT / "runs" / "vortex_benchmark_v1.jsonl",
-                ROOT / "runs" / "vortex_context_bundle",
+                ROOT / "runs" / "archive" / "vortex_context_bundle_v1",
             ),
         ]
         for benchmark, bundle in cases:

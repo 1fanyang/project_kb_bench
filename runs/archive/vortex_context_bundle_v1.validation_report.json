@@ -1,0 +1,9 @@
+{
+  "bundle": "runs/vortex_context_bundle",
+  "sources": 1504,
+  "entities": 12449,
+  "relations": 14737,
+  "fails": 0,
+  "warnings": 0,
+  "findings": []
+}
