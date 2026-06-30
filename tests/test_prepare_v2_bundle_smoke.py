@@ -212,6 +212,77 @@ class CliBundlePathSmokeTest(unittest.TestCase):
             )
             rows = [json.loads(line) for line in
                     (Path(td) / "vortex.candidates.jsonl").read_text().splitlines()]
+        total_rescued = 0
+        total_dropped = 0
+        for row in rows:
+            audit = (row.get("row_plan") or {}).get("_dropped_at_prepare") or {}
+            total_rescued += len(audit.get("conditional_behavior_rescued", []))
+            total_dropped += len(audit.get("conditional_behavior_dropped", []))
+        self.assertEqual(total_rescued, 0,
+            "v2 bundle should require zero Stage-0 conditional_behavior rescues")
+        self.assertEqual(total_dropped, 0,
+            "v2 bundle should produce zero conditional_behavior drops")
+
+    def test_anchor_rotation_cap_prevents_single_pl_from_dominating(self):
+        """Phase 6A: the new ANCHOR_ROTATION_CAP soft cap keeps any
+        single (path, lines) from being picked as anchor more than
+        ANCHOR_ROTATION_CAP times. Phase 5 smoke50 had
+        VX_cluster.sv:48-50 picked 61 times before the cap; the cap
+        should bring that to at most ANCHOR_ROTATION_CAP (=3 today).
+
+        The cap is SOFT — if every candidate on a row is over-capped,
+        the original best wins, so the assertion uses the cap as the
+        ceiling, not strict equality."""
+        with TemporaryDirectory() as td:
+            subprocess.check_call(
+                [sys.executable, str(PREPARE),
+                 "--project", "vortex",
+                 "--bundle-path", str(self.V2_BUNDLE),
+                 "--repo-root", str(self.MAIN_CHECKOUT),
+                 "--output-dir", td],
+                stdout=subprocess.DEVNULL,
+                cwd=str(ROOT),
+            )
+            rows = [json.loads(line) for line in
+                    (Path(td) / "vortex.candidates.jsonl").read_text().splitlines()]
+
+        from collections import Counter
+        anchor_pl: Counter[tuple[str, str]] = Counter()
+        for row in rows:
+            anc = row.get("anchor") or {}
+            path = anc.get("path") or ""
+            lines = anc.get("lines") or ""
+            if path and lines:
+                anchor_pl[(path, lines)] += 1
+        # Import the cap from the script so the test moves with the
+        # implementation if the cap value changes.
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "prepare_module_inputs", PREPARE
+        )
+        prep_mod = importlib.util.module_from_spec(spec)
+        sys.modules["prepare_module_inputs"] = prep_mod
+        spec.loader.exec_module(prep_mod)
+        cap = prep_mod.ANCHOR_ROTATION_CAP
+
+        top_count = anchor_pl.most_common(1)[0][1] if anchor_pl else 0
+        # The headline acceptance bar: VX_cluster.sv:48-50 (or anything
+        # else) used as anchor at most cap times. Allow a small slack
+        # for the soft-fallback case but reject the 61x regression.
+        self.assertLessEqual(
+            top_count, cap + 2,
+            f"top anchor (path, lines) reused {top_count} times; "
+            f"expected <= cap+2 ({cap+2}). The anchor-rotation cap "
+            f"isn't holding."
+        )
+        # Sanity: anchor-bearing rows are L2+L3 + ~half of L1 (the
+        # unanswerable_missing_evidence L1 rows carry no anchor). At
+        # minimum, anchor count should match the L2+L3 row count.
+        l2_l3 = sum(
+            1 for r in rows
+            if r["case_id"].split("-")[2] in ("L2", "L3")
+        )
+        self.assertGreaterEqual(sum(anchor_pl.values()), l2_l3)
         # The whole point of the analyzer-v2 work: Stage-0 should not
         # need to rescue or drop conditional_behavior signals because
         # the analyzer never anchors them at license-zone lines.

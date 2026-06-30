@@ -156,8 +156,53 @@ These are recorded elsewhere but worth surfacing:
   `verilogExtractor`. v1's `kind=macro` row count (~1,700 on Vortex)
   not yet recovered. Same fix-shape as Phase 1.5b: a new dispatch
   slot in the framework + extractor edit.
-- **Phase 6** — Verible fallback for 9 hard-error Vortex files
-  (DPI headers, `VX_trace_pkg.sv`, AFU wrap, `VX_uop_sequencer.sv`,
-  interface files) + anchor-rotation cap for `VX_cluster.sv:48-50`
-  (which the smoke50 reused 61×). Already SCHEDULED in the master
-  plan § 9; this is the next slice of work.
+
+- **Phase 6A — DONE (2026-06-30).** Anchor-rotation cap for
+  `VX_cluster.sv:48-50` shipped. The new `ANCHOR_ROTATION_CAP`
+  constant in `prepare_module_inputs.py` (matches the existing
+  `PATH_LINES_REUSE_CAP` of 3) gates the anchor sort with a soft
+  tier: candidates whose (path, lines) has been picked
+  >= cap times are demoted behind uncapped ones, with graceful
+  fallback when every candidate is over-capped. Measured impact on
+  Vortex v2 prepare: VX_cluster.sv:48-50 as ANCHOR dropped from 61
+  to 3 (95% reduction). L2 distinct sources unchanged (326), L3
+  distinct sources unchanged (257). Stage-0 conditional_behavior
+  rescue/drop counts remain 0. Test:
+  `tests/test_prepare_v2_bundle_smoke.py::CliBundlePathSmokeTest::test_anchor_rotation_cap_prevents_single_pl_from_dominating`.
+
+- **Phase 6A.5 — neighbor-pick concentration (open).** The cap
+  reduces ANCHOR-position reuse only. The diversity_report's
+  any-candidate count for VX_cluster.sv:48-50 is unchanged at 61:
+  3 as anchor + 58 as a neighbor candidate surfaced via
+  `graph_walk_neighbors`. The user-defined scope for Phase 6A was
+  "keep the change local to prepare's `_edge_degree` /
+  anchor-selection logic," so neighbor-side capping was
+  deliberately deferred. Open question: does the M2-M9 authoring
+  pipeline treat anchor and neighbor positions differently enough
+  that neighbor concentration matters? If a future smoke50 shows
+  L2/L3 quality regressions concentrated around prolific neighbor
+  candidates, file Phase 6A.5: extend the cap to `graph_walk_neighbors`'s
+  output too.
+
+- **Phase 6B — Verible fallback (GATED).** Vendor Verible
+  (`verible-verilog-syntax --export_json`) as a secondary parser
+  for the 9 hard-error Vortex files (DPI headers,
+  `VX_trace_pkg.sv`, AFU wrap, `VX_uop_sequencer.sv`, interface
+  files). Plan exists at
+  `docs/superpowers/plans/2026-06-24-analyzer-v2-phase-6-rtl-reinforcement.md`.
+  Estimated cost: 2-4 days (vendor binary, TypeScript adapter in
+  the fork, merge into SQLite, re-acceptance).
+
+  **GATED — DO NOT START unless one of these triggers fires:**
+  1. A future Codex smoke50 produces L2/L3 row failures that trace
+     to the 9 hard-error files — i.e. an authoring or validation
+     step explicitly needs entity coverage on those files and the
+     current "skip on hard error" behavior blocks it.
+  2. An explicit decision to invest in Verilog coverage
+     completeness regardless of measured downstream impact (e.g. a
+     downstream consumer demanding "all RTL files indexed" as a
+     contract requirement).
+
+  Phase 5's smoke50 already hit 60/60 L3 row survival WITHOUT
+  Phase 6B, so the cost/risk currently isn't justified by
+  observed evidence. Re-evaluate at the next smoke50.
