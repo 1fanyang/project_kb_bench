@@ -435,7 +435,8 @@ Update this section as each phase completes. Format: `phase | status | shipped-o
 | 3 — Signal-emission layer | complete | 2026-06-29 | 13,259 signals on Vortex; 0 license-zone conditional_behavior anchors (bug fixed); 1530 conditional_behavior + 3781 signal_dataflow via re-parse path; all 13259 records validate; see `runs/feasibility_v2_analyzer/phase3_acceptance.md` |
 | 4 — Pipeline integration | complete | 2026-06-29 | --bundle-path flag; signal_dataflow tolerated (3781 dropped silently); Stage-0 cb_rescued: 61→0, cb_dropped: 87→0; L2 sources +17%, L3 sources +37%; see `runs/feasibility_v2_analyzer/phase4_acceptance.md` |
 | 5 — Parity + rollout | complete | 2026-06-30 | L3 60/60 vs ≥15/60 bar; 0 L3 axis-coverage failures; npm-audit prod gate: pass; Decision B confirmed (signal_dataflow stays ignored). Promotion shipped: runs/<project>_context_bundle/ now serves v2; v1 archived under runs/archive/. SKILL.md + generator SKILL note updated. See `runs/feasibility_v2_analyzer/phase5_acceptance.md` |
-| 6 — RTL accuracy reinforcement | scheduled | — | triggered: 9 hard-error Vortex files (VX_trace_pkg.sv, AFU wrap, DPI headers, ...) |
+| 6A — anchor-rotation cap | complete | 2026-06-30 | VX_cluster.sv:48-50 anchor reuse 61→3 (95% reduction); L2 sources unchanged 326, L3 sources unchanged 257; Stage-0 cb still 0/0; test added |
+| 6B — Verible fallback (gated) | gated | — | 9 hard-error Vortex files; trigger only if a future smoke50 attributes L2/L3 failures to them, or if we decide on coverage completeness independent of measured impact. See `docs/follow-ups.md` |
 
 ---
 
