@@ -42,5 +42,17 @@ tools/codegraph-bundle/
 runs/feasibility_v2_analyzer/*.jsonl
 runs/feasibility_v2_analyzer/*.log
 
+# Bundle JSONLs — derived data. Regenerable via
+# `tools/codegraph/dist/bin/codegraph.js init` + the two Python exporters
+# under skills/benchmark-repo-analyzer/scripts/ (see README §
+# "Two-stage analyzer invocation"). Not tracked in git because NVDLA's
+# signal_index.jsonl (115 MB) and relation_graph.jsonl (87 MB) exceed
+# GitHub's push size limits. project_manifest.json, analyzer_report.md,
+# and _diff_vs_v1.md ARE tracked (small + auditable). The archived v1
+# bundles under runs/archive/ stay tracked in full (max 47 MB, all
+# under GitHub's warn threshold, needed for v1 benchmark lint).
+runs/vortex_context_bundle/*.jsonl
+runs/nvdla_context_bundle/*.jsonl
+
 # uv-managed virtualenv (created by `uv add`).
 .venv/
